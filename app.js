@@ -3804,3 +3804,48 @@ function seekYTVideo(seconds) {
         video.play();
     }
 }
+
+
+
+// -------------------------------------------------------------
+// AUTOMATED IN-BROWSER 60FPS SCREEN STUDIO VIDEO ENGINE
+// -------------------------------------------------------------
+
+async function generateScreenStudioVideo() {
+    console.log("SCREEN_STUDIO: Launching 60FPS In-Browser Screen Studio Engine...");
+    
+    // Create status banner
+    let statusDiv = document.getElementById('screen-studio-banner');
+    if (!statusDiv) {
+        statusDiv = document.createElement('div');
+        statusDiv.id = 'screen-studio-banner';
+        statusDiv.style.cssText = "position: fixed; top: 15px; left: 50%; transform: translateX(-50%); background: #1a73e8; color: #fff; padding: 12px 24px; border-radius: 30px; font-weight: 700; font-size: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 999999; font-family: sans-serif; display: flex; align-items: center; gap: 10px;";
+        document.body.appendChild(statusDiv);
+    }
+    statusDiv.innerHTML = '🎥 <strong>Screen Studio 60FPS Video Çekiliyor...</strong> <span id="ss-step-name">Başlatılıyor</span>';
+    
+    // Ensure clean state
+    localStorage.clear();
+    cvState = JSON.parse(JSON.stringify(TR_SAMPLE_STATE));
+    saveToLocalStorage(); applyLanguage(); loadStateIntoUI(); renderAll(); updateStyles();
+    
+    const steps = [
+        { name: "1. Kişisel Bilgiler Düzenleniyor", action: () => { updatePersonalField('name', 'Asil Doğukan Samay'); updatePersonalField('title', 'Management Information Systems Specialist'); updatePersonalField('location', 'İstanbul / Çanakkale / KKTC, Türkiye'); } },
+        { name: "2. İş Deneyimi Ekleniyor & Sıralanıyor", action: () => { addExperience(); const expIdx = cvState.experiences.length - 1; updateExpField(expIdx, 'company', 'TRENDYOL GROUP'); updateExpField(expIdx, 'role', 'Kıdemli İş Analisti & Veri Mimarisi'); moveExp(expIdx, -1); } },
+        { name: "3. ATS Skoru (%96) İnceleniyor", action: () => { openATSModal(); } },
+        { name: "4. Canlı AI Asistanı Çalıştırılıyor", action: () => { closeATSModal(); openAIAssistant(); askAIAssistant('bullet'); } },
+        { name: "5. Türkçe - İngilizce Çevirisi Yapılıyor", action: () => { closeAIAssistant(); changeUILanguage('en'); } },
+        { name: "6. Vektörel PDF Çıktı Rehberi", action: () => { toggleGuideModal(); } }
+    ];
+    
+    for (let i = 0; i < steps.length; i++) {
+        const stepNameEl = document.getElementById('ss-step-name');
+        if (stepNameEl) stepNameEl.textContent = steps[i].name;
+        steps[i].action();
+        await new Promise(r => setTimeout(r, 2200));
+    }
+    
+    statusDiv.style.background = '#2e7d32';
+    statusDiv.innerHTML = '🎉 <strong>Screen Studio Tanıtım Videosu Tamamlandı!</strong>';
+    setTimeout(() => { statusDiv.remove(); }, 3000);
+}
