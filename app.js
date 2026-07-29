@@ -3645,3 +3645,104 @@ function closeGuideModal(event) {
 }
 
 
+
+
+
+// -------------------------------------------------------------
+// INTERACTIVE TUTORIAL & PROMOTIONAL TOUR ENGINE
+// -------------------------------------------------------------
+
+let currentTourStep = 0;
+const tourSteps = [
+    {
+        title: "👋 1. Harvard CV Builder'a Hoş Geldiniz!",
+        desc: "Bu uygulama, Harvard Extension School (2026) standartlarına uyumlu, 90+ ATS skorlu profesyonel özgeçmişler oluşturmanızı sağlar. Şimdi tüm özellikleri adım adım keşfedelim!",
+        badge: "Giriş & Genel Bakış",
+        target: ".preview-canvas"
+    },
+    {
+        title: "✍️ 2. Kişisel Bilgilerinizi Doldurun",
+        desc: "Sol taraftaki 'Kişisel Bilgiler' sekmesinden Ad, Unvan, İletişim ve Profesyonel Özet bilgilerinizi girin. Önizleme panelinde anında canlı olarak güncellenir.",
+        badge: "Kişisel Bilgiler",
+        target: "#tab-personal"
+    },
+    {
+        title: "💼 3. Deneyim & Sertifika Kartları (▲ / ▼ Sıralama)",
+        desc: "İş deneyimleri ve sertifikalarınızı dinamik ekleyin. Kartların üzerindeki ▲ ve ▼ butonlarına basarak istediğiniz kartı tepeye veya aşağıya taşıyabilirsiniz.",
+        badge: "Dinamik Sıralama",
+        target: "#experiences-list"
+    },
+    {
+        title: "📄 4. Tek Tıkla PDF CV Yükleme (Sıfır JSON Çilesi)",
+        desc: "Mevcut PDF CV dosyanızı 'Yedek / CV Yükle' butonuna tıklayarak seçin. PDF.js motoru dosyanızı tarayıcıda 2 saniyede çözer ve editöre aktarır.",
+        badge: "PDF Ayrıştırma Motoru",
+        target: "button[onclick='triggerImport()']"
+    },
+    {
+        title: "🎯 5. Canlı %96+ ATS Skor Rozeti",
+        desc: "Sağ üstteki 'ATS Skoru' rozetine tıklayarak CV'nizin Taleo, Workday ve Harvard kurumsal işe alım algoritmalarına uyumunu ve eksiklerinizi anında görün.",
+        badge: "ATS Robot Analizi",
+        target: "#ats-score-badge"
+    },
+    {
+        title: "🤖 6. Canlı Akıllı AI CV Asistanı",
+        desc: "Sağ alttaki AI sohbet penceresinden tek tıkla deneyim maddelerinizi etken fiillerle güçlendirin, ATS tavsiyesi alın ve unvan önerilerini değerlendirin.",
+        badge: "Yapay Zeka Asistanı",
+        target: "button[onclick='openAIAssistant()']"
+    },
+    {
+        title: "🌐 7. Türkçe - İngilizce Otomatik Çevirici",
+        desc: "'CV Otomatik Çevir' butonuna basarak tüm CV'nizi tek tıkla Harvard İngilizcesine çevirin. Sistem 'He/She' zamirlerini otomatik temizler ve etken fiillere dönüştürür.",
+        badge: "Çoklu Dil & Filtre",
+        target: "button[onclick='openTranslateModal()']"
+    },
+    {
+        title: "🖨️ 8. Jilet Gibi Vektörel PDF Çıktısı Alın",
+        desc: "'Yazdır veya PDF Kaydet' butonuna basarak Kenar Boşluklarını 'Yok', Arka Plan Grafiklerini 'Etkin' yapın ve 1 sayfa kusursuz PDF'inizi indirin!",
+        badge: "PDF Çıktı & Yazdırma",
+        target: "button[onclick='printCV()']"
+    }
+];
+
+function startInteractiveTour() {
+    currentTourStep = 0;
+    showTourStep(currentTourStep);
+    const modal = document.getElementById('interactive-tour-modal');
+    if (modal) modal.style.display = 'flex';
+}
+
+function showTourStep(index) {
+    if (index < 0 || index >= tourSteps.length) return;
+    const step = tourSteps[index];
+    
+    const titleEl = document.getElementById('tour-title');
+    const descEl = document.getElementById('tour-desc');
+    const badgeEl = document.getElementById('tour-badge');
+    const stepCounterEl = document.getElementById('tour-step-counter');
+    
+    if (titleEl) titleEl.textContent = step.title;
+    if (descEl) descEl.textContent = step.desc;
+    if (badgeEl) badgeEl.textContent = step.badge;
+    if (stepCounterEl) stepCounterEl.textContent = `${index + 1} / ${tourSteps.length}`;
+}
+
+function nextTourStep() {
+    if (currentTourStep < tourSteps.length - 1) {
+        currentTourStep++;
+        showTourStep(currentTourStep);
+    } else {
+        closeTour();
+    }
+}
+
+function prevTourStep() {
+    if (currentTourStep > 0) {
+        currentTourStep--;
+        showTourStep(currentTourStep);
+    }
+}
+
+function closeTour() {
+    const modal = document.getElementById('interactive-tour-modal');
+    if (modal) modal.style.display = 'none';
+}
