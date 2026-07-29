@@ -109,7 +109,8 @@
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="theme-icon-sun" style="display:none;"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="theme-icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
                 </button>
-                <button class="btn-guide btn-tour" onclick="startInteractiveTour()" style="background: linear-gradient(135deg, #2e7d32, #1b5e20); color: #fff; margin-right: 6px; font-weight: 600;" title="Canlı Tanıtım ve Kullanım Rehberi"><i class="fas fa-play-circle"></i> 📹 Canlı Tanıtım Turu</button>
+                <button class="btn-guide btn-video" onclick="openVideoPlayerModal()" style="background: linear-gradient(135deg, #e53935, #c62828); color: #fff; margin-right: 6px; font-weight: 600;" title="Kullanım Videosunu İzle"><i class="fas fa-video"></i> 🎬 Tanıtım Videosunu İzle</button>
+                    <button class="btn-guide btn-tour" onclick="startInteractiveTour()" style="background: linear-gradient(135deg, #2e7d32, #1b5e20); color: #fff; margin-right: 6px; font-weight: 600;" title="Canlı Tanıtım ve Kullanım Rehberi"><i class="fas fa-play-circle"></i> 📹 Canlı Tanıtım Turu</button>
                     <button class="btn-guide" onclick="toggleGuideModal()">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
                     <span data-i18n="how_it_works">Nasıl Çalışır?</span>
@@ -716,6 +717,23 @@
                     <button onclick="prevTourStep()" style="background: #f1f3f4; border: 1px solid #dadce0; padding: 8px 16px; border-radius: 6px; font-size: 13px; cursor: pointer; font-weight: 600;">← Geri</button>
                     <button onclick="nextTourStep()" style="background: linear-gradient(135deg, #1a73e8, #1557b0); border: none; color: #fff; padding: 8px 20px; border-radius: 6px; font-size: 13px; cursor: pointer; font-weight: 600;">İleri →</button>
                 </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <!-- HTML5 Video Player Modal -->
+    <div id="video-player-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 999999; justify-content: center; align-items: center; font-family: sans-serif;">
+        <div style="background: #111; width: 92%; max-width: 900px; border-radius: 16px; padding: 20px; box-shadow: 0 25px 60px rgba(0,0,0,0.6); position: relative; border: 1px solid #333;">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; padding-bottom: 12px; margin-bottom: 16px;">
+                <h3 style="margin: 0; font-size: 18px; color: #fff;"><i class="fas fa-film"></i> Harvard CV Builder - Canlı Kullanım Videosu</h3>
+                <button onclick="closeVideoPlayerModal()" style="border: none; background: none; color: #fff; font-size: 24px; cursor: pointer;">&times;</button>
+            </div>
+            <div style="width: 100%; border-radius: 8px; overflow: hidden; background: #000; display: flex; justify-content: center;">
+                <video id="demo-video-element" src="harvard_cv_builder_demo.mp4" controls style="width: 100%; max-height: 520px; outline: none;" autoplay loop></video>
+            </div>
+            <div style="text-align: right; margin-top: 14px;">
+                <button onclick="closeVideoPlayerModal()" class="btn btn-secondary" style="padding: 8px 18px; border-radius: 6px; font-size: 13px;">Kapat</button>
             </div>
         </div>
     </div>

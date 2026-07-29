@@ -3746,3 +3746,23 @@ function closeTour() {
     const modal = document.getElementById('interactive-tour-modal');
     if (modal) modal.style.display = 'none';
 }
+
+
+
+function openVideoPlayerModal() {
+    const modal = document.getElementById('video-player-modal');
+    if (modal) {
+        modal.style.display = 'flex';
+        const video = document.getElementById('demo-video-element');
+        if (video) video.play();
+    }
+}
+
+function closeVideoPlayerModal() {
+    const modal = document.getElementById('video-player-modal');
+    if (modal) {
+        modal.style.display = 'none';
+        const video = document.getElementById('demo-video-element');
+        if (video) video.pause();
+    }
+}
