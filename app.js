@@ -3766,3 +3766,13 @@ function closeVideoPlayerModal() {
         if (video) video.pause();
     }
 }
+
+
+
+function seekVideo(seconds) {
+    const video = document.getElementById('demo-video-element');
+    if (video) {
+        video.currentTime = seconds;
+        video.play();
+    }
+}
