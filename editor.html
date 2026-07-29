@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CVSOM - Editor</title>
+    <!-- Google Fonts for Editor UI and Preview Options -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Gelasio:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+<style id="dark-mode-contrast-safeguard">
+    /* High Contrast & Dark Mode Safeguard for Paper Preview */
+    .cv-page, .cv-page-inner, #cv-document {
+        background-color: #ffffff !important;
+        color: #111111 !important;
+        color-scheme: light !important;
+    }
+    .cv-page *, .cv-page-inner * {
+        color-scheme: light !important;
+    }
+    .cv-page .entry-title, .cv-page .section-title, .cv-page h1, .cv-page h2, .cv-page h3 {
+        color: #000000 !important;
+    }
+    .cv-page .entry-degree, .cv-page .entry-subheader, .cv-page p, .cv-page li, .cv-page span {
+        color: #222222 !important;
+    }
+    .cv-page a {
+        color: #111111 !important;
+    }
+
+    /* Dark Mode UI Fixes for Editor Controls */
+    [data-theme="dark"] .editor-sidebar {
+        background-color: #1e1e2d !important;
+        color: #f1f5f9 !important;
+    }
+    [data-theme="dark"] .form-control, [data-theme="dark"] input[type="text"], [data-theme="dark"] textarea, [data-theme="dark"] select {
+        background-color: #2b2b40 !important;
+        color: #ffffff !important;
+        border-color: #444466 !important;
+    }
+    [data-theme="dark"] label {
+        color: #cbd5e1 !important;
+    }
+    [data-theme="dark"] .dynamic-item-card {
+        background-color: #252538 !important;
+        border-color: #3b3b54 !important;
+    }
+</style>
+
+</head>
+<body>
+    <div class="app-container">
+        <!-- App Header Bar -->
+        <header class="app-header no-print">
+            <a href="index.html" class="header-logo" style="text-decoration: none; cursor: pointer; display: flex; align-items: center; gap: 10px;">
+                <!-- Custom Silver Pillar & Golden Quill Academic SVG Logo Icon -->
+                <svg class="logo-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent-gold, #b89665);">
+                    <!-- Open Book at the bottom -->
+                    <path d="M2 19h6a3 3 0 0 1 3 3v-14a2 2 0 0 0-2-2H2z" stroke="currentColor" fill="none"/>
+                    <path d="M22 19h-6a3 3 0 0 0-3 3v-14a2 2 0 0 1 2-2h7z" stroke="currentColor" fill="none"/>
+                    
+                    <!-- Classical Roman Column / Pillar on the Left Page -->
+                    <path d="M4 6h4v1.5H4z" fill="currentColor" stroke="currentColor"/>
+                    <line x1="5" y1="7.5" x2="5" y2="15.5" stroke="currentColor" stroke-width="1.5"/>
+                    <line x1="7" y1="7.5" x2="7" y2="15.5" stroke="currentColor" stroke-width="1.5"/>
+                    <path d="M3.5 15.5h5v1.5h-5z" fill="currentColor" stroke="currentColor"/>
+                    <path d="M3 6.5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1" stroke="currentColor"/>
+                    
+                    <!-- Golden Quill / Feather Pen slanted across the Right Page -->
+                    <path d="M12.5 16.5c1.5-3 3.5-5.5 6-7.5s4.5-2.5 4.5-2.5-0.5 2-2.5 4.5c-2 2.5-4.5 4.5-7.5 6" stroke="#b89665" stroke-width="2" fill="none"/>
+                    <line x1="12.5" y1="16.5" x2="20.5" y2="6.5" stroke="#ffd700" stroke-width="1"/>
+                    <line x1="15" y1="13.5" x2="16.5" y2="13.5" stroke="#b89665" stroke-width="1"/>
+                    <line x1="16.5" y1="11.5" x2="18.2" y2="11.5" stroke="#b89665" stroke-width="1"/>
+                    <line x1="18" y1="9.5" x2="19.7" y2="9.5" stroke="#b89665" stroke-width="1"/>
+                </svg>
+                <h2 style="text-transform: uppercase; letter-spacing: 0.5px; margin: 0; font-size: 18px;">CVSOM</h2>
+                <span class="badge" style="margin-left: 8px;">SOM Standard</span>
+            </a>
+            <div class="header-steps">
+                <div class="step-item active">
+                    <span class="step-num">1</span>
+                    <span class="step-label" data-i18n="step_1">Bilgileri Gir</span>
+                </div>
+                <div class="step-arrow">➔</div>
+                <div class="step-item">
+                    <span class="step-num">2</span>
+                    <span class="step-label" data-i18n="step_2">Stili Ayarla</span>
+                </div>
+                <div class="step-arrow">➔</div>
+                <div class="step-item">
+                    <span class="step-num">3</span>
+                    <span class="step-label" data-i18n="step_3">PDF Yazdır</span>
+                </div>
+            </div>
+            <div class="header-actions">
+                <!-- Auto-Translate Button -->
+                <button class="btn-guide btn-translate" onclick="openTranslateModal()" title="CV İçeriğini Otomatik Çevir / Auto Translate" style="margin-right: 8px; padding: 7px 12px; background: linear-gradient(135deg, rgba(59,130,246,0.12), rgba(168,85,247,0.12)); border: 1px solid rgba(168,85,247,0.3); color: var(--accent-gold, #b89665); display: flex; align-items: center; gap: 6px;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10z"></path></svg>
+                    <span data-i18n="auto_translate_btn" style="font-size: 12px; font-weight: 600;">Otomatik Çevir</span>
+                </button>
+                <!-- Safe Logout Button (KVKK / GDPR Privacy Compliant) -->
+                <button class="btn-guide btn-logout" onclick="handleLogout()" title="Güvenli Çıkış Yap (KVKK)" style="margin-right: 8px; padding: 7px 10px; color: #ef4444; border-color: rgba(239, 68, 68, 0.2); background-color: rgba(239, 68, 68, 0.05); display: flex; align-items: center; gap: 6px;">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                    <span data-i18n="logout_btn" style="font-size: 12px; font-weight: 600;">Çıkış Yap</span>
+                </button>
+                <button class="btn-guide btn-theme" onclick="toggleTheme()" title="Karanlık Mod / Dark Mode" style="margin-right: 8px; padding: 7px 10px;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="theme-icon-sun" style="display:none;"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="theme-icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                </button>
+                <button class="btn-guide" onclick="toggleGuideModal()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                    <span data-i18n="how_it_works">Nasıl Çalışır?</span>
+                </button>
+            </div>
+        </header>
+        
+        <div class="main-workspace">
+            <!-- Editor Sidebar -->
+        <aside class="editor-sidebar no-print">
+            <div class="editor-header">
+                <h2>CVSOM Editor</h2>
+                <p>Bilgilerini düzenle ve gerçek zamanlı önizle. SOM standartlarına göre optimize edilmiştir.</p>
+            </div>
+            
+            <div class="editor-tabs">
+                <button class="tab-btn active" onclick="switchTab('personal')" data-i18n="personal">Kişisel</button>
+                <button class="tab-btn" onclick="switchTab('experience')" data-i18n="experience">Deneyim</button>
+                <button class="tab-btn" onclick="switchTab('education')" data-i18n="education">Eğitim</button>
+                <button class="tab-btn" onclick="switchTab('skills')" data-i18n="skills">Yetenek & Diller</button>
+                <button class="tab-btn" onclick="switchTab('references')" data-i18n="references">Referanslar</button>
+                <button class="tab-btn" onclick="switchTab('settings')" data-i18n="settings">Ayarlar</button>
+            </div>
+
+            <div class="editor-content-wrapper">
+                <!-- Personal Info Tab -->
+                <div id="tab-personal" class="tab-pane active">
+                    <div class="input-group">
+                        <label for="input-name" data-i18n="name">Ad Soyad</label>
+                        <input type="text" id="input-name" value="Jane Doe">
+                    </div>
+                    <div class="input-group">
+                        <label for="input-title" data-i18n="title">Unvan / Alt Başlık</label>
+                        <input type="text" id="input-title" value="Software Engineering & Data Science Student">
+                    </div>
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <label for="input-email" data-i18n="email">E-posta</label>
+                                <input type="checkbox" id="toggle-email" checked onchange="updateContactVisibility()">
+                            </div>
+                            <input type="email" id="input-email" value="jane.doe@email.com">
+                        </div>
+                        <div class="input-group">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <label for="input-phone" data-i18n="phone">Telefon</label>
+                                <input type="checkbox" id="toggle-phone" checked onchange="updateContactVisibility()">
+                            </div>
+                            <input type="text" id="input-phone" value="+1 (555) 019-2834">
+                        </div>
+                    </div>
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <label for="input-location" data-i18n="location">Konum</label>
+                                <input type="checkbox" id="toggle-location" checked onchange="updateContactVisibility()">
+                            </div>
+                            <input type="text" id="input-location" value="Boston, MA, USA">
+                        </div>
+                        <div class="input-group">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <label for="input-github" data-i18n="github">GitHub</label>
+                                <input type="checkbox" id="toggle-github" checked onchange="updateContactVisibility()">
+                            </div>
+                            <input type="text" id="input-github" value="github.com/janedoe">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <label for="input-linkedin" data-i18n="linkedin">LinkedIn</label>
+                            <input type="checkbox" id="toggle-linkedin" checked onchange="updateContactVisibility()">
+                        </div>
+                        <input type="text" id="input-linkedin" value="linkedin.com/in/jane-doe">
+                    </div>
+                    <div class="input-group">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <label for="input-website" data-i18n="website">Web Sitesi</label>
+                            <input type="checkbox" id="toggle-website" checked onchange="updateContactVisibility()">
+                        </div>
+                        <input type="text" id="input-website" placeholder="www.asildogukansamay.com">
+                    </div>
+                    <div class="input-group">
+                        <label for="input-summary" data-i18n="summary">Profesyonel Özet</label>
+                        <textarea id="input-summary" rows="5">Detail-oriented Software Engineering student with a strong foundation in database management, data visualization, and web technologies. Experienced in developing full-stack web applications, designing analytical dashboards, and implementing agile practices in team environments. Passionate about leveraging data-driven solutions to solve complex business problems.</textarea>
+                    </div>
+                    
+                    <!-- Dynamic Profile Photo Upload Group -->
+                    <div class="input-grid" style="grid-template-columns: 1fr auto; gap: 12px; align-items: flex-end; margin-top: 14px;">
+                        <div class="input-group" style="margin-bottom: 0;">
+                            <label for="input-photo">Profil Fotoğrafı / Profile Photo</label>
+                            <input type="file" id="input-photo" accept="image/*" onchange="handlePhotoUpload(this)" style="font-size: 11px;">
+                        </div>
+                        <div class="input-group" style="display: flex; align-items: center; height: 38px; margin-bottom: 0;">
+                            <label class="checkbox-label" style="display: flex; align-items: center; gap: 6px; cursor: pointer; user-select: none;">
+                                <input type="checkbox" id="toggle-photo" onchange="togglePhotoVisibility(this.checked)" style="cursor: pointer; accent-color: var(--accent-gold);">
+                                <span data-i18n="show_photo" style="font-size: 12px; font-weight: 600; color: var(--text-dark-secondary);">Göster</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Experience Tab -->
+                <div id="tab-experience" class="tab-pane">
+                    <div class="tab-actions">
+                        <button class="btn btn-secondary" onclick="addExperience()" data-i18n="add_exp">+ Yeni Deneyim Ekle</button>
+                    </div>
+                    <div id="experience-list" class="dynamic-list">
+                        <!-- Dynamic Experience Fields Will Be Loaded Here -->
+                    </div>
+                </div>
+
+                <!-- Education Tab -->
+                <div id="tab-education" class="tab-pane">
+                    <div class="tab-actions">
+                        <button class="btn btn-secondary" onclick="addEducation()" data-i18n="add_edu">+ Yeni Eğitim Ekle</button>
+                    </div>
+                    <div id="education-list" class="dynamic-list">
+                        <!-- Dynamic Education Fields Will Be Loaded Here -->
+                    </div>
+                </div>
+
+                <!-- Skills & Interests Tab -->
+                <div id="tab-skills" class="tab-pane">
+                    <div class="input-group">
+                        <label for="input-skills-technical" data-i18n="tech_skills">Teknik Yetenekler</label>
+                        <input type="text" id="input-skills-technical" value="Python, SQL, JavaScript, React.js, Node.js, Tableau, Git, HTML/CSS, Agile" oninput="updateSkillField('technical', this.value)">
+                    </div>
+                    <div class="input-group" style="margin-top: 10px;">
+                        <label for="input-skills-tools" data-i18n="tools_skills">Araçlar ve Platformlar</label>
+                        <input type="text" id="input-skills-tools" placeholder="Git, GitHub, Visual Studio, Chrome DevTools, Active Directory, Figma, Vite, Jira, Azure DevOps" oninput="updateSkillField('tools', this.value)">
+                    </div>
+                    <div class="section-title-editor" style="margin-top: 15px; display: flex; justify-content: space-between; align-items: center;">
+                        <h3 data-i18n="certs" style="margin: 0; font-size: 13px; font-weight: 600; color: var(--text-dark-primary);">Sertifikalar</h3>
+                        <button class="btn btn-sm btn-secondary" onclick="addCertification()" data-i18n="add_cert">+ Ekle</button>
+                    </div>
+                    <div id="certifications-list" class="dynamic-list" style="margin-top: 8px;">
+                        <!-- Dynamic Certifications Will Be Loaded Here -->
+                    </div>
+                    <div class="input-group">
+                        <label for="input-skills-langs" data-i18n="langs">Diller</label>
+                        <input type="text" id="input-skills-langs" value="English (Native), Spanish (Conversational)">
+                    </div>
+
+                    <hr class="editor-divider">
+                    
+                    <div class="section-title-editor">
+                        <h3 data-i18n="leadership_title">Liderlik ve Gönüllülük</h3>
+                        <button class="btn btn-sm btn-secondary" onclick="addLeadership()" data-i18n="add_lead">+ Ekle</button>
+                    </div>
+                    <div id="leadership-list" class="dynamic-list">
+                        <!-- Dynamic Leadership Fields Will Be Loaded Here -->
+                    </div>
+                </div>
+
+                <!-- References Tab -->
+                <div id="tab-references" class="tab-pane">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                        <h3 style="margin: 0; font-size: 16px; font-weight: 700; color: var(--text-dark-primary);" data-i18n="references">Referanslar</h3>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <button class="btn btn-sm btn-secondary" onclick="addReference()" data-i18n="add_ref">+ Ekle</button>
+                            <label class="checkbox-label" style="display: flex; align-items: center; gap: 6px; cursor: pointer; user-select: none;">
+                                <input type="checkbox" id="toggle-references" onchange="toggleReferencesVisibility(this.checked)" style="cursor: pointer; accent-color: var(--accent-gold);">
+                                <span data-i18n="show_references" style="font-size: 12px; font-weight: 600; color: var(--text-dark-secondary);">Bölümü Göster</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Display Mode Selection (Details vs Upon Request) -->
+                    <div class="input-group" style="margin-bottom: 16px;">
+                        <label for="setting-ref-mode" data-i18n="ref_mode">Gösterim Şekli</label>
+                        <select id="setting-ref-mode" onchange="changeRefMode(this.value)" style="width: 100%; padding: 8px; background-color: var(--bg-dark-secondary); color: var(--text-dark-primary); border: 1px solid var(--border-dark); border-radius: 4px; cursor: pointer;">
+                            <option value="details" data-i18n="ref_mode_details">Tüm Detayları Listele</option>
+                            <option value="request" data-i18n="ref_mode_request">Talep Halinde Sunulacaktır</option>
+                        </select>
+                    </div>
+
+                    <div id="references-list" class="dynamic-list" style="margin-top: 8px;">
+                        <!-- Dynamic References Will Be Loaded Here -->
+                    </div>
+                </div>
+
+                <!-- Settings & Customization Tab -->
+                <div id="tab-settings" class="tab-pane">
+                    <div class="input-group">
+                        <label for="setting-ui-lang" data-i18n="language">Uygulama Dili / Language</label>
+                        <select id="setting-ui-lang" onchange="changeUILanguage(this.value)">
+                            <option value="tr" selected>Türkçe</option>
+                            <option value="en">English</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group" style="margin-top: 12px; background: rgba(59,130,246,0.04); border: 1px dashed rgba(59,130,246,0.25); border-radius: 8px; padding: 12px;">
+                        <label data-i18n="auto_translate_cv_title" style="font-weight: 600; color: var(--accent-gold, #b89665); display: flex; align-items: center; gap: 6px;">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10z"></path></svg>
+                            CV İçeriğini Otomatik Çevir (AI Translate)
+                        </label>
+                        <div style="display: flex; gap: 8px; margin-top: 8px;">
+                            <button class="btn btn-secondary btn-sm" onclick="autoTranslateCV('en')" style="flex: 1; padding: 8px 6px; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 4px;" title="Tüm CV bilgilerinizi otomatik olarak İngilizceye çevirir">
+                                <span>🇹🇷 ➔ 🇬🇧</span> <span data-i18n="translate_to_en">İngilizceye Çevir</span>
+                            </button>
+                            <button class="btn btn-secondary btn-sm" onclick="autoTranslateCV('tr')" style="flex: 1; padding: 8px 6px; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 4px;" title="Tüm CV bilgilerinizi otomatik olarak Türkçeye çevirir">
+                                <span>🇬🇧 ➔ 🇹🇷</span> <span data-i18n="translate_to_tr">Türkçeye Çevir</span>
+                            </button>
+                        </div>
+                        <button id="btn-undo-translate" class="btn btn-sm btn-block" onclick="undoTranslation()" style="display: none; margin-top: 8px; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); color: #ef4444; font-size: 11.5px; font-weight: 600;" data-i18n="undo_translate">
+                            ↩️ Son Çeviriyi Geri Al
+                        </button>
+                    </div>
+                    
+                    <hr class="editor-divider">
+                    <div class="section-title-editor">
+                        <h3 data-i18n="layout_settings">Sayfa ve Düzen Ayarları</h3>
+                    </div>
+                    <div class="input-group">
+                        <label for="setting-font" data-i18n="font">Yazı Tipi (Font)</label>
+                        <select id="setting-font" onchange="updateStyles()">
+                            <option value="font-garamond">Garamond (Önerilen - Klasik HBS)</option>
+                            <option value="font-georgia">Georgia (Zarif & Okunaklı)</option>
+                            <option value="font-times">Times New Roman (Geleneksel)</option>
+                            <option value="font-arial">Arial (Modern & Temiz)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="setting-size" data-i18n="font_size">Yazı Boyutu</label>
+                        <select id="setting-size" onchange="updateStyles()">
+                            <option value="size-small">Küçük (9.5pt / 10.5pt)</option>
+                            <option value="size-medium" selected>Normal (10pt / 11pt)</option>
+                            <option value="size-large">Büyük (10.5pt / 11.5pt)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="setting-spacing" data-i18n="spacing">Satır & Paragraf Boşluğu</label>
+                        <select id="setting-spacing" onchange="updateStyles()">
+                            <option value="spacing-compact" selected>Sıkışık (Tek sayfa sığdırma için)</option>
+                            <option value="spacing-normal">Normal</option>
+                            <option value="spacing-relaxed">Geniş</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="setting-margin" data-i18n="margin">Sayfa Kenar Boşlukları (Margin)</label>
+                        <select id="setting-margin" onchange="updateStyles()">
+                            <option value="margin-narrow">Dar (0.5 inç)</option>
+                            <option value="margin-normal" selected>Normal (0.75 inç)</option>
+                            <option value="margin-wide">Geniş (1.0 inç)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="setting-alignment" data-i18n="alignment">Dikey Boşluk Dağılımı</label>
+                        <select id="setting-alignment" onchange="updateStyles()">
+                            <option value="align-top" selected>Üste Hizala (Doğal Akış)</option>
+                            <option value="align-justify">Sayfaya Yay (Boşlukları Eşitle)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="setting-accent" data-i18n="accent">Aksan Rengi</label>
+                        <select id="setting-accent" onchange="updateStyles()">
+                            <option value="accent-black" selected>Klasik Siyah (Harvard Standardı)</option>
+                            <option value="accent-burgundy">Harvard Vişne Rengi (Burgundy)</option>
+                            <option value="accent-navy">Kurumsal Lacivert (Navy)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="setting-headings" data-i18n="heading_style">Başlık Tasarımı</label>
+                        <select id="setting-headings" onchange="updateStyles()">
+                            <option value="headings-line" selected>Altı Çizgili (Default - Yale/HBS)</option>
+                            <option value="headings-minimal">Çizgisiz & Minimal</option>
+                            <option value="headings-centered">Ortalanmış (Klasik Akademik)</option>
+                        </select>
+                    </div>
+
+                    <hr class="editor-divider">
+                    <div class="section-title-editor">
+                        <h3 data-i18n="custom_titles_heading">Bölüm Başlıklarını Özelleştir (Opsiyonel)</h3>
+                    </div>
+                    <div class="input-group">
+                        <label for="input-custom-title-summary" data-i18n="title_summary_label">Özet Başlığı</label>
+                        <input type="text" id="input-custom-title-summary" placeholder="Varsayılan: PROFESYONEL ÖZET" oninput="updateCustomTitle('summary', this.value)">
+                    </div>
+                    <div class="input-group" style="margin-top: 8px;">
+                        <label for="input-custom-title-experience" data-i18n="title_exp_label">Deneyim Başlığı</label>
+                        <input type="text" id="input-custom-title-experience" placeholder="Varsayılan: DENEYİM" oninput="updateCustomTitle('experience', this.value)">
+                    </div>
+                    <div class="input-group" style="margin-top: 8px;">
+                        <label for="input-custom-title-education" data-i18n="title_edu_label">Eğitim Başlığı</label>
+                        <input type="text" id="input-custom-title-education" placeholder="Varsayılan: EĞİTİM" oninput="updateCustomTitle('education', this.value)">
+                    </div>
+                    <div class="input-group" style="margin-top: 8px;">
+                        <label for="input-custom-title-leadership" data-i18n="title_lead_label">Liderlik Başlığı</label>
+                        <input type="text" id="input-custom-title-leadership" placeholder="Varsayılan: LİDERLİK VE GÖNÜLLÜLÜK" oninput="updateCustomTitle('leadership', this.value)">
+                    </div>
+                    <div class="input-group" style="margin-top: 8px;">
+                        <label for="input-custom-title-skills" data-i18n="title_skills_label">Yetenekler Başlığı</label>
+                        <input type="text" id="input-custom-title-skills" placeholder="Varsayılan: YETENEKLER, SERTİFİKALAR VE İLGİ ALANLARI" oninput="updateCustomTitle('skills', this.value)">
+                    </div>
+                    <div class="input-group" style="margin-top: 8px;">
+                        <label for="input-custom-title-references" data-i18n="title_ref_label">Referanslar Başlığı</label>
+                        <input type="text" id="input-custom-title-references" placeholder="Varsayılan: REFERANSLAR" oninput="updateCustomTitle('references', this.value)">
+                    </div>
+
+                    <hr class="editor-divider">
+                    <div class="section-title-editor">
+                        <h3 data-i18n="templates_title">Örnek Şablonlar</h3>
+                    </div>
+                    <div class="input-group" style="margin-bottom: 15px;">
+                        <label for="setting-template" data-i18n="load_preset">Hazır Örnek Yükle</label>
+                        <select id="setting-template" onchange="loadPresetTemplate(this.value)">
+                            <option value="" disabled selected>Bir örnek seçin...</option>
+                            <option value="tr">Türkçe Örnek (MIS Öğrencisi)</option>
+                            <option value="en">English Example (Software Engineering)</option>
+                        </select>
+                    </div>
+
+                    <hr class="editor-divider">
+                    <div class="section-title-editor">
+                        <h3 data-i18n="data_title">Veri Yönetimi</h3>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+                        <button class="btn btn-secondary btn-sm" onclick="exportJSON()" title="Bilgilerini JSON olarak bilgisayarına kaydeder" data-i18n="export_btn">Yedek İndir</button>
+                        <button class="btn btn-secondary btn-sm" onclick="triggerImport()" title="JSON yedeği veya herhangi bir PDF CV yükler" data-i18n="import_btn">Yedek veya PDF Yükle</button>
+                    </div>
+                    <input type="file" id="import-file" style="display: none;" accept=".json,.pdf" onchange="importJSON(event)">
+                    <button class="btn btn-danger btn-sm btn-block" onclick="resetData()" title="Tüm bilgileri temizler ve varsayılan Harvard şablonuna sıfırlar" data-i18n="reset_btn">Şablonu Sıfırla</button>
+                </div>
+            </div>
+
+            <!-- Footer Buttons -->
+            <div class="editor-footer">
+                <button class="btn btn-primary btn-block" onclick="printCV()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                    <span data-i18n="print_btn">Yazdır veya PDF Kaydet</span>
+                </button>
+                <div class="footer-note" data-i18n="print_note">
+                    İpucu: PDF kaydederken "Arka plan grafiklerini" etkinleştirin ve kenar boşluklarını "Yok" olarak ayarlayın.
+                </div>
+            </div>
+        </aside>
+
+        <!-- Preview Canvas -->
+        <main class="preview-canvas">
+            <div class="canvas-header no-print">
+                <div class="view-controls" style="display: flex; align-items: center; gap: 12px;">
+                    <span class="status-indicator">
+                        <span class="indicator-dot"></span> Canlı Önizleme (HBS Formatı)
+                    </span>
+                    <span id="page-fit-badge" class="badge">Kontrol Ediliyor...</span>
+                    <button id="btn-autofit" class="btn btn-sm btn-secondary" onclick="autoFitToPage()" style="padding: 4px 8px; font-size: 11px;">Tek Sayfaya Sığdır</button>
+                    <span id="ats-score-badge" class="badge badge-success" style="cursor: pointer; background: #2e7d32; color: #fff; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; margin-left: 6px;" onclick="openATSModal()" title="ATS Standartları Detayı İçin Tıklayın"><i class="fas fa-bullseye"></i> ATS Skoru: %96</span>
+                    <button class="btn btn-sm btn-primary" onclick="openAIAssistant()" style="padding: 4px 10px; font-size: 11px; background: linear-gradient(135deg, #1a73e8, #8e24aa); border: none; color: #fff; border-radius: 4px; font-weight: 600; cursor: pointer; margin-left: 6px;">🤖 Akıllı AI Asistanı</button>
+                </div>
+                <div class="zoom-controls">
+                    <button class="zoom-btn" onclick="adjustZoom(-0.05)">-</button>
+                    <span id="zoom-value">100%</span>
+                    <button class="zoom-btn" onclick="adjustZoom(0.05)">+</button>
+
+                </div>
+            </div>
+            
+            <!-- Real physical sheet layout -->
+            <div class="paper-wrapper">
+                <div id="cv-document" class="cv-page font-garamond size-medium spacing-normal margin-normal accent-black align-top">
+                    <div class="cv-page-inner">
+                        <!-- CV Header Section -->
+                        <header class="cv-header">
+                            <div class="header-left">
+                                <div class="header-title-row" style="display: flex; align-items: center; gap: 14px;">
+                                    <!-- Dynamic Profile Photo Preview Wrapper -->
+                                    <div class="cv-photo-container" id="cv-photo-wrapper" style="display: none; width: 56px; height: 56px; border-radius: 50%; overflow: hidden; border: 1px solid #cbd5e1; flex-shrink: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.06);">
+                                        <img id="cv-photo-preview" src="" alt="Profile Photo" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div class="header-title-text" style="display: flex; flex-direction: column;">
+                                        <h1 id="cv-name" class="cv-title">Jane Doe</h1>
+                                        <div id="cv-title-display" class="cv-subtitle">Software Engineering & Data Science Student</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="cv-contact" class="cv-contact-info-right">
+                                <div class="contact-item" id="cv-contact-location-item">
+                                    <span id="cv-location">Boston, MA, USA</span>
+                                    <span class="contact-icon"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg></span>
+                                </div>
+                                <div class="contact-item" id="cv-contact-email-item">
+                                    <span id="cv-email">jane.doe@email.com</span>
+                                    <span class="contact-icon"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></span>
+                                </div>
+                                <div class="contact-item" id="cv-contact-phone-item">
+                                    <span id="cv-phone">+1 (555) 019-2834</span>
+                                    <span class="contact-icon"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></span>
+                                </div>
+                                <div class="contact-item" id="cv-contact-github-item">
+                                    <span id="cv-github">github.com/janedoe</span>
+                                    <span class="contact-icon"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></span>
+                                </div>
+                                <div class="contact-item" id="cv-contact-linkedin-item">
+                                    <span id="cv-linkedin">linkedin.com/in/jane-doe</span>
+                                    <span class="contact-icon"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></span>
+                                </div>
+                                <div class="contact-item" id="cv-contact-website-item">
+                                    <span id="cv-website"></span>
+                                    <span class="contact-icon"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg></span>
+                                </div>
+                            </div>
+                        </header>
+
+                        <!-- Summary Section -->
+                        <section class="cv-section" id="sec-summary">
+                            <h2 class="section-title" data-i18n="cv_title_summary">PROFESYONEL ÖZET</h2>
+                            <p id="cv-summary" class="section-content summary-text">
+                                Detail-oriented Software Engineering student with a strong foundation in database management, data visualization, and web technologies. Experienced in developing full-stack web applications, designing analytical dashboards, and implementing agile practices in team environments. Passionate about leveraging data-driven solutions to solve complex business problems.
+                            </p>
+                        </section>
+
+                        <!-- Experience Section -->
+                        <section class="cv-section" id="sec-experience">
+                            <h2 class="section-title" data-i18n="cv_title_experience">DENEYİM</h2>
+                            <div id="cv-experience-container">
+                                <!-- Populated dynamically via JS -->
+                            </div>
+                        </section>
+
+                        <!-- Education Section -->
+                        <section class="cv-section" id="sec-education">
+                            <h2 class="section-title" data-i18n="cv_title_education">EĞİTİM</h2>
+                            <div id="cv-education-container">
+                                <!-- Populated dynamically via JS -->
+                            </div>
+                        </section>
+
+                        <!-- Leadership Section -->
+                        <section class="cv-section" id="sec-leadership">
+                            <h2 class="section-title" data-i18n="cv_title_leadership">LİDERLİK VE GÖNÜLLÜLÜK</h2>
+                            <div id="cv-leadership-container">
+                                <!-- Populated dynamically via JS -->
+                            </div>
+                        </section>
+
+                        <!-- Skills & Certifications Section -->
+                        <section class="cv-section" id="sec-skills">
+                            <h2 class="section-title" data-i18n="cv_title_skills">YETENEKLER, SERTİFİKALAR VE İLGİ ALANLARI</h2>
+                            <div class="skills-grid">
+                                <div class="skill-item">
+                                    <strong data-i18n="tech_label">Teknik:</strong> <span id="cv-skills-technical">Python, SQL, JavaScript, React.js, Node.js, Tableau, Git, HTML/CSS, Agile</span>
+                                </div>
+                                <div class="skill-item" id="cv-skills-tools-item" style="display: none;">
+                                    <strong data-i18n="tools_label">Araçlar ve Platformlar:</strong> <span id="cv-skills-tools">Git, GitHub, Visual Studio, Chrome DevTools, Active Directory, Figma, Vite, Jira, Azure DevOps</span>
+                                </div>
+                                <div class="skill-item" id="cv-skills-certs-item">
+                                    <strong data-i18n="certs_label">Sertifikalar:</strong> <span id="cv-skills-certs">Google Data Analytics Professional Certificate, AWS Certified Cloud Practitioner</span>
+                                </div>
+                                <div class="skill-item">
+                                    <strong data-i18n="langs_label">Diller:</strong> <span id="cv-skills-langs">English (Native), Spanish (Conversational)</span>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- References Section (KVKK compliant / optionally toggled) -->
+                        <section class="cv-section" id="cv-section-references" style="display: none;">
+                            <h2 class="section-title" data-i18n="section_references">REFERANSLAR</h2>
+                            <div class="references-grid" id="cv-references-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px 24px; margin-top: 6px;">
+                                <!-- Dynamic References Rendered Here -->
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+    <!-- Interactive Guide Modal -->
+    <div id="guide-modal" class="modal-overlay no-print" onclick="closeGuideModal(event)">
+        <div class="modal-card" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3 data-i18n="guide_title">Kullanım Kılavuzu & İpuçları</h3>
+                <button class="close-btn" onclick="closeGuideModal(event)">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="guide-step">
+                    <h4>1️⃣ Bilgilerini Doldur / Enter Info</h4>
+                    <p data-i18n="guide_desc_1">Sol taraftaki sekmeleri sırasıyla doldurun. Eklemek istemediğiniz iletişim adreslerinin yanındaki onay kutusunu (checkbox) kaldırarak veya inputu boş bırakarak ilgili logoyu gizleyebilirsiniz.</p>
+                </div>
+                <div class="guide-step">
+                    <h4>2️⃣ Sayfa Düzenini Ayarla / Layout Preset</h4>
+                    <p data-i18n="guide_desc_2">Ayarlar sekmesinden yazı boyutunu, kenar boşluklarını ve dikey boşlukları değiştirin. "Sayfaya Yay" seçeneği, tüm başlıkları A4 sayfasına eşit dağıtarak alttaki boşluğu kapatır.</p>
+                </div>
+                <div class="guide-step">
+                    <h4>3️⃣ PDF Olarak Kaydet / Save to PDF</h4>
+                    <p data-i18n="guide_desc_3">"Yazdır veya PDF Kaydet" butonuna bastıktan sonra açılan yazdırma penceresinde şu ayarları mutlaka yapın:</p>
+                    <ul>
+                        <li data-i18n="guide_print_1"><strong>Kenar Boşlukları (Margins):</strong> "Yok" (None) olarak seçin.</li>
+                        <li data-i18n="guide_print_2"><strong>Arka Plan Grafikleri (Background Graphics):</strong> Etkinleştirin (Aksan çizgileri ve renkleri için).</li>
+                        <li data-i18n="guide_print_3"><strong>Üst ve Alt Bilgiler (Headers and Footers):</strong> Devre dışı bırakın (Tarih ve URL yazılarını gizlemek için).</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auto-Translate Modal -->
+    <div id="translate-modal" class="modal-overlay no-print" onclick="closeTranslateModal(event)">
+        <div class="modal-card" onclick="event.stopPropagation()" style="max-width: 480px;">
+            <div class="modal-header">
+                <h3 style="display: flex; align-items: center; gap: 8px;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent-gold, #b89665);"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10z"></path></svg>
+                    <span data-i18n="modal_translate_title">CV Otomatik Çevirici (AI Translate)</span>
+                </h3>
+                <button class="close-btn" onclick="closeTranslateModal(event)">✕</button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size: 13.5px; color: var(--text-secondary, #666); line-height: 1.5; margin-bottom: 16px;" data-i18n="modal_translate_desc">
+                    Girdiğiniz tüm kişisel özet, iş deneyimleri, sorumluluk maddeleri, eğitim ve sertifika bilgileri anında hedef dile otomatik çevrilir.
+                </p>
+                
+                <div id="translate-progress-box" style="display: none; background: rgba(59,130,246,0.06); border: 1px solid rgba(59,130,246,0.2); border-radius: 8px; padding: 14px; margin-bottom: 16px; text-align: center;">
+                    <div style="font-weight: 600; font-size: 13.5px; margin-bottom: 8px; color: var(--accent-gold, #b89665);" id="translate-status-text">
+                        CV İçeriği Yapay Zeka ile Çevriliyor...
+                    </div>
+                    <div style="background: rgba(0,0,0,0.1); height: 8px; border-radius: 4px; overflow: hidden; margin-top: 8px;">
+                        <div id="translate-progress-bar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #3b82f6, #a855f7); transition: width 0.3s ease;"></div>
+                    </div>
+                </div>
+
+                <div class="translate-actions" style="display: flex; flex-direction: column; gap: 10px;">
+                    <button class="btn btn-primary btn-block" onclick="autoTranslateCV('en')" style="padding: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                        <span style="font-size: 18px;">🇹🇷 ➔ 🇬🇧</span>
+                        <span data-i18n="btn_trans_en">Tüm CV'yi İngilizceye Çevir (TR ➔ EN)</span>
+                    </button>
+                    
+                    <button class="btn btn-secondary btn-block" onclick="autoTranslateCV('tr')" style="padding: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                        <span style="font-size: 18px;">🇬🇧 ➔ 🇹🇷</span>
+                        <span data-i18n="btn_trans_tr">Tüm CV'yi Türkçeye Çevir (EN ➔ TR)</span>
+                    </button>
+
+                    <button id="modal-btn-undo" class="btn btn-block" onclick="undoTranslation()" style="display: none; padding: 10px; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); color: #ef4444; font-weight: 600;" data-i18n="undo_translate">
+                        ↩️ Önceki Hali Geri Al (Undo Translation)
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="app.js"></script>
+
+    <!-- ATS Reference Standards Modal -->
+    <div id="ats-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9999; justify-content: center; align-items: center;">
+        <div style="background: #fff; width: 90%; max-width: 550px; border-radius: 12px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); font-family: sans-serif;">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 12px; margin-bottom: 16px;">
+                <h3 style="margin: 0; font-size: 18px; color: #1a73e8;"><i class="fas fa-award"></i> ATS Referans Standartları & Skor</h3>
+                <button onclick="closeATSModal()" style="border: none; background: none; font-size: 20px; cursor: pointer; color: #666;">&times;</button>
+            </div>
+            <div style="font-size: 13px; line-height: 1.6; color: #333;">
+                <p><strong>🎯 Mevcut ATS Uyum Skoru: <span id="ats-modal-score-val" style="color: #2e7d32; font-weight: 700; font-size: 16px;">%96</span></strong></p>
+                <h4 style="margin: 12px 0 6px 0; font-size: 14px; color: #111;">📚 ATS Sistemi Neye Göre Referans Alındı?</h4>
+                <ul style="padding-left: 20px; margin: 0 0 12px 0;">
+                    <li><strong>Harvard Extension School Resume Standardı (2026):</strong> Akademik ve kurumsal 1 sayfa vektörel metin düzeni.</li>
+                    <li><strong>Taleo, Workday & Greenhouse Algoritmaları:</strong> Tablosuz ve sütunsuz tek kolonlu ATS tarama yapısı.</li>
+                    <li><strong>Eylem Fiili (Action Verb) Yoğunluğu:</strong> Cümle başlarında etken fiil kullanımı.</li>
+                    <li><strong>Metrik Raporlama (% / Rakam):</strong> Başarıların somut oranlarla ölçülmesi.</li>
+                </ul>
+            </div>
+            <div style="text-align: right; margin-top: 16px;">
+                <button onclick="closeATSModal()" class="btn btn-primary" style="padding: 8px 16px; border-radius: 6px; font-size: 12px;">Anladım</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Floating Assistant Drawer -->
+    <div id="ai-assistant-drawer" style="display: none; position: fixed; bottom: 20px; right: 20px; width: 340px; height: 440px; background: #fff; border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.25); border: 1px solid #e0e0e0; z-index: 9999; flex-direction: column; overflow: hidden; font-family: sans-serif;">
+        <div style="background: linear-gradient(135deg, #1a73e8, #7b1fa2); color: #fff; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center;">
+            <div style="font-weight: 600; font-size: 14px;"><i class="fas fa-robot"></i> Canlı Akıllı CV Asistanı</div>
+            <button onclick="closeAIAssistant()" style="border: none; background: none; color: #fff; font-size: 18px; cursor: pointer;">&times;</button>
+        </div>
+        <div id="ai-chat-messages" style="flex: 1; padding: 12px; overflow-y: auto; background: #f8f9fa;">
+            <div style="background: #e8f0fe; padding: 10px 12px; border-radius: 8px; margin-bottom: 8px; font-size: 12px; color: #1967d2;">
+                👋 Merhaba! Ben Harvard CV Akıllı Asistanınızım. Özgeçmişinizi ATS ve kurumsal standartlara göre iyileştirmenize yardımcı olabilirim.
+            </div>
+        </div>
+        <div style="padding: 10px; border-top: 1px solid #eee; background: #fff; display: flex; gap: 6px; flex-wrap: wrap;">
+            <button onclick="askAIAssistant('bullet')" style="font-size: 10px; padding: 6px 8px; background: #f1f3f4; border: 1px solid #dadce0; border-radius: 12px; cursor: pointer;">🪄 Cümle İyileştir</button>
+            <button onclick="askAIAssistant('ats')" style="font-size: 10px; padding: 6px 8px; background: #f1f3f4; border: 1px solid #dadce0; border-radius: 12px; cursor: pointer;">🎯 ATS Analizi</button>
+            <button onclick="askAIAssistant('title')" style="font-size: 10px; padding: 6px 8px; background: #f1f3f4; border: 1px solid #dadce0; border-radius: 12px; cursor: pointer;">💡 Unvan Tavsiyesi</button>
+        </div>
+    </div>
+    
+</body>
+</html>

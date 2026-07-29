@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CVSOM - Kayıt Ol</title>
+    <!-- Google Fonts: Inter for modern SaaS feel -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Inherit landing page global styling variables and fonts -->
+    <link rel="stylesheet" href="landing.css?v=2">
+    <style>
+        /* Split Register Page specific styles */
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: stretch;
+            background-color: var(--bg-primary);
+            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .login-container {
+            display: flex;
+            width: 100vw;
+            min-height: 100vh;
+        }
+
+        /* 1. Left Panel (Visual & Branding) - 40% width */
+        .login-left {
+            width: 40%;
+            background: linear-gradient(180deg, #090a0c 0%, #0c0e12 100%);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-left-content {
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            z-index: 1;
+        }
+
+        .login-slogan {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-top: -10px;
+            font-weight: 500;
+        }
+
+        /* 2. Right Panel (Form) - 60% width */
+        .login-right {
+            width: 60%;
+            background-color: #0c0d10; /* Lighter dark gray for depth */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 40px;
+            position: relative;
+        }
+
+        .login-right-content {
+            width: 100%;
+            max-width: 380px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Top Lang Switcher in Right Panel */
+        .login-lang-wrapper {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+        }
+
+        /* Logo Header */
+        .login-header {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-bottom: 28px;
+        }
+
+        .login-header .logo {
+            margin-left: 0;
+            margin-bottom: 16px;
+            pointer-events: none;
+        }
+
+        .login-header h2 {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin: 0;
+            letter-spacing: -0.5px;
+        }
+
+        /* Forms styling */
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .input-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .input-wrapper label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            letter-spacing: 0.3px;
+        }
+
+        .input-field {
+            background-color: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 11px 13px;
+            color: var(--text-primary);
+            font-size: 14px;
+            font-family: inherit;
+            outline: none;
+            transition: all var(--transition-speed);
+        }
+
+        .input-field:focus {
+            border-color: var(--accent-blue);
+            background-color: rgba(255, 255, 255, 0.04);
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.15);
+        }
+
+        /* Options Row */
+        .options-row {
+            display: flex;
+            align-items: center;
+            font-size: 12.5px;
+            margin-top: 2px;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            user-select: none;
+            line-height: 1.4;
+        }
+
+        .checkbox-label input {
+            cursor: pointer;
+            accent-color: var(--accent-blue);
+        }
+
+        /* Buttons block */
+        .btn-login-submit {
+            background-color: var(--accent-blue);
+            border: none;
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 700;
+            padding: 13px;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+            text-align: center;
+            text-decoration: none;
+            display: block;
+            margin-top: 4px;
+        }
+
+        .btn-login-submit:hover {
+            background-color: var(--accent-hover);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.45);
+        }
+
+        .divider-row {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.15);
+            font-size: 12px;
+            margin: 4px 0;
+        }
+
+        .divider-row::before,
+        .divider-row::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .divider-row:not(:empty)::before {
+            margin-right: 16px;
+        }
+
+        .divider-row:not(:empty)::after {
+            margin-left: 16px;
+        }
+
+        .btn-google {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background-color: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 11px;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .btn-google:hover {
+            background-color: rgba(255, 255, 255, 0.03);
+            border-color: rgba(255, 255, 255, 0.18);
+        }
+
+        .google-icon {
+            flex-shrink: 0;
+        }
+
+        /* Footer Link */
+        .login-footer {
+            margin-top: 24px;
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .login-footer a {
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-weight: 600;
+            margin-left: 4px;
+            transition: color var(--transition-speed);
+        }
+
+        .login-footer a:hover {
+            color: var(--accent-hover);
+        }
+
+        /* Interactive Loading Screen for premium feel */
+        .login-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--bg-primary);
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        .login-loader.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .loader-spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid rgba(59, 130, 246, 0.15);
+            border-top-color: var(--accent-blue);
+            border-radius: 50%;
+            animation: spin 1s infinite linear;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* OTP Verification Screen styling */
+        .otp-wrapper {
+            display: none;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .otp-inputs-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+            margin: 12px 0;
+        }
+
+        .otp-digit {
+            width: 48px;
+            height: 48px;
+            background-color: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            outline: none;
+            transition: all var(--transition-speed);
+        }
+
+        .otp-digit:focus {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.15);
+            background-color: rgba(255, 255, 255, 0.04);
+        }
+
+        .otp-timer {
+            font-size: 13px;
+            color: var(--text-muted);
+            text-align: center;
+            margin-top: 4px;
+        }
+
+        .otp-resend {
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: color var(--transition-speed);
+        }
+
+        .otp-resend.disabled {
+            color: var(--text-muted);
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .btn-back-to-signup {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: var(--text-muted);
+            text-decoration: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            margin-bottom: 20px;
+            transition: color var(--transition-speed);
+        }
+
+        .btn-back-to-signup:hover {
+            color: var(--text-primary);
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 968px) {
+            .login-left {
+                display: none !important;
+            }
+            .login-right {
+                width: 100%;
+                padding: 40px 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <!-- 1. Left Panel (Visual & Branding) -->
+        <div class="login-left">
+            <div class="login-left-content">
+                <!-- Ambient Blue Glowing Background Orb -->
+                <div class="mockup-glow" style="top: 15%; width: 280px; height: 280px;"></div>
+
+                <!-- 3D Folder Mockup slightly scaled down -->
+                <div class="hero-mockup" style="transform: scale(0.68); margin: -40px auto 10px auto; height: 420px; width: 380px;">
+                    <!-- Concentric Blue Frame Decoration Behind Binder -->
+                    <div class="mockup-gold-frame frame-1" style="width: 380px; height: 380px;"></div>
+                    <div class="mockup-gold-frame frame-2" style="width: 360px; height: 360px;"></div>
+
+                    <!-- Pure HTML & CSS Interactive 3D Sleek Charcoal Leather Binder -->
+                    <div class="binder-folder" style="width: 340px; height: 410px;">
+                        <!-- Premium Dark Corner Clips -->
+                        <div class="binder-corner top-left"></div>
+                        <div class="binder-corner top-right"></div>
+                        <div class="binder-corner bottom-left"></div>
+                        <div class="binder-corner bottom-right"></div>
+
+                        <!-- Binder metal rings for realism -->
+                        <div class="binder-rings" style="padding: 70px 0; left: 40.5%;">
+                            <div class="binder-ring"></div>
+                            <div class="binder-ring"></div>
+                            <div class="binder-ring"></div>
+                            <div class="binder-ring"></div>
+                        </div>
+
+                        <!-- Multiple Stacked Under-sheets for depth -->
+                        <div class="paper-layer-under layer-3" style="width: 210px; height: 300px; top: 58px; right: 15px;"></div>
+                        <div class="paper-layer-under layer-2" style="width: 210px; height: 300px; top: 58px; right: 15px;"></div>
+                        <div class="paper-layer-under layer-1" style="width: 210px; height: 300px; top: 58px; right: 15px;"></div>
+                        
+                        <!-- Main crisp CV sheet containing realistic resume mockup -->
+                        <div class="binder-paper" style="width: 210px; height: 300px; padding: 20px 16px 14px 16px;">
+                            <div class="mockup-cv-header" style="gap: 10px;">
+                                <div class="mockup-cv-avatar" style="width: 26px; height: 26px;">
+                                    <svg viewBox="0 0 24 24" fill="currentColor" class="mockup-cv-avatar-svg" style="width: 16px; height: 16px;"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                                </div>
+                                <div class="mockup-cv-header-text" style="gap: 2px;">
+                                    <span class="mockup-cv-name" style="font-size: 11.5px;">CVSOM</span>
+                                    <span class="mockup-cv-sub" style="font-size: 6.5px;" data-i18n="mockup-cv-sub">Özgeçmiş / CV1 son Görüm</span>
+                                </div>
+                            </div>
+                            
+                            <div class="mockup-cv-divider"></div>
+                            
+                            <div class="mockup-yale-list" style="gap: 12px; margin-top: 8px;">
+                                <!-- Item 1: İş Deneyimleri -->
+                                <div class="mockup-yale-item" style="gap: 5px;">
+                                    <div class="mockup-yale-icon" style="width: 14px; height: 14px; margin-top: 1px;">
+                                        <svg width="8" height="8" viewBox="0 0 24 24" fill="#3b82f6"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                                    </div>
+                                    <div class="mockup-yale-item-text">
+                                        <strong style="font-size: 8.5px;" data-i18n="mockup-exp-title">İş Deneyimleri (Experience)</strong>
+                                        <span class="mockup-yale-desc" style="font-size: 6.5px; margin-top: 1px;" data-i18n="mockup-exp-desc">Eylem odaklı ipuçlarıyla iş geçmişinizi listeleyin.</span>
+                                    </div>
+                                </div>
+
+                                <!-- Item 2: Eğitim Bilgisi -->
+                                <div class="mockup-yale-item" style="gap: 5px;">
+                                    <div class="mockup-yale-icon" style="width: 14px; height: 14px; margin-top: 1px;">
+                                        <svg width="8" height="8" viewBox="0 0 24 24" fill="#3b82f6"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                                    </div>
+                                    <div class="mockup-yale-item-text">
+                                        <strong style="font-size: 8.5px;" data-i18n="mockup-edu-title">Eğitim Bilgisi (Education)</strong>
+                                        <span class="mockup-yale-desc" style="font-size: 6.5px; margin-top: 1px;" data-i18n="mockup-edu-desc">Derece ve GPA başarılarınızı standartlarda düzenleyin.</span>
+                                    </div>
+                                </div>
+
+                                <!-- Item 3: Liderlik -->
+                                <div class="mockup-yale-item" style="gap: 5px;">
+                                    <div class="mockup-yale-icon" style="width: 14px; height: 14px; margin-top: 1px;">
+                                        <svg width="8" height="8" viewBox="0 0 24 24" fill="#3b82f6"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                                    </div>
+                                    <div class="mockup-yale-item-text">
+                                        <strong style="font-size: 8.5px;" data-i18n="mockup-lead-title">Liderlik (Leadership)</strong>
+                                        <span class="mockup-yale-desc" style="font-size: 6.5px; margin-top: 1px;" data-i18n="mockup-lead-desc">Kulüpler ve liderlik rollerinizi sergileyin.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Elegant Document Footer with watermark CVSOM -->
+                            <div class="mockup-cv-footer" style="padding-top: 6px;">
+                                <span class="mockup-cv-watermark" style="font-size: 6.5px;">CVSOM</span>
+                                <span class="mockup-cv-page-num" style="font-size: 6px;" data-i18n="mockup-footer-right">Sayfa 1 / 1</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="login-slogan" data-i18n="login-slogan">Kariyerinizdeki en akıllı adımı CVSOM standartlarıyla yönetmeye devam edin.</p>
+            </div>
+        </div>
+
+        <!-- 2. Right Panel (Form) -->
+        <div class="login-right">
+            <!-- Language Segmented Selector -->
+            <div class="login-lang-wrapper">
+                <div class="lang-selector">
+                    <button class="lang-btn active" data-lang-btn="tr">TR</button>
+                    <button class="lang-btn" data-lang-btn="en">EN</button>
+                </div>
+            </div>
+
+            <div class="login-right-content">
+                <!-- Header Logo & Title -->
+                <div class="login-header">
+                    <a href="index.html" class="logo" style="text-decoration: none;">
+                        <!-- Custom Silver Pillar & Golden Quill Academic SVG Logo Icon -->
+                        <svg class="logo-icon" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M2 19h6a3 3 0 0 1 3 3v-14a2 2 0 0 0-2-2H2z" stroke="#cbd5e1" fill="rgba(255,255,255,0.05)"/>
+                            <path d="M22 19h-6a3 3 0 0 0-3 3v-14a2 2 0 0 1 2-2h7z" stroke="#cbd5e1" fill="rgba(255,255,255,0.05)"/>
+                            <path d="M4 6h4v1.5H4z" fill="#cbd5e1" stroke="#cbd5e1"/>
+                            <line x1="5" y1="7.5" x2="5" y2="15.5" stroke="#cbd5e1" stroke-width="1.5"/>
+                            <line x1="7" y1="7.5" x2="7" y2="15.5" stroke="#cbd5e1" stroke-width="1.5"/>
+                            <path d="M3.5 15.5h5v1.5h-5z" fill="#cbd5e1" stroke="#cbd5e1"/>
+                            <path d="M3 6.5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1" stroke="#cbd5e1"/>
+                            <path d="M12.5 16.5c1.5-3 3.5-5.5 6-7.5s4.5-2.5 4.5-2.5-0.5 2-2.5 4.5c-2 2.5-4.5 4.5-7.5 6" stroke="#b89665" stroke-width="2" fill="none"/>
+                            <line x1="12.5" y1="16.5" x2="20.5" y2="6.5" stroke="#ffd700" stroke-width="1"/>
+                            <line x1="15" y1="13.5" x2="16.5" y2="13.5" stroke="#b89665" stroke-width="1"/>
+                            <line x1="16.5" y1="11.5" x2="18.2" y2="11.5" stroke="#b89665" stroke-width="1"/>
+                            <line x1="18" y1="9.5" x2="19.7" y2="9.5" stroke="#b89665" stroke-width="1"/>
+                        </svg>
+                        <h1 style="text-transform: uppercase; letter-spacing: 0.5px; margin-left: 10px; font-size: 22px; color: var(--text-primary);">CVSOM</h1>
+                    </a>
+                    <h2 data-i18n="register-title">Yeni Hesap Oluşturun</h2>
+                </div>
+
+                <!-- Register Form -->
+                <!-- Back Button for OTP -->
+                <button class="btn-back-to-signup" id="otp-back-btn" style="display: none;" onclick="showSignupForm()">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                    <span data-i18n="otp-back">Bilgileri Güncelle</span>
+                </button>
+
+                <!-- OTP Verification Form Wrapper -->
+                <div class="otp-wrapper" id="otp-wrapper-element">
+                    <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.5; margin: 0 0 8px 0;" id="otp-subtitle-text">
+                        Doğrulama kodu gönderildi! Lütfen e-posta adresinizi kontrol edin.
+                    </p>
+                    
+                    <form class="login-form" onsubmit="handleOTPSubmit(event)">
+                        <!-- 6-digit OTP fields -->
+                        <div class="otp-inputs-row">
+                            <input type="text" maxlength="1" class="otp-digit" oninput="moveToNext(this, 1)" onkeydown="moveToPrev(this, 2)" required pattern="[0-9]">
+                            <input type="text" maxlength="1" class="otp-digit" oninput="moveToNext(this, 2)" onkeydown="moveToPrev(this, 3)" required pattern="[0-9]">
+                            <input type="text" maxlength="1" class="otp-digit" oninput="moveToNext(this, 3)" onkeydown="moveToPrev(this, 4)" required pattern="[0-9]">
+                            <input type="text" maxlength="1" class="otp-digit" oninput="moveToNext(this, 4)" onkeydown="moveToPrev(this, 5)" required pattern="[0-9]">
+                            <input type="text" maxlength="1" class="otp-digit" oninput="moveToNext(this, 5)" onkeydown="moveToPrev(this, 6)" required pattern="[0-9]">
+                            <input type="text" maxlength="1" class="otp-digit" oninput="moveToNext(this, 6)" onkeydown="moveToPrev(this, 7)" required pattern="[0-9]">
+                        </div>
+
+                        <button type="submit" class="btn-login-submit" data-i18n="btn-verify">E-postayı Doğrula</button>
+                        
+                        <div class="otp-timer" style="margin-bottom: 12px;">
+                            <span data-i18n="otp-resend-wait">Yeni kod talep etmek için bekleyin:</span>
+                            <span id="otp-timer-count" style="font-weight: 700; color: var(--text-primary);">59s</span>
+                            <a class="otp-resend disabled" id="otp-resend-btn" onclick="resendCode()" data-i18n="otp-resend-link" style="display: none;">Kodu Tekrar Gönder</a>
+                        </div>
+                        
+                        <!-- Interactive Demo Mode Information Banner -->
+                        <div style="background-color: rgba(59, 130, 246, 0.05); border: 1px dashed rgba(59, 130, 246, 0.2); border-radius: 8px; padding: 10px 12px; font-size: 11px; color: var(--text-secondary); line-height: 1.4; text-align: center;" data-i18n="otp-demo-tip">
+                            💡 <strong>Demo Modu:</strong> Şu an arayüz prototipini test ediyorsunuz. E-postanıza gerçek mail gitmez. Kutulara herhangi 6 rakam (örn: 123456) girerek hemen doğrulayabilirsiniz.
+                        </div>
+                    </form>
+                </div>
+
+                <form class="login-form" id="register-form-element" onsubmit="handleRegisterSubmit(event)">
+                    <!-- Name field -->
+                    <div class="input-wrapper">
+                        <label for="register-name" data-i18n="label-name">Adınız Soyadınız</label>
+                        <input type="text" id="register-name" class="input-field" placeholder="Ahmet Yılmaz" required data-i18n-placeholder="placeholder-name">
+                    </div>
+
+                    <!-- Email field -->
+                    <div class="input-wrapper">
+                        <label for="register-email" data-i18n="label-email">E-posta Adresi</label>
+                        <input type="email" id="register-email" class="input-field" placeholder="ornek@email.com" required data-i18n-placeholder="placeholder-email">
+                    </div>
+
+                    <!-- Password field -->
+                    <div class="input-wrapper">
+                        <label for="register-password" data-i18n="label-password">Şifre</label>
+                        <input type="password" id="register-password" class="input-field" placeholder="••••••••" required data-i18n-placeholder="placeholder-password">
+                    </div>
+
+                    <!-- Accept Terms checkbox -->
+                    <div class="options-row">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="register-terms" required>
+                            <span data-i18n="options-terms">Kullanım Koşullarını kabul ediyorum</span>
+                        </label>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn-login-submit" data-i18n="btn-register">Kaydol ve Başla</button>
+                    
+                    <div class="divider-row" data-i18n="divider-text">veya</div>
+
+                    <!-- Google signup button -->
+                    <button type="button" class="btn-google" onclick="handleGoogleRegister()">
+                        <!-- Google logo SVG icon -->
+                        <svg class="google-icon" width="18" height="18" viewBox="0 0 24 24">
+                            <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v3.92h6.58c-.28 1.48-1.11 2.74-2.36 3.59v2.98h3.82c2.23-2.05 3.52-5.07 3.52-8.42z"/>
+                            <path fill="#34A853" d="M12 24c3.24 0 5.97-1.08 7.96-2.91l-3.82-2.98c-1.06.71-2.42 1.13-4.14 1.13-3.18 0-5.88-2.15-6.84-5.04H1.14v3.08C3.12 21.3 7.24 24 12 24z"/>
+                            <path fill="#FBBC05" d="M5.16 14.2c-.25-.71-.39-1.48-.39-2.2 0-.72.14-1.49.39-2.2V6.72H1.14C.39 8.24 0 10.07 0 12s.39 3.76 1.14 5.28l4.02-3.08z"/>
+                            <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.24 0 3.12 2.7 1.14 6.72l4.02 3.08c.96-2.89 3.66-5.04 6.84-5.04z"/>
+                        </svg>
+                        <span data-i18n="btn-google-reg">Google ile Kaydol</span>
+                    </button>
+                </form>
+
+                <!-- Footer Redirect link -->
+                <div class="login-footer">
+                    <span data-i18n="footer-has-account">Zaten hesabınız var mı?</span>
+                    <a href="login.html" data-i18n="footer-signin">Giriş Yapın</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading overlay screen -->
+    <div class="login-loader" id="page-loader">
+        <div class="loader-spinner"></div>
+    </div>
+
+    <!-- Dynamic 3D Parallax & Translation Logic -->
+    <script>
+        // Premium 3D Tilt Interaction over the Left Mockup Panel
+        const heroMockup = document.querySelector('.hero-mockup');
+        const binderFolder = document.querySelector('.binder-folder');
+        
+        if (heroMockup && binderFolder) {
+            heroMockup.addEventListener('mousemove', (e) => {
+                const rect = heroMockup.getBoundingClientRect();
+                const x = e.clientX - rect.left - (rect.width / 2);
+                const y = e.clientY - rect.top - (rect.height / 2);
+                
+                // Limit max tilt rotation for smaller card on login (e.g. max 12 degrees)
+                const tiltX = (y / (rect.height / 2)) * -12;
+                const tiltY = (x / (rect.width / 2)) * 12;
+                
+                binderFolder.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+                binderFolder.style.transition = 'transform 0.1s ease';
+            });
+            
+            heroMockup.addEventListener('mouseleave', () => {
+                binderFolder.style.transform = 'rotateX(0deg) rotateY(0deg)';
+                binderFolder.style.transition = 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
+            });
+        }
+
+        // OTP Code inputs navigation
+        function moveToNext(input, idx) {
+            if (input.value.length === 1 && idx < 6) {
+                document.querySelectorAll('.otp-digit')[idx].focus();
+            }
+        }
+
+        function moveToPrev(input, idx) {
+            // idx passed represents the 1-indexed target box to go back to (i.e. digit box idx-2 in JS array)
+            if (event.key === "Backspace" && input.value.length === 0 && idx > 1) {
+                document.querySelectorAll('.otp-digit')[idx - 2].focus();
+            }
+        }
+
+        // Timer states
+        let timerInterval = null;
+        let timeLeft = 59;
+
+        function startTimer() {
+            timeLeft = 59;
+            document.getElementById('otp-timer-count').style.display = 'inline';
+            document.getElementById('otp-timer-count').textContent = timeLeft + "s";
+            document.getElementById('otp-resend-btn').style.display = 'none';
+            
+            const waitLabelEl = document.querySelector('.otp-timer span:first-child');
+            if (waitLabelEl) waitLabelEl.style.display = 'inline';
+
+            if (timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById('otp-timer-count').textContent = timeLeft + "s";
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    document.getElementById('otp-timer-count').style.display = 'none';
+                    if (waitLabelEl) waitLabelEl.style.display = 'none';
+                    
+                    document.getElementById('otp-resend-btn').style.display = 'inline';
+                    document.getElementById('otp-resend-btn').classList.remove('disabled');
+                }
+            }, 1000);
+        }
+
+        function resendCode() {
+            // Simulating code resending
+            alert(localStorage.getItem("preferredLanguage") === "tr" 
+                ? "Yeni doğrulama kodu e-postanıza gönderildi!" 
+                : "A new verification code has been sent to your email!");
+            startTimer();
+        }
+
+        // Control signup form display
+        function showSignupForm() {
+            document.getElementById('register-form-element').style.display = 'flex';
+            document.getElementById('otp-wrapper-element').style.display = 'none';
+            document.getElementById('otp-back-btn').style.display = 'none';
+            
+            // Re-enable register header title
+            const lang = localStorage.getItem("preferredLanguage") || "tr";
+            document.querySelector('.login-header h2').textContent = translations[lang]["register-title"];
+        }
+
+        function handleRegisterSubmit(event) {
+            event.preventDefault();
+            const nameVal = document.getElementById('register-name').value;
+            const emailVal = document.getElementById('register-email').value;
+            
+            if (nameVal) {
+                localStorage.setItem("cvsom_user_name", nameVal);
+            }
+            
+            // Change title & Show OTP elements
+            const lang = localStorage.getItem("preferredLanguage") || "tr";
+            document.querySelector('.login-header h2').textContent = translations[lang]["otp-title"];
+            
+            // Set dynamic email subtitle
+            const prefix = translations[lang]["otp-subtitle-prefix"];
+            const suffix = translations[lang]["otp-subtitle-suffix"];
+            document.getElementById('otp-subtitle-text').innerHTML = `${prefix}<strong style="color:var(--accent-blue);">${emailVal}</strong>${suffix}`;
+            
+            document.getElementById('register-form-element').style.display = 'none';
+            document.getElementById('otp-wrapper-element').style.display = 'flex';
+            document.getElementById('otp-back-btn').style.display = 'flex';
+            
+            // Reset and focus first digit
+            document.querySelectorAll('.otp-digit').forEach(inp => inp.value = "");
+            document.querySelectorAll('.otp-digit')[0].focus();
+            
+            startTimer();
+        }
+
+        function handleOTPSubmit(event) {
+            event.preventDefault();
+            
+            // Read entered OTP code
+            let enteredCode = "";
+            document.querySelectorAll('.otp-digit').forEach(inp => enteredCode += inp.value);
+            
+            // Complete registration with loader transition
+            triggerMockRegisterLoading();
+        }
+
+        function handleGoogleRegister() {
+            localStorage.setItem("cvsom_user_name", "Google Kullanıcısı");
+            triggerMockRegisterLoading();
+        }
+
+        
+
+        function triggerMockRegisterLoading() {
+            const loader = document.getElementById('page-loader');
+            if (loader) {
+                loader.classList.add('active');
+                
+                // Clear old cvState to prevent leakage on new user registration
+                localStorage.removeItem("cvState");
+                
+                setTimeout(() => {
+                    // Redirect to editor app page
+                    window.location.href = "editor.html";
+                }, 1200);
+            }
+        }
+
+        // --- Multi-Language Translation System (TR/EN) ---
+        const translations = {
+            tr: {
+                "login-slogan": "Kariyerinizdeki en akıllı adımı CVSOM standartlarıyla yönetmeye devam edin.",
+                "register-title": "Yeni Hesap Oluşturun",
+                "label-name": "Adınız Soyadınız",
+                "label-email": "E-posta Adresi",
+                "label-password": "Şifre",
+                "placeholder-name": "Ahmet Yılmaz",
+                "placeholder-email": "ornek@email.com",
+                "placeholder-password": "••••••••",
+                "options-terms": "Kullanım Koşullarını kabul ediyorum",
+                "btn-register": "Kaydol ve Başla",
+                "divider-text": "veya",
+                "btn-google-reg": "Google ile Kaydol",
+                "footer-has-account": "Zaten hesabınız var mı?",
+                "footer-signin": "Giriş Yapın",
+                "otp-title": "E-posta Doğrulama",
+                "otp-back": "Bilgileri Güncelle",
+                "btn-verify": "E-postayı Doğrula",
+                "otp-resend-wait": "Yeni kod için bekleyin:",
+                "otp-resend-link": "Kodu Tekrar Gönder",
+                "otp-subtitle-prefix": "Doğrulama kodu gönderildi! Lütfen ",
+                "otp-subtitle-suffix": " adresine gönderilen 6 haneli kodu giriniz.",
+                "otp-demo-tip": "💡 <strong>Demo Modu:</strong> Şu an arayüz prototipini test ediyorsunuz. E-postanıza gerçek mail gitmez. Kutulara herhangi 6 rakam (örn: 123456) girerek hemen doğrulayabilirsiniz.",
+                "mockup-cv-sub": "Özgeçmiş / CV1 son Görüm",
+                "mockup-footer-right": "Sayfa 1 / 1",
+                "mockup-exp-title": "İş Deneyimleri (Experience)",
+                "mockup-exp-desc": "Eylem odaklı ipuçlarıyla iş geçmişinizi listeleyin.",
+                "mockup-edu-title": "Eğitim Bilgisi (Education)",
+                "mockup-edu-desc": "Derece ve GPA başarılarınızı standartlarda düzenleyin.",
+                "mockup-lead-title": "Liderlik (Leadership)",
+                "mockup-lead-desc": "Kulüpler ve liderlik rollerinizi sergileyin."
+            },
+            en: {
+                "login-slogan": "Continue managing the smartest step in your career with CVSOM standards.",
+                "register-title": "Create New Account",
+                "label-name": "Your Full Name",
+                "label-email": "Email Address",
+                "label-password": "Password",
+                "placeholder-name": "John Doe",
+                "placeholder-email": "example@email.com",
+                "placeholder-password": "••••••••",
+                "options-terms": "I accept the Terms of Service",
+                "btn-register": "Sign Up & Get Started",
+                "divider-text": "or",
+                "btn-google-reg": "Sign up with Google",
+                "footer-has-account": "Already have an account?",
+                "footer-signin": "Sign In",
+                "otp-title": "Email Verification",
+                "otp-back": "Update Info",
+                "btn-verify": "Verify Email",
+                "otp-resend-wait": "Resend code in:",
+                "otp-resend-link": "Resend Code",
+                "otp-subtitle-prefix": "Verification code sent! Please enter the 6-digit code sent to ",
+                "otp-subtitle-suffix": ".",
+                "otp-demo-tip": "💡 <strong>Demo Mode:</strong> You are currently testing the frontend prototype. No real email is sent. You can enter any 6 digits (e.g., 123456) to verify instantly.",
+                "mockup-cv-sub": "Resume / CV Preview",
+                "mockup-footer-right": "Page 1 of 1",
+                "mockup-exp-title": "Professional Experience",
+                "mockup-exp-desc": "List your work and internship history impact-oriented.",
+                "mockup-edu-title": "Education History",
+                "mockup-edu-desc": "Organize your degrees and GPA in official standard formats.",
+                "mockup-lead-title": "Leadership",
+                "mockup-lead-desc": "Showcase your club activities and student roles."
+            }
+        };
+
+        function setLanguage(lang) {
+            localStorage.setItem("preferredLanguage", lang);
+            document.querySelectorAll("[data-i18n]").forEach(element => {
+                const key = element.getAttribute("data-i18n");
+                if (translations[lang][key]) {
+                    element.innerHTML = translations[lang][key];
+                }
+            });
+
+            // Update placeholders
+            document.querySelectorAll("[data-i18n-placeholder]").forEach(element => {
+                const key = element.getAttribute("data-i18n-placeholder");
+                if (translations[lang][key]) {
+                    element.setAttribute("placeholder", translations[lang][key]);
+                }
+            });
+
+            // Update active state on segment controls
+            document.querySelectorAll("[data-lang-btn]").forEach(btn => {
+                if (btn.getAttribute("data-lang-btn") === lang) {
+                    btn.classList.add("active");
+                } else {
+                    btn.classList.remove("active");
+                }
+            });
+        }
+
+        // Bind lang toggle buttons
+        document.querySelectorAll("[data-lang-btn]").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const lang = btn.getAttribute("data-lang-btn");
+                setLanguage(lang);
+            });
+        });
+
+        // Load initial language (default to TR or retrieve from localStorage)
+        const initialLang = localStorage.getItem("preferredLanguage") || "tr";
+        setLanguage(initialLang);
+    </script>
+</body>
+</html>
