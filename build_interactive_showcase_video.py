@@ -1,0 +1,241 @@
+import os
+import sys
+import subprocess
+
+sys.stdout.reconfigure(encoding='utf-8')
+
+cwd = r"C:\Users\doguk\.gemini\antigravity\scratch\asil_harvard_cv"
+showcase_path = os.path.join(cwd, "showcase_video.html")
+js_path = os.path.join(cwd, "app.js")
+html_path = os.path.join(cwd, "editor.html")
+
+with open(js_path, "r", encoding="utf-8") as f:
+    js = f.read()
+
+with open(html_path, "r", encoding="utf-8") as f:
+    html = f.read()
+
+# 1. Create HTML5 Animated Video Player Showcase (showcase_video.html)
+showcase_html = '''<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harvard CV Builder — 60FPS Sinematik Lansman & Tanıtım Videosu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background: #090a0f; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; overflow: hidden; }
+        
+        .cinema-container {
+            width: 90vw; max-width: 1200px; height: 50vw; max-height: 675px; background: #11131c; border-radius: 20px; border: 1px solid #232738;
+            box-shadow: 0 30px 100px rgba(0,0,0,0.8), 0 0 60px rgba(26, 115, 232, 0.15); position: relative; overflow: hidden; display: flex; flex-direction: column;
+        }
+
+        /* Top Bar */
+        .cinema-header {
+            height: 50px; background: #161924; border-bottom: 1px solid #232738; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; z-index: 100;
+        }
+        .header-title { font-weight: 700; font-size: 14px; color: #94a3b8; display: flex; align-items: center; gap: 8px; }
+        .header-title i { color: #e53935; }
+        .back-btn { background: #232738; color: #fff; border: none; padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: none; }
+
+        /* Cinema Canvas Viewport */
+        .viewport {
+            flex: 1; position: relative; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle at center, #1b2234 0%, #090a0f 100%); overflow: hidden;
+        }
+
+        /* Animated Scenes */
+        .scene { position: absolute; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); transform: scale(0.95); }
+        .scene.active { opacity: 1; transform: scale(1); }
+
+        /* Floating UI Desktop Card Frame */
+        .desktop-frame {
+            width: 85%; height: 80%; background: #161924; border-radius: 14px; border: 1px solid #2e354f; box-shadow: 0 20px 60px rgba(0,0,0,0.6); position: relative; overflow: hidden; display: flex; flex-direction: column;
+        }
+        .mac-dots { height: 36px; background: #1c2030; border-bottom: 1px solid #2e354f; display: flex; align-items: center; padding: 0 14px; gap: 8px; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot-red { background: #ff5f56; } .dot-yellow { background: #ffbd2e; } .dot-green { background: #27c93f; }
+
+        /* Scene Typography & Callouts */
+        .scene-title { font-size: 32px; font-weight: 800; text-align: center; margin-bottom: 12px; background: linear-gradient(135deg, #fff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .scene-desc { font-size: 16px; color: #94a3b8; text-align: center; max-width: 600px; line-height: 1.6; }
+
+        /* Kinetic Subtitle Bar */
+        .subtitle-bar {
+            position: absolute; bottom: 70px; background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(10px); border: 1px solid #334155; padding: 12px 28px; border-radius: 30px; font-size: 15px; font-weight: 700; color: #38bdf8; box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 200; display: flex; align-items: center; gap: 10px;
+        }
+
+        /* Cinema Controls Bar */
+        .cinema-controls {
+            height: 60px; background: #161924; border-top: 1px solid #232738; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; z-index: 100;
+        }
+        .controls-left { display: flex; align-items: center; gap: 14px; }
+        .play-btn { width: 38px; height: 38px; border-radius: 50%; background: #1a73e8; color: #fff; border: none; font-size: 14px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .progress-container { width: 300px; height: 6px; background: #2e354f; border-radius: 3px; cursor: pointer; position: relative; overflow: hidden; }
+        .progress-bar { width: 0%; height: 100%; background: linear-gradient(90deg, #1a73e8, #8e24aa); transition: width 0.1s linear; }
+
+        .chapter-badge { background: #232738; color: #cbd5e1; border: 1px solid #334155; padding: 6px 12px; border-radius: 15px; font-size: 12px; font-weight: 600; cursor: pointer; }
+        .chapter-badge:hover { background: #1a73e8; color: #fff; }
+    </style>
+</head>
+<body>
+
+    <div class="cinema-container">
+        <div class="cinema-header">
+            <div class="header-title">
+                <i class="fas fa-video"></i> Harvard CV Builder — 60FPS Sinematik Lansman Tanıtımı
+            </div>
+            <a href="editor.html" class="back-btn"><i class="fas fa-edit"></i> Editöre Dön</a>
+        </div>
+
+        <div class="viewport">
+            <!-- Scene 1: Problem / ATS Warning -->
+            <div class="scene active" id="scene-0">
+                <div style="background: rgba(229, 57, 53, 0.15); border: 2px solid #e53935; padding: 20px 40px; border-radius: 20px; text-align: center; margin-bottom: 20px;">
+                    <i class="fas fa-exclamation-triangle" style="font-size: 48px; color: #e53935; margin-bottom: 12px;"></i>
+                    <h2 style="font-size: 26px; color: #ff5252;">Özgeçmişiniz ATS Robotlarında Eleniyor mu?</h2>
+                    <p style="color: #ffcdd2; margin-top: 6px; font-size: 14px;">Adayların %75'i insan kaynakları bile görmeden işe alım algoritmaları tarafından elenir.</p>
+                </div>
+            </div>
+
+            <!-- Scene 2: Hero Launch -->
+            <div class="scene" id="scene-1">
+                <div class="scene-title">🏆 Karşınızda Harvard CV Builder</div>
+                <div class="scene-desc">Harvard Extension School (2026) standartlarında, %96+ ATS skorlu profesyonel özgeçmiş oluşturmanın en hızlı yolu.</div>
+                <div class="desktop-frame" style="margin-top: 20px;">
+                    <div class="mac-dots"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div></div>
+                    <div style="padding: 30px; text-align: center; font-size: 18px; color: #38bdf8; font-weight: 700;">✨ Sıfır Üyelik • Canlı A4 Önizleme • %100 Gizli Tarayıcı Mimarisi</div>
+                </div>
+            </div>
+
+            <!-- Scene 3: Live Editing -->
+            <div class="scene" id="scene-2">
+                <div class="scene-title">✍️ Canlı A4 Senkronizasyonu & Sıralama</div>
+                <div class="scene-desc">Sol editörden girdiğiniz ad, unvan ve deneyimler sağdaki A4 kağıdında anında güncellenir. ▲ ve ▼ oklarıyla kartları dilediğiniz gibi sıralayın.</div>
+            </div>
+
+            <!-- Scene 4: PDF Import -->
+            <div class="scene" id="scene-3">
+                <div class="scene-title">📄 Tek Tıkla PDF CV Yükleme (Sıfır JSON)</div>
+                <div class="scene-desc">Eski PDF CV dosyanızı seçin; dahili PDF.js motorumuz dosyanızı 2 saniyede çözer ve editör kartlarına yerleştirir.</div>
+            </div>
+
+            <!-- Scene 5: ATS Score Engine -->
+            <div class="scene" id="scene-4">
+                <div class="scene-title">🎯 %96+ Canlı ATS Skor Rozeti</div>
+                <div class="scene-desc">Taleo, Workday ve Harvard işe alım algoritmalarına uyum puanınızı canlı görün, eksiklerinizi anında tamamlayın.</div>
+            </div>
+
+            <!-- Scene 6: AI Assistant -->
+            <div class="scene" id="scene-5">
+                <div class="scene-title">🤖 Canlı Akıllı AI CV Asistanı</div>
+                <div class="scene-desc">Yapay Zeka sohbet penceresinden tek tıkla deneyim maddelerinize somut rakamlar ve Harvard etken fiilleri ekleyin.</div>
+            </div>
+
+            <!-- Subtitle Bar -->
+            <div class="subtitle-bar" id="subtitle-text">
+                <i class="fas fa-volume-up" style="color: #38bdf8;"></i>
+                <span id="sub-content">1. Özgeçmişiniz ATS robotlarında eleniyor mu?</span>
+            </div>
+        </div>
+
+        <div class="cinema-controls">
+            <div class="controls-left">
+                <button class="play-btn" id="play-pause-btn" onclick="togglePlay()"><i class="fas fa-pause"></i></button>
+                <div class="progress-container" onclick="seekProgress(event)">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
+                <span id="time-display" style="font-size: 12px; color: #94a3b8; font-weight: 600;">00:00 / 00:30</span>
+            </div>
+
+            <div style="display: flex; gap: 8px;">
+                <button class="chapter-badge" onclick="jumpToScene(0)">1. Problem</button>
+                <button class="chapter-badge" onclick="jumpToScene(1)">2. Harvard Standartı</button>
+                <button class="chapter-badge" onclick="jumpToScene(3)">3. PDF Yükleme</button>
+                <button class="chapter-badge" onclick="jumpToScene(4)">4. ATS Skoru</button>
+                <button class="chapter-badge" onclick="jumpToScene(5)">5. AI Asistanı</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const subtitles = [
+            "1. Özgeçmişiniz ATS robotlarında eleniyor mu? Adayların %75'i elenmektedir.",
+            "2. Karşınızda Harvard CV Builder: 90+ ATS puanlı özgeçmiş oluşturucu.",
+            "3. Sol editörden girin, sağ A4 kağıdında anında canlı izleyin. ▲/▼ oklarıyla sıralayın.",
+            "4. Eski PDF CV'nizi yükleyin; PDF.js motorumuz saniyeler içinde kartlara aktarsın.",
+            "5. %96+ ATS skor rozetiyle işe alım robotlarına uyumunuzu kontrol edin.",
+            "6. Canlı Yapay Zeka Asistanı ile maddelerinizi güçlü etken fiillerle cilalayın."
+        ];
+
+        let currentScene = 0;
+        let isPlaying = true;
+        let timer = null;
+        let totalSeconds = 30;
+        let elapsed = 0;
+
+        function updateScene() {
+            document.querySelectorAll('.scene').forEach((sc, i) => {
+                sc.classList.toggle('active', i === currentScene);
+            });
+            document.getElementById('sub-content').textContent = subtitles[currentScene] || "";
+        }
+
+        function togglePlay() {
+            isPlaying = !isPlaying;
+            document.getElementById('play-pause-btn').innerHTML = isPlaying ? '<i class="fas fa-pause"></i>' : '<i class="fas fa-play"></i>';
+        }
+
+        function jumpToScene(idx) {
+            currentScene = idx;
+            elapsed = (currentScene / 6) * totalSeconds;
+            updateScene();
+        }
+
+        setInterval(() => {
+            if (!isPlaying) return;
+            elapsed += 0.5;
+            if (elapsed >= totalSeconds) elapsed = 0;
+            
+            const progress = (elapsed / totalSeconds) * 100;
+            document.getElementById('progress-bar').style.width = progress + '%';
+            
+            const secStr = Math.floor(elapsed).toString().padStart(2, '0');
+            document.getElementById('time-display').textContent = `00:${secStr} / 00:30`;
+
+            const newScene = Math.min(5, Math.floor((elapsed / totalSeconds) * 6));
+            if (newScene !== currentScene) {
+                currentScene = newScene;
+                updateScene();
+            }
+        }, 500);
+    </script>
+</body>
+</html>
+'''
+
+with open(showcase_path, "w", encoding="utf-8") as f:
+    f.write(showcase_html)
+
+print("SUCCESS: Created showcase_video.html Interactive Animated Video Showcase!")
+
+# 2. Add Button to editor.html Header
+header_target = '<button class="btn-guide btn-screen-studio"'
+showcase_btn_code = '<a href="showcase_video.html" class="btn-guide btn-showcase" style="background: linear-gradient(135deg, #e53935, #b71c1c); color: #fff; margin-right: 6px; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;" title="60FPS İnteraktif Lansman Videosunu İzle"><i class="fas fa-play-circle"></i> 🎬 60FPS Lansman Videosu</a>\n                    ' + header_target
+
+if "btn-showcase" not in html:
+    html = html.replace(header_target, showcase_btn_code, 1)
+    with open(html_path, "w", encoding="utf-8") as f:
+        f.write(html)
+    print("SUCCESS: Added 60FPS Video Showcase button to editor.html!")
+
+# Git commit & push
+try:
+    subprocess.run(["git", "add", "."], cwd=cwd, check=True)
+    subprocess.run(["git", "commit", "-m", "Feature: Add Interactive 60FPS HTML5 Animated Video Showcase Application (showcase_video.html)"], cwd=cwd, check=True)
+    subprocess.run(["git", "push", "origin", "main"], cwd=cwd, check=True)
+    print("SUCCESS: Pushed Interactive Video Showcase to GitHub!")
+except Exception as ex:
+    print("Git push error:", ex)
