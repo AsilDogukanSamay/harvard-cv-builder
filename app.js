@@ -3616,22 +3616,32 @@ function importJSON(event) {
 
 
 
+
 function toggleGuideModal() {
     const modal = document.getElementById('guide-modal');
-    if (modal) {
-        const isHidden = modal.style.display === 'none' || !modal.style.display;
-        modal.style.display = isHidden ? 'flex' : 'none';
+    if (!modal) return;
+    const computedDisplay = window.getComputedStyle(modal).display;
+    if (computedDisplay === 'none' || modal.style.display === 'none' || !modal.style.display) {
+        modal.style.display = 'flex';
+        modal.classList.add('active');
+    } else {
+        modal.style.display = 'none';
+        modal.classList.remove('active');
     }
 }
 
 function closeGuideModal(event) {
+    const modal = document.getElementById('guide-modal');
+    if (!modal) return;
     if (event && event.target) {
         if (event.target.id === 'guide-modal' || (event.target.classList && event.target.classList.contains('close-btn')) || event.target.tagName === 'BUTTON') {
-            const modal = document.getElementById('guide-modal');
-            if (modal) modal.style.display = 'none';
+            modal.style.display = 'none';
+            modal.classList.remove('active');
         }
     } else {
-        const modal = document.getElementById('guide-modal');
-        if (modal) modal.style.display = 'none';
+        modal.style.display = 'none';
+        modal.classList.remove('active');
     }
 }
+
+
