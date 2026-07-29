@@ -60,14 +60,12 @@
                     <!-- Open Book at the bottom -->
                     <path d="M2 19h6a3 3 0 0 1 3 3v-14a2 2 0 0 0-2-2H2z" stroke="currentColor" fill="none"/>
                     <path d="M22 19h-6a3 3 0 0 0-3 3v-14a2 2 0 0 1 2-2h7z" stroke="currentColor" fill="none"/>
-                    
                     <!-- Classical Roman Column / Pillar on the Left Page -->
                     <path d="M4 6h4v1.5H4z" fill="currentColor" stroke="currentColor"/>
                     <line x1="5" y1="7.5" x2="5" y2="15.5" stroke="currentColor" stroke-width="1.5"/>
                     <line x1="7" y1="7.5" x2="7" y2="15.5" stroke="currentColor" stroke-width="1.5"/>
                     <path d="M3.5 15.5h5v1.5h-5z" fill="currentColor" stroke="currentColor"/>
                     <path d="M3 6.5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1" stroke="currentColor"/>
-                    
                     <!-- Golden Quill / Feather Pen slanted across the Right Page -->
                     <path d="M12.5 16.5c1.5-3 3.5-5.5 6-7.5s4.5-2.5 4.5-2.5-0.5 2-2.5 4.5c-2 2.5-4.5 4.5-7.5 6" stroke="#b89665" stroke-width="2" fill="none"/>
                     <line x1="12.5" y1="16.5" x2="20.5" y2="6.5" stroke="#ffd700" stroke-width="1"/>
@@ -109,7 +107,7 @@
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="theme-icon-sun" style="display:none;"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="theme-icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
                 </button>
-                <button class="btn-guide btn-video" onclick="openVideoPlayerModal()" style="background: linear-gradient(135deg, #e53935, #c62828); color: #fff; margin-right: 6px; font-weight: 600;" title="Kullanım Videosunu İzle"><i class="fas fa-video"></i> 🎬 Tanıtım Videosunu İzle</button>
+                
                     <button class="btn-guide btn-tour" onclick="startInteractiveTour()" style="background: linear-gradient(135deg, #2e7d32, #1b5e20); color: #fff; margin-right: 6px; font-weight: 600;" title="Canlı Tanıtım ve Kullanım Rehberi"><i class="fas fa-play-circle"></i> 📹 Canlı Tanıtım Turu</button>
                     <button class="btn-guide" onclick="toggleGuideModal()">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
@@ -196,7 +194,6 @@
                         <label for="input-summary" data-i18n="summary">Profesyonel Özet</label>
                         <textarea id="input-summary" rows="5">Detail-oriented Software Engineering student with a strong foundation in database management, data visualization, and web technologies. Experienced in developing full-stack web applications, designing analytical dashboards, and implementing agile practices in team environments. Passionate about leveraging data-driven solutions to solve complex business problems.</textarea>
                     </div>
-                    
                     <!-- Dynamic Profile Photo Upload Group -->
                     <div class="input-grid" style="grid-template-columns: 1fr auto; gap: 12px; align-items: flex-end; margin-top: 14px;">
                         <div class="input-group" style="margin-bottom: 0;">
@@ -256,7 +253,6 @@
                     </div>
 
                     <hr class="editor-divider">
-                    
                     <div class="section-title-editor">
                         <h3 data-i18n="leadership_title">Liderlik ve Gönüllülük</h3>
                         <button class="btn btn-sm btn-secondary" onclick="addLeadership()" data-i18n="add_lead">+ Ekle</button>
@@ -278,7 +274,6 @@
                             </label>
                         </div>
                     </div>
-                    
                     <!-- Display Mode Selection (Details vs Upon Request) -->
                     <div class="input-group" style="margin-bottom: 16px;">
                         <label for="setting-ref-mode" data-i18n="ref_mode">Gösterim Şekli</label>
@@ -320,7 +315,6 @@
                             ↩️ Son Çeviriyi Geri Al
                         </button>
                     </div>
-                    
                     <hr class="editor-divider">
                     <div class="section-title-editor">
                         <h3 data-i18n="layout_settings">Sayfa ve Düzen Ayarları</h3>
@@ -638,7 +632,6 @@
                         <span style="font-size: 18px;">🇹🇷 ➔ 🇬🇧</span>
                         <span data-i18n="btn_trans_en">Tüm CV'yi İngilizceye Çevir (TR ➔ EN)</span>
                     </button>
-                    
                     <button class="btn btn-secondary btn-block" onclick="autoTranslateCV('tr')" style="padding: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px;">
                         <span style="font-size: 18px;">🇬🇧 ➔ 🇹🇷</span>
                         <span data-i18n="btn_trans_tr">Tüm CV'yi Türkçeye Çevir (EN ➔ TR)</span>
@@ -743,7 +736,6 @@
                 <!-- Chapter Timestamps Sidebar -->
                 <div style="background: #1a1a28; border-radius: 12px; padding: 14px; border: 1px solid #2a2a3c; display: flex; flex-direction: column; gap: 8px;">
                     <div style="font-size: 13px; font-weight: 700; color: #cbd5e1; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;">📍 Video Bölümleri</div>
-                    
                     <button onclick="seekVideo(0)" style="text-align: left; background: #252538; border: 1px solid #3b3b54; color: #fff; padding: 8px 10px; border-radius: 6px; font-size: 11px; cursor: pointer;">⏱️ 00:00 | Giriş & Harvard Standartları</button>
                     <button onclick="seekVideo(10)" style="text-align: left; background: #252538; border: 1px solid #3b3b54; color: #fff; padding: 8px 10px; border-radius: 6px; font-size: 11px; cursor: pointer;">⏱️ 00:10 | Kişisel Bilgiler & Canlı Önizleme</button>
                     <button onclick="seekVideo(20)" style="text-align: left; background: #252538; border: 1px solid #3b3b54; color: #fff; padding: 8px 10px; border-radius: 6px; font-size: 11px; cursor: pointer;">⏱️ 00:20 | Dinamik Kartlar & ▲/▼ Sıralama</button>
