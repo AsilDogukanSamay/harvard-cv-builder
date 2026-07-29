@@ -3776,3 +3776,31 @@ function seekVideo(seconds) {
         video.play();
     }
 }
+
+
+
+function openYouTubeShowcase() {
+    const modal = document.getElementById('youtube-showcase-modal');
+    if (modal) {
+        modal.style.display = 'flex';
+        const video = document.getElementById('yt-video-player');
+        if (video) video.play();
+    }
+}
+
+function closeYouTubeShowcase() {
+    const modal = document.getElementById('youtube-showcase-modal');
+    if (modal) {
+        modal.style.display = 'none';
+        const video = document.getElementById('yt-video-player');
+        if (video) video.pause();
+    }
+}
+
+function seekYTVideo(seconds) {
+    const video = document.getElementById('yt-video-player');
+    if (video) {
+        video.currentTime = seconds;
+        video.play();
+    }
+}
