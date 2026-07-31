@@ -1,33 +1,5 @@
 
 
-// FORCE FRESH REFILL IF STALE OR JANE DOE (V4)
-(function forceV4StateRefill() {
-    try {
-        const raw = localStorage.getItem('harvard_cv_state_v3_fresh');
-        if (!raw) {
-            localStorage.setItem('harvard_cv_state_v3_fresh', JSON.stringify(TR_SAMPLE_STATE));
-            return;
-        }
-        const parsed = JSON.parse(raw);
-        if (!parsed.personal || !parsed.personal.name || parsed.personal.name === "Jane Doe" || !parsed.experiences || parsed.experiences.length === 0) {
-            localStorage.setItem('harvard_cv_state_v3_fresh', JSON.stringify(TR_SAMPLE_STATE));
-        }
-    } catch(e) {
-        localStorage.setItem('harvard_cv_state_v3_fresh', JSON.stringify(TR_SAMPLE_STATE));
-    }
-})();
-
-// FORCE FRESH CACHE MIGRATION (V3)
-(function forceFreshCacheMigration() {
-    const FRESH_KEY = 'harvard_cv_state_v3_fresh';
-    const isAlreadyMigrated = localStorage.getItem('v3_fresh_loaded');
-    if (!isAlreadyMigrated) {
-        localStorage.clear();
-        localStorage.setItem('v3_fresh_loaded', 'true');
-    }
-})();
-
-
 // -------------------------------------------------------------
 // USER SESSION & AUTHENTICATION HANDLERS
 // -------------------------------------------------------------
@@ -71,8 +43,55 @@ function closeGuideModal(event) {
 }
 
 
-// Initial CV data state
-let cvState = JSON.parse(JSON.stringify(TR_SAMPLE_STATE));
+// Initial CV data state is assigned after the bundled sample data is declared.
+let cvState;
+
+// CV content can arrive from user input, JSON backups, or imported PDFs. Keep it
+// as text whenever it is inserted into a template so imported content cannot
+// change the editor UI or execute markup.
+function escapeHTML(value) {
+    return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+function validateAndRepairCVState() {
+    const fallback = (cvState?.settings?.uiLang === 'en') ? EN_SAMPLE_STATE : TR_SAMPLE_STATE;
+    if (!cvState || typeof cvState !== 'object' || Array.isArray(cvState)) {
+        cvState = JSON.parse(JSON.stringify(fallback));
+    }
+
+    const objectSections = ['personal', 'skills', 'settings'];
+    objectSections.forEach(section => {
+        if (!cvState[section] || typeof cvState[section] !== 'object' || Array.isArray(cvState[section])) {
+            cvState[section] = JSON.parse(JSON.stringify(fallback[section] || {}));
+        }
+    });
+
+    const arraySections = ['experiences', 'educations', 'leadership', 'certifications', 'references', 'projects'];
+    arraySections.forEach(section => {
+        if (!Array.isArray(cvState[section])) cvState[section] = [];
+    });
+
+    cvState.experiences = cvState.experiences.filter(item => item && typeof item === 'object').map(item => ({
+        company: String(item.company || ''), role: String(item.role || ''), location: String(item.location || ''),
+        dates: String(item.dates || ''), bullets: Array.isArray(item.bullets) ? item.bullets.map(b => String(b || '')) : []
+    }));
+    cvState.educations = cvState.educations.filter(item => item && typeof item === 'object').map(item => ({
+        university: String(item.university || ''), degree: String(item.degree || ''), location: String(item.location || ''),
+        dates: String(item.dates || ''), gpa: String(item.gpa || ''), details: String(item.details || '')
+    }));
+    cvState.leadership = cvState.leadership.filter(item => item && typeof item === 'object').map(item => ({
+        organization: String(item.organization || ''), role: String(item.role || ''), dates: String(item.dates || ''),
+        bullets: Array.isArray(item.bullets) ? item.bullets.map(b => String(b || '')) : []
+    }));
+    cvState.certifications = cvState.certifications.filter(item => item && typeof item === 'object');
+    cvState.references = cvState.references.filter(item => item && typeof item === 'object');
+    cvState.projects = cvState.projects.filter(item => item && typeof item === 'object');
+}
 
 const EN_SAMPLE_STATE = {
     "personal": {
@@ -333,6 +352,16 @@ const TR_SAMPLE_STATE = {
         }
     }
 };
+
+// Restore the user's last draft when possible. Invalid or incomplete saved data
+// is repaired during startup; no global storage is cleared.
+try {
+    const savedState = localStorage.getItem('harvard_cv_state');
+    cvState = savedState ? JSON.parse(savedState) : JSON.parse(JSON.stringify(TR_SAMPLE_STATE));
+} catch (error) {
+    console.warn('Saved CV data could not be restored; using the sample template.', error);
+    cvState = JSON.parse(JSON.stringify(TR_SAMPLE_STATE));
+}
 
 const UI_TRANSLATIONS = {
     tr: {
@@ -1599,13 +1628,14 @@ function renderAll() {
 
 // Helper to format bullets with bold text before colons (Harvard style)
 function formatBulletPoint(bullet) {
-    const colonIndex = bullet.indexOf(':');
+    const safeBullet = escapeHTML(bullet);
+    const colonIndex = safeBullet.indexOf(':');
     if (colonIndex > 0) {
-        const lead = bullet.substring(0, colonIndex + 1);
-        const tail = bullet.substring(colonIndex + 1);
+        const lead = safeBullet.substring(0, colonIndex + 1);
+        const tail = safeBullet.substring(colonIndex + 1);
         return `<strong>${lead}</strong>${tail}`;
     }
-    return bullet;
+    return safeBullet;
 }
 
 // Render CV Document parts
@@ -1771,15 +1801,16 @@ function updateContactVisibility() {
 }
 
 function loadPresetTemplate(val) {
-    const lang = (cvState.settings && cvState.settings.uiLang) ? cvState.settings.uiLang : "tr";
-    if (val === 'tr_standard' || val === 'tr_ats') {
+    if (val === 'tr' || val === 'tr_standard' || val === 'tr_ats') {
         cvState = JSON.parse(JSON.stringify(TR_SAMPLE_STATE));
         if (!cvState.settings) cvState.settings = {};
         cvState.settings.uiLang = 'tr';
-    } else if (val === 'en_standard' || val === 'en_ats') {
+    } else if (val === 'en' || val === 'en_standard' || val === 'en_ats') {
         cvState = JSON.parse(JSON.stringify(EN_SAMPLE_STATE));
         if (!cvState.settings) cvState.settings = {};
         cvState.settings.uiLang = 'en';
+    } else {
+        return;
     }
     saveToLocalStorage();
     applyLanguage();
@@ -1844,10 +1875,10 @@ function renderCVReferences() {
     refs.forEach(r => {
         const div = document.createElement('div');
         div.className = 'reference-item';
-        let text = `<strong>${r.name || ''}</strong>`;
-        if (r.title) text += `<br><span>${r.title}</span>`;
-        if (r.company) text += `<br><span>${r.company}</span>`;
-        if (r.contact) text += `<br><span style="font-size: 11px; color: #666;">${r.contact}</span>`;
+        let text = `<strong>${escapeHTML(r.name)}</strong>`;
+        if (r.title) text += `<br><span>${escapeHTML(r.title)}</span>`;
+        if (r.company) text += `<br><span>${escapeHTML(r.company)}</span>`;
+        if (r.contact) text += `<br><span style="font-size: 11px; color: #666;">${escapeHTML(r.contact)}</span>`;
         div.innerHTML = text;
         container.appendChild(div);
     });
@@ -1877,12 +1908,12 @@ function renderCVExperiences() {
         
         expDiv.innerHTML = `
             <div class="entry-header">
-                <span class="company-name">${exp.company}</span>
-                <span class="entry-location">${exp.location}</span>
+                <span class="company-name">${escapeHTML(exp.company)}</span>
+                <span class="entry-location">${escapeHTML(exp.location)}</span>
             </div>
             <div class="entry-subheader">
-                <span class="entry-role">${exp.role}</span>
-                <span class="entry-date">${exp.dates}</span>
+                <span class="entry-role">${escapeHTML(exp.role)}</span>
+                <span class="entry-date">${escapeHTML(exp.dates)}</span>
             </div>
             ${bulletsHtml}
         `;
@@ -1893,7 +1924,7 @@ function renderCVExperiences() {
 }
 
 
-function renderCVReferences() {
+function renderCVReferencesLegacy() {
     const container = document.getElementById('cv-references-container');
     if (!container) return;
     container.innerHTML = '';
@@ -1914,7 +1945,7 @@ function renderCVReferences() {
         if (r.title) text += `, ${r.title}`;
         if (r.company) text += ` — ${r.company}`;
         if (r.contact) text += ` (${r.contact})`;
-        div.innerHTML = `<div class="entry-subheader"><span class="entry-title">${text}</span></div>`;
+        div.innerHTML = `<div class="entry-subheader"><span class="entry-title">${escapeHTML(text)}</span></div>`;
         container.appendChild(div);
     });
 }
@@ -2763,6 +2794,7 @@ async function _legacy_processPDFImport1_disabled(file) {
         
         const parsedState = parseCVTextToState(extractedText);
         cvState = parsedState;
+        validateAndRepairCVState();
         saveToLocalStorage();
         applyLanguage();
         loadStateIntoUI();
@@ -2795,6 +2827,7 @@ function _legacy_importJSON_disabled(event) {
             const data = JSON.parse(e.target.result);
             if (data && (data.personal || data.experiences)) {
                 cvState = data;
+                validateAndRepairCVState();
                 saveToLocalStorage();
                 applyLanguage();
                 loadStateIntoUI();
@@ -3452,9 +3485,10 @@ function renderEditorProjects() {
 
 function renderCVProjects() {
     const projectsSpan = document.getElementById('cv-projects-list');
-    if (!projectsSpan) return;
+    const section = document.getElementById('sec-projects');
     if (!projectsSpan) return;
     const projects = cvState.projects || [];
+    if (section) section.style.display = projects.length ? 'block' : 'none';
     if (projects.length === 0) {
         projectsSpan.innerHTML = '';
         return;
@@ -3462,7 +3496,7 @@ function renderCVProjects() {
     
     projectsSpan.innerHTML = projects.map(p => `
         <div style="margin-bottom: 6px;">
-            <strong>${p.title || ''}</strong>: ${p.details || ''}
+            <strong>${escapeHTML(p.title)}</strong>: ${escapeHTML(p.details)}
         </div>
     `).join('');
 }
@@ -3508,4 +3542,42 @@ function moveProject(idx, direction) {
     renderCVProjects();
     renderEditorProjects();
     saveToLocalStorage();
+}
+
+
+
+// -------------------------------------------------------------
+// EXPLICIT SAMPLE TEMPLATE LOADERS (TR & EN)
+// -------------------------------------------------------------
+
+function loadTRSample() {
+    const msg = "Türkçe örnek Harvard CV şablonu yüklenecektir. Mevcut verilerinizin üzerine yazılmasını onaylıyor musunuz?";
+    if (confirm(msg)) {
+        cvState = JSON.parse(JSON.stringify(TR_SAMPLE_STATE));
+        if (!cvState.settings) cvState.settings = {};
+        cvState.settings.uiLang = 'tr';
+        saveToLocalStorage();
+        applyLanguage();
+        loadStateIntoUI();
+        renderAll();
+        updateStyles();
+        if (typeof calculateATSScore === 'function') calculateATSScore();
+        alert("🇹🇷 Türkçe Harvard Örnek Şablonu Başarıyla Yüklendi!");
+    }
+}
+
+function loadENSample() {
+    const msg = "English sample Harvard CV template will be loaded. Do you confirm overwriting your current data?";
+    if (confirm(msg)) {
+        cvState = JSON.parse(JSON.stringify(EN_SAMPLE_STATE));
+        if (!cvState.settings) cvState.settings = {};
+        cvState.settings.uiLang = 'en';
+        saveToLocalStorage();
+        applyLanguage();
+        loadStateIntoUI();
+        renderAll();
+        updateStyles();
+        if (typeof calculateATSScore === 'function') calculateATSScore();
+        alert("🇬🇧 English Harvard Sample Template Loaded Successfully!");
+    }
 }

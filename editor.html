@@ -301,6 +301,25 @@
 
                 <!-- Settings & Customization Tab -->
                 <div id="tab-settings" class="tab-pane">
+
+                    <!-- Örnek Hazır Şablonlar -->
+                    <div class="section-card" style="margin-bottom: 20px;">
+                        <div class="section-header">
+                            <h3><i class="fas fa-magic"></i> Hazır Örnek Şablonlar / Sample Templates</h3>
+                        </div>
+                        <p style="font-size: 12px; color: #64748b; margin-bottom: 12px;">
+                            Tek bir tıkla tüm alanları dolu 1. Sınıf Harvard CV şablonlarını yükleyebilirsiniz.
+                        </p>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                            <button class="btn btn-secondary" onclick="loadTRSample()" style="display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 700; padding: 10px; border: 1.5px solid #2563eb; color: #1e40af; background: #eff6ff;">
+                                🇹🇷 Türkçe Örnek Şablon Yükle
+                            </button>
+                            <button class="btn btn-secondary" onclick="loadENSample()" style="display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 700; padding: 10px; border: 1.5px solid #059669; color: #065f46; background: #ecfdf5;">
+                                🇬🇧 Load English Sample Template
+                            </button>
+                        </div>
+                    </div>
+
                     <div class="input-group">
                         <label for="setting-ui-lang" data-i18n="language">Uygulama Dili / Language</label>
                         <select id="setting-ui-lang" onchange="changeUILanguage(this.value)">
@@ -424,8 +443,8 @@
                         <label for="setting-template" data-i18n="load_preset">Hazır Örnek Yükle</label>
                         <select id="setting-template" onchange="loadPresetTemplate(this.value)">
                             <option value="" disabled selected>Bir örnek seçin...</option>
-                            <option value="tr">Türkçe Örnek (MIS Öğrencisi)</option>
-                            <option value="en">English Example (Software Engineering)</option>
+                            <option value="tr_standard">Türkçe Örnek CV (Yazılım ve Veri)</option>
+                            <option value="en_standard">English Sample CV (Software & Data)</option>
                         </select>
                     </div>
 
@@ -548,6 +567,14 @@
                         <section class="cv-section" id="sec-leadership">
                             <h2 class="section-title" data-i18n="cv_title_leadership">LİDERLİK VE GÖNÜLLÜLÜK</h2>
                             <div id="cv-leadership-container">
+                                <!-- Populated dynamically via JS -->
+                            </div>
+                        </section>
+
+                        <!-- Projects Section -->
+                        <section class="cv-section" id="sec-projects">
+                            <h2 class="section-title">PROJELER</h2>
+                            <div id="cv-projects-list">
                                 <!-- Populated dynamically via JS -->
                             </div>
                         </section>
