@@ -61,35 +61,21 @@ function escapeHTML(value) {
 
 
 function validateAndRepairCVState() {
-    const defaultState = (cvState && cvState.settings && cvState.settings.uiLang === 'en') ? EN_SAMPLE_STATE : TR_SAMPLE_STATE;
+    const lang = (cvState && cvState.settings && cvState.settings.uiLang === 'en') ? 'en' : 'tr';
+    const defaultState = (lang === 'en') ? EN_SAMPLE_STATE : TR_SAMPLE_STATE;
     
-    if (!cvState || !cvState.personal || !cvState.personal.name || cvState.personal.name === "Jane Doe") {
+    // Always force refill if state is uninitialized, Jane Doe, or contains fewer than 6 experiences
+    if (!cvState || !cvState.personal || !cvState.personal.name || cvState.personal.name === "Jane Doe" || !cvState.experiences || cvState.experiences.length < 6) {
         cvState = JSON.parse(JSON.stringify(defaultState));
         saveToLocalStorage();
-        return;
     }
     
-    if (!cvState.experiences || cvState.experiences.length < 3) {
-        cvState.experiences = JSON.parse(JSON.stringify(defaultState.experiences));
-    }
-    if (!cvState.educations || cvState.educations.length === 0) {
-        cvState.educations = JSON.parse(JSON.stringify(defaultState.educations));
-    }
-    if (!cvState.leadership && !cvState.leaderships) {
-        cvState.leadership = JSON.parse(JSON.stringify(defaultState.leadership));
-    } else if (cvState.leadership && cvState.leadership.length < 2) {
-        cvState.leadership = JSON.parse(JSON.stringify(defaultState.leadership));
-    }
-    if (!cvState.projects || cvState.projects.length === 0) {
-        cvState.projects = JSON.parse(JSON.stringify(defaultState.projects));
-    }
-    if (!cvState.certifications || cvState.certifications.length === 0) {
-        cvState.certifications = JSON.parse(JSON.stringify(defaultState.certifications));
-    }
-    if (!cvState.references || cvState.references.length === 0) {
-        cvState.references = JSON.parse(JSON.stringify(defaultState.references));
-    }
-    saveToLocalStorage();
+    // Ensure educations, leadership, projects, certs, refs exist
+    if (!cvState.educations || cvState.educations.length === 0) cvState.educations = JSON.parse(JSON.stringify(defaultState.educations));
+    if (!cvState.leadership && !cvState.leaderships) cvState.leadership = JSON.parse(JSON.stringify(defaultState.leadership));
+    if (!cvState.projects || cvState.projects.length === 0) cvState.projects = JSON.parse(JSON.stringify(defaultState.projects));
+    if (!cvState.certifications || cvState.certifications.length === 0) cvState.certifications = JSON.parse(JSON.stringify(defaultState.certifications));
+    if (!cvState.references || cvState.references.length === 0) cvState.references = JSON.parse(JSON.stringify(defaultState.references));
 }
 
 
@@ -3566,7 +3552,16 @@ function moveProject(idx, direction) {
 
 
 
+
+
+
+
+// FORCE INSTANT INITIALIZATION ON SCRIPT LOAD
+initAppImmediately();
+
+
 function loadTRSample() {
+    localStorage.clear();
     cvState = JSON.parse(JSON.stringify(TR_SAMPLE_STATE));
     if (!cvState.settings) cvState.settings = {};
     cvState.settings.uiLang = 'tr';
@@ -3579,6 +3574,7 @@ function loadTRSample() {
 }
 
 function loadENSample() {
+    localStorage.clear();
     cvState = JSON.parse(JSON.stringify(EN_SAMPLE_STATE));
     if (!cvState.settings) cvState.settings = {};
     cvState.settings.uiLang = 'en';
@@ -3589,6 +3585,3 @@ function loadENSample() {
     updateStyles();
     if (typeof calculateATSScore === 'function') calculateATSScore();
 }
-
-// FORCE INSTANT INITIALIZATION ON SCRIPT LOAD
-initAppImmediately();
