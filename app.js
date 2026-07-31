@@ -763,14 +763,21 @@ function changeUILanguage(newLang) {
     if (!cvState.settings) cvState.settings = {};
     cvState.settings.uiLang = newLang;
     
-    // If switching between the two default sample profiles, swap the entire profile content
-    if (newLang === 'en' && cvState.personal && (cvState.personal.name === "Ahmet Yılmaz" || !cvState.personal.name)) {
-        cvState = JSON.parse(JSON.stringify(EN_SAMPLE_STATE));
-    } else if (newLang === 'tr' && cvState.personal && (cvState.personal.name === "Sarah Jenkins" || !cvState.personal.name)) {
-        cvState = JSON.parse(JSON.stringify(TR_SAMPLE_STATE));
-    } else if (typeof autoTranslateCV === 'function') {
-        autoTranslateCV(newLang);
-        return;
+    // Swap full profile content between Turkish (Ahmet Yılmaz) and English (Sarah Jenkins)
+    if (newLang === 'en') {
+        if (!cvState.personal || cvState.personal.name === "Ahmet Yılmaz" || cvState.personal.name === "Jane Doe") {
+            cvState = JSON.parse(JSON.stringify(EN_SAMPLE_STATE));
+        } else if (typeof autoTranslateCV === 'function') {
+            autoTranslateCV('en');
+            return;
+        }
+    } else if (newLang === 'tr') {
+        if (!cvState.personal || cvState.personal.name === "Sarah Jenkins" || cvState.personal.name === "Jane Doe") {
+            cvState = JSON.parse(JSON.stringify(TR_SAMPLE_STATE));
+        } else if (typeof autoTranslateCV === 'function') {
+            autoTranslateCV('tr');
+            return;
+        }
     }
     
     saveToLocalStorage();
@@ -3688,9 +3695,14 @@ async function generateScreenStudioVideo() {
 
 
 
+
+
+
+
+
 function loadTRSample() {
+    localStorage.clear();
     cvState = JSON.parse(JSON.stringify(TR_SAMPLE_STATE));
-    if (!cvState.settings) cvState.settings = {};
     cvState.settings.uiLang = 'tr';
     saveToLocalStorage();
     applyLanguage();
@@ -3701,8 +3713,8 @@ function loadTRSample() {
 }
 
 function loadENSample() {
+    localStorage.clear();
     cvState = JSON.parse(JSON.stringify(EN_SAMPLE_STATE));
-    if (!cvState.settings) cvState.settings = {};
     cvState.settings.uiLang = 'en';
     saveToLocalStorage();
     applyLanguage();
