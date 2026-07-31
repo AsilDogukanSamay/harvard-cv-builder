@@ -1956,40 +1956,38 @@ function renderCVReferences() {
 
 function renderCVExperiences() {
     const container = document.getElementById('cv-experience-container');
+    if (!container) return;
     container.innerHTML = '';
     
-    if (cvState.experiences.length === 0) {
-        document.getElementById('sec-experience').style.display = 'none';
-        return;
-    }
-    document.getElementById('sec-experience').style.display = 'block';
+    const exps = (cvState && cvState.experiences && cvState.experiences.length > 0) ? cvState.experiences : TR_SAMPLE_STATE.experiences;
+    const secExp = document.getElementById('sec-experience');
+    if (secExp) secExp.style.display = exps.length === 0 ? 'none' : 'block';
     
-    cvState.experiences.forEach(exp => {
+    exps.forEach(exp => {
         const expDiv = document.createElement('div');
-        expDiv.className = 'entry-block';
+        expDiv.className = 'cv-item';
+        expDiv.style.marginBottom = '10px';
         
         let bulletsHtml = '';
         if (exp.bullets && exp.bullets.length > 0) {
-            bulletsHtml = `<ul class="entry-bullets">` + 
+            bulletsHtml = `<ul class="cv-bullets">` + 
                 exp.bullets.map(b => `<li>${formatBulletPoint(b)}</li>`).join('') + 
                 `</ul>`;
         }
         
         expDiv.innerHTML = `
-            <div class="entry-header">
-                <span class="company-name">${exp.company}</span>
-                <span class="entry-location">${exp.location}</span>
+            <div class="cv-item-header">
+                <span class="cv-item-title">${exp.company || ''}</span>
+                <span class="cv-item-date">${exp.dates || ''}</span>
             </div>
-            <div class="entry-subheader">
-                <span class="entry-role">${exp.role}</span>
-                <span class="entry-date">${exp.dates}</span>
+            <div class="cv-item-sub">
+                <span class="cv-item-role">${exp.role || ''}</span>
+                <span class="cv-item-location">${exp.location || ''}</span>
             </div>
             ${bulletsHtml}
         `;
         container.appendChild(expDiv);
     });
-    saveToLocalStorage();
-    checkPageFit();
 }
 
 
@@ -2022,96 +2020,77 @@ function renderCVReferences() {
 
 function renderCVEducation() {
     const container = document.getElementById('cv-education-container');
+    if (!container) return;
     container.innerHTML = '';
     
-    if (cvState.educations.length === 0) {
-        document.getElementById('sec-education').style.display = 'none';
-        return;
-    }
-    document.getElementById('sec-education').style.display = 'block';
+    const edus = (cvState && cvState.educations && cvState.educations.length > 0) ? cvState.educations : TR_SAMPLE_STATE.educations;
+    const secEdu = document.getElementById('sec-education');
+    if (secEdu) secEdu.style.display = edus.length === 0 ? 'none' : 'block';
     
-    cvState.educations.forEach(edu => {
-        const eduDiv = document.createElement('div');
-        eduDiv.className = 'entry-block';
-        
-        const lang = (cvState.settings && cvState.settings.uiLang) ? cvState.settings.uiLang : "tr";
-        const gpaLabel = lang === 'tr' ? 'GANO' : 'GPA';
+    const lang = (cvState && cvState.settings && cvState.settings.uiLang) ? cvState.settings.uiLang : "tr";
+    const gpaLabel = lang === 'tr' ? 'GANO' : 'GPA';
+    
+    edus.forEach(edu => {
         let gpaText = "";
         if (edu.gpa && edu.gpa.trim() !== "") {
             const cleanGpa = edu.gpa.trim();
-            if (!edu.degree || !edu.degree.includes(cleanGpa)) {
-                if (cleanGpa.toLowerCase().includes('gano') || cleanGpa.toLowerCase().includes('gpa')) {
-                    gpaText = ` — ${cleanGpa}`;
-                } else {
-                    gpaText = ` — ${gpaLabel}: ${cleanGpa}`;
-                }
+            if (cleanGpa.toLowerCase().includes('gano') || cleanGpa.toLowerCase().includes('gpa')) {
+                gpaText = ` — ${cleanGpa}`;
+            } else {
+                gpaText = ` — ${gpaLabel}: ${cleanGpa}`;
             }
         }
         
-        // Clean degree string if it already contains GANO/GPA duplicate
-        let cleanDegree = edu.degree || "";
-        cleanDegree = cleanDegree.replace(/[-–—]\s*(?:GANO|GPA)\s*:\s*[0-9.]+\s*\/\s*[0-9.]+/gi, "").trim();
-        cleanDegree = cleanDegree.replace(/(?:GANO|GPA)\s*:\s*[0-9.]+\s*\/\s*[0-9.]+/gi, "").trim();
-        
-        let detailsHtml = '';
-        if (edu.details && edu.details.trim()) {
-            detailsHtml = `<div class="entry-description">${edu.details}</div>`;
-        }
-        
+        const eduDiv = document.createElement('div');
+        eduDiv.className = 'cv-item';
+        eduDiv.style.marginBottom = '8px';
         eduDiv.innerHTML = `
-            <div class="entry-header">
-                <div>
-                    <span class="entry-title">${edu.university || ''}</span>
-                </div>
-                <div class="entry-right">${edu.location || ''}</div>
+            <div class="cv-item-header">
+                <span class="cv-item-title">${edu.university || ''}</span>
+                <span class="cv-item-date">${edu.dates || ''}</span>
             </div>
-            <div class="entry-subheader">
-                <span class="entry-degree">${cleanDegree}${gpaText}</span>
-                <span class="entry-date">${edu.dates || ''}</span>
+            <div class="cv-item-sub">
+                <span class="cv-item-role">${edu.degree || ''}${gpaText}</span>
+                <span class="cv-item-location">${edu.location || ''}</span>
             </div>
-            ${detailsHtml}
         `;
-        
         container.appendChild(eduDiv);
     });
 }
 
 function renderCVLeadership() {
     const container = document.getElementById('cv-leadership-container');
+    if (!container) return;
     container.innerHTML = '';
     
-    if (cvState.leaderships.length === 0) {
-        document.getElementById('sec-leadership').style.display = 'none';
-        return;
-    }
-    document.getElementById('sec-leadership').style.display = 'block';
+    const leads = (cvState && cvState.leadership && cvState.leadership.length > 0) ? cvState.leadership : TR_SAMPLE_STATE.leadership;
+    const secLead = document.getElementById('sec-leadership');
+    if (secLead) secLead.style.display = leads.length === 0 ? 'none' : 'block';
     
-    cvState.leaderships.forEach(lead => {
-        const leadDiv = document.createElement('div');
-        leadDiv.className = 'entry-block';
-        
+    leads.forEach(l => {
         let bulletsHtml = '';
-        if (lead.bullets && lead.bullets.length > 0) {
-            bulletsHtml = `<ul class="entry-bullets">` + 
-                lead.bullets.map(b => `<li>${formatBulletPoint(b)}</li>`).join('') + 
+        if (l.bullets && l.bullets.length > 0) {
+            bulletsHtml = `<ul class="cv-bullets">` + 
+                l.bullets.map(b => `<li>${formatBulletPoint(b)}</li>`).join('') + 
                 `</ul>`;
         }
         
+        const leadDiv = document.createElement('div');
+        leadDiv.className = 'cv-item';
+        leadDiv.style.marginBottom = '8px';
         leadDiv.innerHTML = `
-            <div class="entry-header">
-                <span class="company-name">${lead.organization}</span>
-                <span class="entry-date">${lead.dates}</span>
+            <div class="cv-item-header">
+                <span class="cv-item-title">${l.organization || ''}</span>
+                <span class="cv-item-date">${l.dates || ''}</span>
             </div>
-            <div class="entry-subheader" style="margin-bottom: 2px;">
-                <span class="entry-role">${lead.role}</span>
-                <span></span>
+            <div class="cv-item-sub">
+                <span class="cv-item-role">${l.role || ''}</span>
+                <span class="cv-item-location">${l.location || ''}</span>
             </div>
             ${bulletsHtml}
         `;
         container.appendChild(leadDiv);
     });
-    saveToLocalStorage();
-    checkPageFit();
 }
 
 
