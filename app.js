@@ -1,5 +1,4 @@
 
-
 // -------------------------------------------------------------
 // USER SESSION & AUTHENTICATION HANDLERS
 // -------------------------------------------------------------
@@ -15,8 +14,7 @@ function handleLogout() {
         cvState = (lang === 'en') ? JSON.parse(JSON.stringify(EN_SAMPLE_STATE)) : JSON.parse(JSON.stringify(TR_SAMPLE_STATE));
         saveToLocalStorage();
         applyLanguage();
-        validateAndRepairCVState();
-    loadStateIntoUI();
+        loadStateIntoUI();
         renderAll();
         updateStyles();
         alert(lang === 'en' ? "Session ended safely." : "Oturumunuz güvenle kapatıldı.");
@@ -44,229 +42,25 @@ function closeGuideModal(event) {
 }
 
 
-// Initial CV data state is assigned after the bundled sample data is declared.
-let cvState;
-
-// CV content can arrive from user input, JSON backups, or imported PDFs. Keep it
-// as text whenever it is inserted into a template so imported content cannot
-// change the editor UI or execute markup.
-function escapeHTML(value) {
-    return String(value ?? '')
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
-}
-
-
-function validateAndRepairCVState() {
-    const lang = (cvState && cvState.settings && cvState.settings.uiLang === 'en') ? 'en' : 'tr';
-    const defaultState = (lang === 'en') ? EN_SAMPLE_STATE : TR_SAMPLE_STATE;
-    
-    // Always force refill if state is uninitialized, Jane Doe, or contains fewer than 6 experiences
-    if (!cvState || !cvState.personal || !cvState.personal.name || cvState.personal.name === "Jane Doe" || !cvState.experiences || cvState.experiences.length < 6) {
-        cvState = JSON.parse(JSON.stringify(defaultState));
-        saveToLocalStorage();
-    }
-    
-    // Ensure educations, leadership, projects, certs, refs exist
-    if (!cvState.educations || cvState.educations.length === 0) cvState.educations = JSON.parse(JSON.stringify(defaultState.educations));
-    if (!cvState.leadership && !cvState.leaderships) cvState.leadership = JSON.parse(JSON.stringify(defaultState.leadership));
-    if (!cvState.projects || cvState.projects.length === 0) cvState.projects = JSON.parse(JSON.stringify(defaultState.projects));
-    if (!cvState.certifications || cvState.certifications.length === 0) cvState.certifications = JSON.parse(JSON.stringify(defaultState.certifications));
-    if (!cvState.references || cvState.references.length === 0) cvState.references = JSON.parse(JSON.stringify(defaultState.references));
-}
-
-
-const EN_SAMPLE_STATE = {
+// Initial CV data state
+let cvState = {
     "personal": {
-        "name": "Alex Morgan",
-        "title": "Management Information Systems Specialist",
-        "email": "alex.morgan@example.com",
-        "phone": "+1 (555) 234-5678",
-        "location": "Boston, MA, USA | TRNC",
-        "github": "github.com/alexmorgan-dev",
-        "linkedin": "linkedin.com/in/alexmorgan-dev",
-        "website": "alexmorgan.dev",
-        "summary": "Management Information Systems (MIS) specialist with experience in ensuring coordination between technical engineering teams and corporate business operations, focusing on data analytics, process automation, and software development. Proficient in building scalable data pipelines, automating complex workflows, and designing REST API integrations. Aims to create technology-focused value in international and large corporate structures."
-    },
-    "experiences": [
-        {
-            "company": "MEDİBULUT",
-            "role": "Product Management and CRM Intern",
-            "dates": "September 2025 - June 2026",
-            "location": "Boston, MA, USA",
-            "bullets": [
-                "Managed integration of workflow processes by coordinating communication between software development, sales, and operations teams.",
-                "Designed and developed an integrated platform based on Python and SQL for instant location and performance tracking of field sales teams; managed data architecture and UI phases.",
-                "Architected HubSpot and Slack connections with n8n integration tool; By fully automating lead tracking and customer feedback processes, improved response times by 35%.",
-                "Prepared strategic reports on sales trends and user behavior by analyzing large-scale customer data through CRM systems."
-            ]
-        },
-        {
-            "company": "SOFTTECH",
-            "role": "Business Analyst Intern",
-            "dates": "August 2025 - September 2025",
-            "location": "Cambridge, MA, USA",
-            "bullets": [
-                "Provided support to Agile/Scrum operations and interdisciplinary team coordination by carrying out sprint tracking, metric analysis, and daily data reporting processes."
-            ]
-        },
-        {
-            "company": "KOÇTAŞ",
-            "role": "Intern (S.T.E.P. Program)",
-            "dates": "July 2025 - August 2025",
-            "location": "Boston, MA, USA",
-            "bullets": [
-                "Won First Place Award with 'Youth Innovation' department development project in nationwide competition among participants across the country.",
-                "Conducted operational efficiency analyses by managing product placement, stock tracking, and price control processes; reduced inventory audit deviations by 20%."
-            ]
-        },
-        {
-            "company": "LOCOMAR",
-            "role": "Business Development Assistant",
-            "dates": "April 2025 - June 2025",
-            "location": "New York, NY, USA",
-            "bullets": [
-                "Analyzed B2B marketing processes; enabled development of new customer acquisition strategies through market analysis and competitor research."
-            ]
-        },
-        {
-            "company": "VITRIOL",
-            "role": "Cybersecurity Intern",
-            "dates": "September 2023 - June 2024",
-            "location": "Boston, MA, USA",
-            "bullets": [
-                "Provided technical support to cybersecurity projects by taking part in IT infrastructure and data analysis processes; reported system analysis and security procedures."
-            ]
-        },
-        {
-            "company": "DENİZBANK",
-            "role": "Intern",
-            "dates": "March 2023 - June 2023",
-            "location": "Boston, MA, USA",
-            "bullets": [
-                "Won First Place Award among 100+ candidates with high performance within the scope of internship program.",
-                "Published analytical financial research article prepared as corporate content and disseminated it on the bank's official digital channels.",
-                "Presented corporate operational efficiency reports by experiencing financial processes and banking workflows in 4 different departments."
-            ]
-        }
-    ],
-    "educations": [
-        {
-            "university": "HARVARD UNIVERSITY",
-            "degree": "Bachelor's Degree, Management Information Systems (MIS)",
-            "dates": "September 2022 - May 2026",
-            "location": "Cambridge, MA, USA",
-            "gpa": "3.85 / 4.00"
-        }
-    ],
-    "leadership": [
-        {
-            "organization": "ARTIFICIAL INTELLIGENCE AND TECHNOLOGY ACADEMY",
-            "role": "Data Science Program Scholar",
-            "dates": "December 2025 - Present",
-            "location": "Boston, MA, USA",
-            "bullets": [
-                "Selected as one of 1,500 scholars accepted with outstanding success among 31,700 applications from across the nation (top 4.7% acceptance rate).",
-                "Completed 100+ hours of intensive data science, data processing, and artificial intelligence training program organized in partnership with Google and Tech Center."
-            ]
-        },
-        {
-            "organization": "UNIVERSITY CLUBS",
-            "role": "Club President | Executive Board Member",
-            "dates": "2022 - 2023",
-            "location": "Cambridge, MA, USA",
-            "bullets": [
-                "As President of Cybersecurity & MIS Club, reached over 300 students; organized technical workshops and cybersecurity awareness trainings.",
-                "As Career Club Executive Board Member, coordinated student career development events and industry panel sessions."
-            ]
-        },
-        {
-            "organization": "Habitat Association & Netflix",
-            "role": "Volunteer Trainer",
-            "dates": "2025 - Present",
-            "location": "USA",
-            "bullets": [
-                "Provided digital safety education to 500+ children within 'Once Upon a Time, in Screen Time!' project.",
-                "Designed training methodology on digital security, access to accurate information, and cyberbullying awareness for early age group."
-            ]
-        }
-    ],
-    "skills": {
-        "technical": "SQL, Python, JavaScript, React.js, Node.js, HTML/CSS, REST API, Streamlit, Tableau, Power BI, Excel, Data Analysis & Visualization, Agile/Scrum",
-        "tools": "Git, GitHub, n8n Automation, Jira, VS Code, Chrome DevTools, MSSQL Server, Active Directory, Figma, Vite, MS Office",
-        "langs": "English (Native Language), Spanish (Advanced / B2), German (Beginner / A1)",
-        "frameworks": "Express.js, Django, REST APIs, Microservices"
-    },
-    "certifications": [
-        {
-            "name": "Google Data Analytics Professional Certificate",
-            "issuer": "Google",
-            "year": "2026"
-        },
-        {
-            "name": "Basic Level ERP Training Certificate of Achievement",
-            "issuer": "University & Mikro Software",
-            "year": "2025"
-        },
-        {
-            "name": "15th, 16th and 17th Information Technologies Summit Certificates",
-            "issuer": "ITU Management Engineering Club",
-            "year": "2022-2024"
-        },
-        {
-            "name": "Python Programming",
-            "issuer": "Turkcell Gelecegi Yazanlar",
-            "year": "2023"
-        },
-        {
-            "name": "Is Bankasi ProSchool IT Class",
-            "issuer": "Is Bankasi",
-            "year": "2023"
-        },
-        {
-            "name": "Artificial Intelligence Camp",
-            "issuer": "Google Cloud",
-            "year": "2023"
-        }
-    ],
-    "projects": [],
-    "references": [],
-    "settings": {
-        "uiLang": "en",
-        "showPhoto": false,
-        "autoFitOnePage": true,
-        "contactVisibility": {
-            "toggle-email": true,
-            "toggle-phone": true,
-            "toggle-location": true,
-            "toggle-github": true,
-            "toggle-linkedin": true,
-            "toggle-website": true
-        }
-    }
-};
-
-const TR_SAMPLE_STATE = {
-    "personal": {
-        "name": "Ahmet Yılmaz",
+        "name": "Asil Doğukan Samay",
         "title": "Yönetim Bilişim Sistemleri Uzmanı",
-        "email": "ahmet.yilmaz@example.com",
+        "email": "dogukan__sam_ay@hotmail.com",
         "phone": "+90 544 331 76 20",
-        "location": "İstanbul / Çanakkale, Türkiye | KKTC",
-        "github": "github.com/ahmetyilmaz-dev",
-        "linkedin": "linkedin.com/in/ahmetyilmaz-dev",
-        "website": "ahmetyilmaz.dev",
+        "location": "Çanakkale, Türkiye",
+        "github": "github.com/AsilDogukan-Samay",
+        "linkedin": "linkedin.com/in/asil-dogukan-samay",
+        "website": "asildogukansamay.github.io",
         "summary": "Veri analitiği, süreç otomasyonu ve yazılım geliştirme konularına odaklanan, teknik mühendislik ekipleri ile kurumsal iş operasyonları arasındaki koordinasyonu sağlama konusunda deneyim sahibi Yönetim Bilişim Sistemleri (MIS) uzmanı. Ölçeklenebilir veri hatları kurgulama, karmaşık iş akışlarını otomatize etme ve REST API entegrasyonları tasarlama konularında yetkin. Uluslararası ve büyük kurumsal yapılarda teknoloji odaklı değer yaratmayı hedeflemektedir."
     },
     "experiences": [
         {
             "company": "MEDİBULUT",
             "role": "Ürün Yönetimi ve CRM Stajyeri",
-            "dates": "Eylül 2025 - Haziran 2026",
             "location": "Çanakkale, Türkiye",
+            "dates": "Eylül 2025 - Haziran 2026",
             "bullets": [
                 "Yazılım geliştirme, satış ve operasyon ekipleri arasındaki iletişimi koordine ederek iş akış süreçlerinin entegrasyonunu yönetti.",
                 "Saha satış ekiplerinin anlık konum ve performans takibi için Python ve SQL tabanlı entegre platform tasarlayıp geliştirdi; tüm veri mimarisi ve UI aşamalarını yönetti.",
@@ -277,8 +71,8 @@ const TR_SAMPLE_STATE = {
         {
             "company": "SOFTTECH",
             "role": "Stajyer İş Analisti",
-            "dates": "Ağustos 2025 - Eylül 2025",
             "location": "İstanbul, Türkiye",
+            "dates": "Ağustos 2025 - Eylül 2025",
             "bullets": [
                 "Sprint takibi, metrik analizi ve günlük veri raporlama süreçlerini yürüterek Agile/Scrum operasyonlarına ve disiplinlerarası ekip içi koordinasyona destek sağladı."
             ]
@@ -286,8 +80,8 @@ const TR_SAMPLE_STATE = {
         {
             "company": "KOÇTAŞ",
             "role": "Stajyer (S.T.E.P. Programı)",
-            "dates": "Temmuz 2025 - Ağustos 2025",
             "location": "Çanakkale, Türkiye",
+            "dates": "Temmuz 2025 - Ağustos 2025",
             "bullets": [
                 "Türkiye genelindeki katılımcılar arasında düzenlenen proje yarışmasında 'Koçtaş Kids' departman geliştirme projesiyle Birincilik Ödülü kazandı.",
                 "Ürün yerleşimi, stok takibi ve fiyat kontrolü süreçlerini yöneterek operasyonel verimlilik analizleri gerçekleştirdi; stok denetim sapmalarını %20 azalttı."
@@ -296,8 +90,8 @@ const TR_SAMPLE_STATE = {
         {
             "company": "LOCOMAR",
             "role": "İş Geliştirme Asistanı",
-            "dates": "Nisan 2025 - Haziran 2025",
             "location": "İzmir, Türkiye",
+            "dates": "Nisan 2025 - Haziran 2025",
             "bullets": [
                 "B2B pazarlama süreçlerini analiz ederek; pazar analizi ve rakip araştırmalarıyla yeni müşteri kazanım stratejilerinin geliştirilmesini sağladı."
             ]
@@ -305,8 +99,8 @@ const TR_SAMPLE_STATE = {
         {
             "company": "VITRIOL",
             "role": "Siber Güvenlik Stajyeri",
-            "dates": "Eylül 2023 - Haziran 2024",
             "location": "İstanbul, Türkiye",
+            "dates": "Eylül 2023 - Haziran 2024",
             "bullets": [
                 "BT altyapısı ve veri analizi süreçlerinde görev alarak siber güvenlik projelerine teknik destek sağladı; sistem analiz ve güvenlik prosedürlerini raporladı."
             ]
@@ -314,8 +108,8 @@ const TR_SAMPLE_STATE = {
         {
             "company": "DENİZBANK",
             "role": "Stajyer",
-            "dates": "Mart 2023 - Haziran 2023",
             "location": "İstanbul, Türkiye",
+            "dates": "Mart 2023 - Haziran 2023",
             "bullets": [
                 "Staj programı kapsamında gösterdiği yüksek performansla 100'den fazla aday arasından Birincilik Ödülü kazandı.",
                 "Hazırladığı analitik finansal araştırma makalesini kurumsal içerik olarak yayımlayarak bankanın resmi dijital kanallarında yaygınlaştırdı.",
@@ -327,17 +121,17 @@ const TR_SAMPLE_STATE = {
         {
             "university": "İSTANBUL GEDİK ÜNİVERSİTESİ",
             "degree": "Lisans, Yönetim Bilişim Sistemleri (MIS)",
-            "dates": "Eylül 2022 - Mayıs 2026",
             "location": "İstanbul, Türkiye",
-            "gpa": "3.15 / 4.00"
+            "dates": "Eylül 2022 - Mayıs 2026",
+            "gpa": "3.15 / 4.00",
+            "details": ""
         }
     ],
-    "leadership": [
+    "leaderships": [
         {
             "organization": "YAPAY ZEKA VE TEKNOLOJİ AKADEMİSİ",
             "role": "Veri Bilimi Programı Bursiyeri",
             "dates": "Aralık 2025 - Devam Ediyor",
-            "location": "Türkiye",
             "bullets": [
                 "Türkiye genelinden gelen 31.700 başvuru arasından üstün başarı göstererek kabul alan 1.500 bursiyerden biri (%4,7'lik başarı dilimi) olarak seçildi.",
                 "Google Türkiye, GİRVAK ve T3 Girişim Merkezi ortaklığında düzenlenen 100 saatten fazla yoğun veri bilimi, veri işleme ve yapay zeka eğitim programını tamamladı."
@@ -347,7 +141,6 @@ const TR_SAMPLE_STATE = {
             "organization": "İSTANBUL GEDİK ÜNİVERSİTESİ KULÜPLERİ",
             "role": "Kulüp Başkanı | Yönetim Kurulu Üyesi",
             "dates": "2022 - 2023",
-            "location": "İstanbul",
             "bullets": [
                 "Siber Güvenlik & MIS Kulübü Başkanı olarak 300'den fazla öğrenciye ulaştı; teknik workshoplar ve siber güvenlik farkındalık eğitimleri organize etti.",
                 "Kariyer Kulübü Yönetim Kurulu Üyesi olarak öğrenci kariyer gelişim etkinliklerini ve sektör panellerini koordine etti."
@@ -356,8 +149,7 @@ const TR_SAMPLE_STATE = {
         {
             "organization": "Habitat Derneği & Netflix",
             "role": "Gönüllü Eğitmen",
-            "dates": "2025 - Devam Ediyor",
-            "location": "Türkiye",
+            "dates": "2022 - 2023",
             "bullets": [
                 "Çocukların dijital dünyada güvenli adımlar atmasını sağlamak amacıyla 'Evvel Zaman İçinde Ekran Zamanında!' projesinde 500'den fazla çocuğa eğitim sundu.",
                 "Erken yaş grubuna yönelik dijital güvenlik, doğru bilgiye erişim ve siber zorbalık farkındalığı eğitim metodolojisi kurguladı."
@@ -367,8 +159,7 @@ const TR_SAMPLE_STATE = {
     "skills": {
         "technical": "SQL, Python, JavaScript, React.js, Node.js, HTML/CSS, REST API, Streamlit, Tableau, Power BI, Excel, Veri Analizi ve Görselleştirme, Agile/Scrum",
         "tools": "Git, GitHub, n8n Otomasyon, Jira, VS Code, Chrome DevTools, MSSQL Server, Active Directory, Figma, Vite, MS Office",
-        "langs": "Türkçe (Anadil), İngilizce (İleri Düzey / B2), Almanca (Başlangıç / A1)",
-        "frameworks": "Express.js, Django, REST APIs, Microservices"
+        "langs": "Türkçe (Anadil), İngilizce (İleri Düzey / B2), Almanca (Başlangıç / A1)"
     },
     "certifications": [
         {
@@ -377,18 +168,177 @@ const TR_SAMPLE_STATE = {
             "year": "2026"
         },
         {
+            "name": "YGA Zirvesi Katılım Sertifikası",
+            "issuer": "YGA",
+            "year": "2022"
+        },
+        {
             "name": "Temel Düzey Mikro ERP Eğitimi Başarı Belgesi",
             "issuer": "İstanbul Gedik Üniversitesi & Mikro Yazılım",
             "year": "2025"
         },
         {
+            "name": "24. Yönetim Bilimleri Kongresi",
+            "issuer": "İTÜ İşletme Mühendisliği Kulübü",
+            "year": "2023"
+        },
+        {
             "name": "15, 16 ve 17. Bilişim Teknolojileri Zirvesi Katılım Sertifikaları",
             "issuer": "İTÜ İşletme Mühendisliği Kulübü",
             "year": "2022-2024"
+        }
+    ],
+    "references": [],
+    "settings": {
+        "font": "font-garamond",
+        "size": "size-medium",
+        "spacing": "spacing-normal",
+        "margin": "margin-normal",
+        "alignment": "align-justify",
+        "accent": "accent-black",
+        "headings": "headings-line",
+        "refMode": "request",
+        "uiLang": "tr"
+    }
+};
+
+const EN_SAMPLE_STATE = {
+    "personal": {
+        "name": "Asil Doğukan Samay",
+        "title": "Management Information Systems Specialist",
+        "email": "dogukan__sam_ay@hotmail.com",
+        "phone": "+90 544 331 76 20",
+        "location": "Istanbul / Canakkale / Cyprus, Turkey",
+        "github": "github.com/AsilDogukan-Samay",
+        "linkedin": "linkedin.com/in/asil-dogukan-samay",
+        "website": "asildogukansamay.github.io",
+        "summary": "Management Information Systems (MIS) specialist with experience in ensuring coordination between technical engineering teams and corporate business operations, focusing on data analytics, process automation, and software development. Proficient in building scalable data pipelines, automating complex workflows, and designing REST API integrations. Aims to create technology-focused value in international and large corporate structures."
+    },
+    "experiences": [
+        {
+            "company": "MEDİBULUT",
+            "role": "Product Management and CRM Intern",
+            "location": "Canakkale, Turkey",
+            "dates": "September 2025 - June 2026",
+            "bullets": [
+                "Managed integration of workflow processes by coordinating communication between software development, sales, and operations teams.",
+                "Designed and developed an integrated platform based on Python and SQL for instant location and performance tracking of field sales teams; managed data architecture and UI phases.",
+                "Architected HubSpot and Slack connections with n8n integration tool; By fully automating lead tracking and customer feedback processes, improved response times by 35%.",
+                "Prepared strategic reports on sales trends and user behavior by analyzing large-scale customer data through CRM systems."
+            ]
         },
         {
-            "name": "Python Programlama",
-            "issuer": "Turkcell Geleceği Yazanlar",
+            "company": "SOFTTECH",
+            "role": "Business Analyst Intern",
+            "location": "Istanbul, Turkey",
+            "dates": "August 2025 - September 2025",
+            "bullets": [
+                "Provided support to Agile/Scrum operations and interdisciplinary team coordination by carrying out sprint tracking, metric analysis, and daily data reporting processes."
+            ]
+        },
+        {
+            "company": "KOÇTAŞ",
+            "role": "Intern (S.T.E.P. Program)",
+            "location": "Canakkale, Turkey",
+            "dates": "July 2025 - August 2025",
+            "bullets": [
+                "Won First Place Award with 'Koçtaş Kids' department development project in nationwide competition among participants across Turkey.",
+                "Conducted operational efficiency analyses by managing product placement, stock tracking, and price control processes; reduced inventory audit deviations by 20%."
+            ]
+        },
+        {
+            "company": "LOCOMAR",
+            "role": "Business Development Assistant",
+            "location": "Izmir, Turkey",
+            "dates": "April 2025 - June 2025",
+            "bullets": [
+                "Analyzed B2B marketing processes; enabled development of new customer acquisition strategies through market analysis and competitor research."
+            ]
+        },
+        {
+            "company": "VITRIOL",
+            "role": "Cybersecurity Intern",
+            "location": "Istanbul, Turkey",
+            "dates": "September 2023 - June 2024",
+            "bullets": [
+                "Provided technical support to cybersecurity projects by taking part in IT infrastructure and data analysis processes; reported system analysis and security procedures."
+            ]
+        },
+        {
+            "company": "DENİZBANK",
+            "role": "Intern",
+            "location": "Istanbul, Turkey",
+            "dates": "March 2023 - June 2023",
+            "bullets": [
+                "Won First Place Award among 100+ candidates with high performance within the scope of internship program.",
+                "Published analytical financial research article prepared as corporate content and disseminated it on the bank's official digital channels.",
+                "Presented corporate operational efficiency reports by experiencing financial processes and banking workflows in 4 different departments."
+            ]
+        }
+    ],
+    "educations": [
+        {
+            "university": "ISTANBUL GEDIK UNIVERSITY",
+            "degree": "Bachelor's Degree, Management Information Systems (MIS)",
+            "location": "Istanbul, Turkey",
+            "dates": "September 2022 - May 2026",
+            "gpa": "3.15 / 4.00",
+            "details": ""
+        }
+    ],
+    "leaderships": [
+        {
+            "organization": "ARTIFICIAL INTELLIGENCE AND TECHNOLOGY ACADEMY",
+            "role": "Data Science Program Scholar",
+            "dates": "December 2025 - Present",
+            "bullets": [
+                "Selected as one of 1,500 scholars accepted with outstanding success among 31,700 applications from across Turkey (top 4.7% acceptance rate).",
+                "Completed 100+ hours of intensive data science, data processing, and artificial intelligence training program organized in partnership with Google Turkey, GİRVAK, and T3 Enterprise Center."
+            ]
+        },
+        {
+            "organization": "ISTANBUL GEDIK UNIVERSITY CLUBS",
+            "role": "Club President | Executive Board Member",
+            "dates": "2022 - 2023",
+            "bullets": [
+                "As President of Cybersecurity & MIS Club, reached over 300 students; organized technical workshops and cybersecurity awareness trainings.",
+                "As Career Club Executive Board Member, coordinated student career development events and industry panel sessions."
+            ]
+        },
+        {
+            "organization": "Habitat Association & Netflix",
+            "role": "Volunteer Trainer",
+            "dates": "2025 - ",
+            "bullets": [
+                "Provided digital safety education to 500+ children within 'Once Upon a Time, in Screen Time!' project.",
+                "Designed training methodology on digital security, access to accurate information, and cyberbullying awareness for early age group."
+            ]
+        }
+    ],
+    "skills": {
+        "technical": "SQL, Python, JavaScript, React.js, Node.js, HTML/CSS, REST API, Streamlit, Tableau, Power BI, Excel, Data Analysis & Visualization, Agile/Scrum",
+        "tools": "Git, GitHub, n8n Automation, Jira, VS Code, Chrome DevTools, MSSQL Server, Active Directory, Figma, Vite, MS Office",
+        "langs": "Turkish (Native Language), English (Advanced / B2), German (Beginner / A1)"
+    },
+    "certifications": [
+        {
+            "name": "Google Data Analytics Professional Certificate",
+            "issuer": "Google",
+            "year": "2026"
+        },
+        {
+            "name": "Basic Level Mikro ERP Training Certificate of Achievement",
+            "issuer": "Istanbul Gedik University & Mikro Software",
+            "year": "2025"
+        },
+        {
+            "name": "15th, 16th and 17th Information Technologies Summit Participation Certificates",
+            "issuer": "ITU Management Engineering Club",
+            "year": "2022-2024"
+        },
+        {
+            "name": "Python Programming",
+            "issuer": "Turkcell Gelecegi Yazanlar",
             "year": "2023"
         },
         {
@@ -397,37 +347,183 @@ const TR_SAMPLE_STATE = {
             "year": "2023"
         },
         {
-            "name": "Yapay Zeka Kampı",
+            "name": "Artificial Intelligence Camp",
             "issuer": "Google Cloud",
             "year": "2023"
         }
     ],
-    "projects": [],
     "references": [],
     "settings": {
-        "uiLang": "tr",
-        "showPhoto": false,
-        "autoFitOnePage": true,
-        "contactVisibility": {
-            "toggle-email": true,
-            "toggle-phone": true,
-            "toggle-location": true,
-            "toggle-github": true,
-            "toggle-linkedin": true,
-            "toggle-website": true
-        }
+        "font": "font-garamond",
+        "size": "size-medium",
+        "spacing": "spacing-normal",
+        "margin": "margin-normal",
+        "alignment": "align-justify",
+        "accent": "accent-black",
+        "headings": "headings-line",
+        "refMode": "request",
+        "uiLang": "en"
     }
 };
 
-// Restore the user's last draft when possible. Invalid or incomplete saved data
-// is repaired during startup; no global storage is cleared.
-try {
-    const savedState = localStorage.getItem('harvard_cv_state');
-    cvState = savedState ? JSON.parse(savedState) : JSON.parse(JSON.stringify(TR_SAMPLE_STATE));
-} catch (error) {
-    console.warn('Saved CV data could not be restored; using the sample template.', error);
-    cvState = JSON.parse(JSON.stringify(TR_SAMPLE_STATE));
-}
+const TR_SAMPLE_STATE = {
+    "personal": {
+        "name": "Asil Doğukan Samay",
+        "title": "Yönetim Bilişim Sistemleri Uzmanı",
+        "email": "dogukan__sam_ay@hotmail.com",
+        "phone": "+90 544 331 76 20",
+        "location": "Çanakkale, Türkiye",
+        "github": "github.com/AsilDogukan-Samay",
+        "linkedin": "linkedin.com/in/asil-dogukan-samay",
+        "website": "asildogukansamay.github.io",
+        "summary": "Veri analitiği, süreç otomasyonu ve yazılım geliştirme konularına odaklanan, teknik mühendislik ekipleri ile kurumsal iş operasyonları arasındaki koordinasyonu sağlama konusunda deneyim sahibi Yönetim Bilişim Sistemleri (MIS) uzmanı. Ölçeklenebilir veri hatları kurgulama, karmaşık iş akışlarını otomatize etme ve REST API entegrasyonları tasarlama konularında yetkin. Uluslararası ve büyük kurumsal yapılarda teknoloji odaklı değer yaratmayı hedeflemektedir."
+    },
+    "experiences": [
+        {
+            "company": "MEDİBULUT",
+            "role": "Ürün Yönetimi ve CRM Stajyeri",
+            "location": "Çanakkale, Türkiye",
+            "dates": "Eylül 2025 - Haziran 2026",
+            "bullets": [
+                "Yazılım geliştirme, satış ve operasyon ekipleri arasındaki iletişimi koordine ederek iş akış süreçlerinin entegrasyonunu yönetti.",
+                "Saha satış ekiplerinin anlık konum ve performans takibi için Python ve SQL tabanlı entegre platform tasarlayıp geliştirdi; tüm veri mimarisi ve UI aşamalarını yönetti.",
+                "n8n entegrasyon aracı ile HubSpot ve Slack bağlantılarını kurguladı; lead takip ve müşteri geri bildirim süreçlerini tam otomatize hale getirerek yanıt sürelerini %35 iyileştirdi.",
+                "CRM sistemleri üzerinden geniş ölçekli müşteri verilerini analiz ederek satış trendleri ve kullanıcı davranışlarına yönelik stratejik raporlar hazırladı."
+            ]
+        },
+        {
+            "company": "SOFTTECH",
+            "role": "Stajyer İş Analisti",
+            "location": "İstanbul, Türkiye",
+            "dates": "Ağustos 2025 - Eylül 2025",
+            "bullets": [
+                "Sprint takibi, metrik analizi ve günlük veri raporlama süreçlerini yürüterek Agile/Scrum operasyonlarına ve disiplinlerarası ekip içi koordinasyona destek sağladı."
+            ]
+        },
+        {
+            "company": "KOÇTAŞ",
+            "role": "Stajyer (S.T.E.P. Programı)",
+            "location": "Çanakkale, Türkiye",
+            "dates": "Temmuz 2025 - Ağustos 2025",
+            "bullets": [
+                "Türkiye genelindeki katılımcılar arasında düzenlenen proje yarışmasında 'Koçtaş Kids' departman geliştirme projesiyle Birincilik Ödülü kazandı.",
+                "Ürün yerleşimi, stok takibi ve fiyat kontrolü süreçlerini yöneterek operasyonel verimlilik analizleri gerçekleştirdi; stok denetim sapmalarını %20 azalttı."
+            ]
+        },
+        {
+            "company": "LOCOMAR",
+            "role": "İş Geliştirme Asistanı",
+            "location": "İzmir, Türkiye",
+            "dates": "Nisan 2025 - Haziran 2025",
+            "bullets": [
+                "B2B pazarlama süreçlerini analiz ederek; pazar analizi ve rakip araştırmalarıyla yeni müşteri kazanım stratejilerinin geliştirilmesini sağladı."
+            ]
+        },
+        {
+            "company": "VITRIOL",
+            "role": "Siber Güvenlik Stajyeri",
+            "location": "İstanbul, Türkiye",
+            "dates": "Eylül 2023 - Haziran 2024",
+            "bullets": [
+                "BT altyapısı ve veri analizi süreçlerinde görev alarak siber güvenlik projelerine teknik destek sağladı; sistem analiz ve güvenlik prosedürlerini raporladı."
+            ]
+        },
+        {
+            "company": "DENİZBANK",
+            "role": "Stajyer",
+            "location": "İstanbul, Türkiye",
+            "dates": "Mart 2023 - Haziran 2023",
+            "bullets": [
+                "Staj programı kapsamında gösterdiği yüksek performansla 100'den fazla aday arasından Birincilik Ödülü kazandı.",
+                "Hazırladığı analitik finansal araştırma makalesini kurumsal içerik olarak yayımlayarak bankanın resmi dijital kanallarında yaygınlaştırdı.",
+                "Finansal süreçleri ve bankacılık iş akışlarını 4 farklı departmanda deneyimleyerek kurumsal operasyonel verimlilik raporları sundu."
+            ]
+        }
+    ],
+    "educations": [
+        {
+            "university": "İSTANBUL GEDİK ÜNİVERSİTESİ",
+            "degree": "Lisans, Yönetim Bilişim Sistemleri (MIS)",
+            "location": "İstanbul, Türkiye",
+            "dates": "Eylül 2022 - Mayıs 2026",
+            "gpa": "3.15 / 4.00",
+            "details": ""
+        }
+    ],
+    "leaderships": [
+        {
+            "organization": "YAPAY ZEKA VE TEKNOLOJİ AKADEMİSİ",
+            "role": "Veri Bilimi Programı Bursiyeri",
+            "dates": "Aralık 2025 - Devam Ediyor",
+            "bullets": [
+                "Türkiye genelinden gelen 31.700 başvuru arasından üstün başarı göstererek kabul alan 1.500 bursiyerden biri (%4,7'lik başarı dilimi) olarak seçildi.",
+                "Google Türkiye, GİRVAK ve T3 Girişim Merkezi ortaklığında düzenlenen 100 saatten fazla yoğun veri bilimi, veri işleme ve yapay zeka eğitim programını tamamladı."
+            ]
+        },
+        {
+            "organization": "İSTANBUL GEDİK ÜNİVERSİTESİ KULÜPLERİ",
+            "role": "Kulüp Başkanı | Yönetim Kurulu Üyesi",
+            "dates": "2022 - 2023",
+            "bullets": [
+                "Siber Güvenlik & MIS Kulübü Başkanı olarak 300'den fazla öğrenciye ulaştı; teknik workshoplar ve siber güvenlik farkındalık eğitimleri organize etti.",
+                "Kariyer Kulübü Yönetim Kurulu Üyesi olarak öğrenci kariyer gelişim etkinliklerini ve sektör panellerini koordine etti."
+            ]
+        },
+        {
+            "organization": "Habitat Derneği & Netflix",
+            "role": "Gönüllü Eğitmen",
+            "dates": "2022 - 2023",
+            "bullets": [
+                "Çocukların dijital dünyada güvenli adımlar atmasını sağlamak amacıyla 'Evvel Zaman İçinde Ekran Zamanında!' projesinde 500'den fazla çocuğa eğitim sundu.",
+                "Erken yaş grubuna yönelik dijital güvenlik, doğru bilgiye erişim ve siber zorbalık farkındalığı eğitim metodolojisi kurguladı."
+            ]
+        }
+    ],
+    "skills": {
+        "technical": "SQL, Python, JavaScript, React.js, Node.js, HTML/CSS, REST API, Streamlit, Tableau, Power BI, Excel, Veri Analizi ve Görselleştirme, Agile/Scrum",
+        "tools": "Git, GitHub, n8n Otomasyon, Jira, VS Code, Chrome DevTools, MSSQL Server, Active Directory, Figma, Vite, MS Office",
+        "langs": "Türkçe (Anadil), İngilizce (İleri Düzey / B2), Almanca (Başlangıç / A1)"
+    },
+    "certifications": [
+        {
+            "name": "Google Data Analytics Professional Certificate",
+            "issuer": "Google",
+            "year": "2026"
+        },
+        {
+            "name": "YGA Zirvesi Katılım Sertifikası",
+            "issuer": "YGA",
+            "year": "2022"
+        },
+        {
+            "name": "Temel Düzey Mikro ERP Eğitimi Başarı Belgesi",
+            "issuer": "İstanbul Gedik Üniversitesi & Mikro Yazılım",
+            "year": "2025"
+        },
+        {
+            "name": "24. Yönetim Bilimleri Kongresi",
+            "issuer": "İTÜ İşletme Mühendisliği Kulübü",
+            "year": "2023"
+        },
+        {
+            "name": "15, 16 ve 17. Bilişim Teknolojileri Zirvesi Katılım Sertifikaları",
+            "issuer": "İTÜ İşletme Mühendisliği Kulübü",
+            "year": "2022-2024"
+        }
+    ],
+    "references": [],
+    "settings": {
+        "font": "font-garamond",
+        "size": "size-medium",
+        "spacing": "spacing-normal",
+        "margin": "margin-normal",
+        "alignment": "align-justify",
+        "accent": "accent-black",
+        "headings": "headings-line",
+        "refMode": "request",
+        "uiLang": "tr"
+    }
+};
 
 const UI_TRANSLATIONS = {
     tr: {
@@ -1013,8 +1109,8 @@ async function autoTranslateCV(targetLang) {
             });
         }
         
-        if (getLeadershipArray() && Array.isArray(getLeadershipArray())) {
-            getLeadershipArray().forEach((lead, i) => {
+        if (cvState.leaderships && Array.isArray(cvState.leaderships)) {
+            cvState.leaderships.forEach((lead, i) => {
                 if (lead.organization) items.push({ type: 'lead', idx: i, field: 'organization', text: lead.organization });
                 if (lead.role) items.push({ type: 'lead', idx: i, field: 'role', text: lead.role });
                 if (lead.dates) items.push({ type: 'lead', idx: i, field: 'dates', text: lead.dates });
@@ -1094,9 +1190,9 @@ async function autoTranslateCV(targetLang) {
             } else if (item.type === 'edu') {
                 cvState.educations[item.idx][item.field] = transVal;
             } else if (item.type === 'lead') {
-                getLeadershipArray()[item.idx][item.field] = transVal;
+                cvState.leaderships[item.idx][item.field] = transVal;
             } else if (item.type === 'lead_bullet') {
-                getLeadershipArray()[item.idx].bullets[item.bulletIdx] = transVal;
+                cvState.leaderships[item.idx].bullets[item.bulletIdx] = transVal;
             } else if (item.type === 'skills') {
                 cvState.skills[item.field] = transVal;
             } else if (item.type === 'cert') {
@@ -1114,8 +1210,7 @@ async function autoTranslateCV(targetLang) {
         // Persist, reload UI and re-render
         saveToLocalStorage();
         applyLanguage();
-        validateAndRepairCVState();
-    loadStateIntoUI();
+        loadStateIntoUI();
         renderAll();
         
         setTimeout(() => {
@@ -1141,8 +1236,7 @@ function undoTranslation() {
             localStorage.removeItem('cvState_before_translate');
             saveToLocalStorage();
             applyLanguage();
-            validateAndRepairCVState();
-    loadStateIntoUI();
+            loadStateIntoUI();
             renderAll();
             checkUndoState();
             closeTranslateModal();
@@ -1158,91 +1252,280 @@ function undoTranslation() {
 let currentZoom = 0.85; // Default slightly zoomed out to fit desktop view nicely
 
 // Document Elements
+document.addEventListener("DOMContentLoaded", () => {
+    // Check if we need to migrate to Dogukan's default state once
+    const isMigrated = localStorage.getItem('dogukan_default_migrated_v2');
+    const savedState = localStorage.getItem('harvard_cv_state');
+    
+    if (!isMigrated) {
+        // Force migrate to Dogukan's CV as default
+        cvState = JSON.parse(JSON.stringify(TR_SAMPLE_STATE));
+        saveToLocalStorage();
+        localStorage.setItem('dogukan_default_migrated_v2', 'true');
+        loadStateIntoUI();
+    } else if (savedState) {
+        try {
+            cvState = JSON.parse(savedState);
+            // Ensure website field is migrated if missing
+            if (cvState.personal && cvState.personal.name === "Asil Doğukan Samay" && cvState.personal.website === undefined) {
+                cvState.personal.website = "asildogukansamay.com";
+                saveToLocalStorage();
+            }
+            loadStateIntoUI();
+        } catch (e) {
+            console.error("Local storage parse error:", e);
+            saveToLocalStorage();
+        }
+    } else {
+        saveToLocalStorage();
+    }
 
-function initAppImmediately() {
-    validateAndRepairCVState();
-    applyLanguage();
-    loadStateIntoUI();
+    // Setup inputs event listeners for real-time updating
+    setupInputListeners();
+    
+    // Initial Render
     renderAll();
-    updateStyles();
-    if (typeof setupInputListeners === 'function') setupInputListeners();
-    if (typeof calculateATSScore === 'function') calculateATSScore();
-}
-
-if (document.readyState === 'complete' || document.readyState === 'interactive') {
-    initAppImmediately();
-} else {
-    document.addEventListener("DOMContentLoaded", initAppImmediately);
-}
-
-// Load state values into DOM inputs & preview text
-function loadStateIntoUI() {
-    if (!cvState || !cvState.personal) return;
     
-    // Personal Info Sidebar Inputs
-    const setVal = (id, val) => {
-        const el = document.getElementById(id);
-        if (el) el.value = val || "";
-    };
+    // Apply initial language
+    applyLanguage();
     
-    setVal('input-name', cvState.personal.name);
-    setVal('input-title', cvState.personal.title);
-    setVal('input-email', cvState.personal.email);
-    setVal('input-phone', cvState.personal.phone);
-    setVal('input-location', cvState.personal.location);
-    setVal('input-github', cvState.personal.github);
-    setVal('input-linkedin', cvState.personal.linkedin);
-    setVal('input-website', cvState.personal.website);
-    setVal('input-summary', cvState.personal.summary);
-    
-    // Skills Sidebar Inputs
-    if (cvState.skills) {
-        setVal('input-skills-technical', cvState.skills.technical);
-        setVal('input-skills-tools', cvState.skills.tools);
-        setVal('input-skills-langs', cvState.skills.langs);
+    // Apply initial theme from local storage
+    if (cvState.settings && cvState.settings.theme === 'dark') {
+        document.body.classList.add('editor-dark-mode');
+        const sun = document.getElementById('theme-icon-sun');
+        const moon = document.getElementById('theme-icon-moon');
+        if (sun) sun.style.display = 'block';
+        if (moon) moon.style.display = 'none';
     }
     
-    // Direct A4 Paper Preview Updates
-    const setText = (id, val) => {
-        const el = document.getElementById(id);
-        if (el) el.textContent = val || "";
-    };
-    
-    setText('cv-name', cvState.personal.name);
-    setText('cv-title-display', cvState.personal.title);
-    setText('cv-summary', cvState.personal.summary);
-    setText('cv-email', cvState.personal.email);
-    setText('cv-phone', cvState.personal.phone);
-    setText('cv-location', cvState.personal.location);
-    setText('cv-github', cvState.personal.github);
-    setText('cv-linkedin', cvState.personal.linkedin);
-    setText('cv-website', cvState.personal.website);
-    
-    renderCVContactInfo();
-}
-
-// Switch Tab Logic
-function switchTab(tabId, btnTarget) {
-    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-    document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
-    
-    if (btnTarget && btnTarget.classList) {
-        btnTarget.classList.add('active');
-    } else {
-        const btns = document.querySelectorAll('.tab-btn');
-        btns.forEach(btn => {
-            const attr = btn.getAttribute('onclick') || '';
-            if (attr.includes(`'${tabId}'`) || attr.includes(`"${tabId}"`)) {
-                btn.classList.add('active');
+    // Setup horizontal scroll helper on editor tabs
+    const tabsContainer = document.querySelector('.editor-tabs');
+    if (tabsContainer) {
+        tabsContainer.addEventListener('wheel', (e) => {
+            if (e.deltaY !== 0) {
+                tabsContainer.scrollLeft += e.deltaY * 0.8;
+                e.preventDefault();
             }
         });
     }
-    
-    const activePane = document.getElementById(`tab-${tabId}`);
-    if (activePane) {
-        activePane.classList.add('active');
+
+    // Setup Ctrl + Scroll Zoom on preview canvas
+    const previewCanvas = document.querySelector('.preview-canvas');
+    if (previewCanvas) {
+        previewCanvas.addEventListener('wheel', (e) => {
+            if (e.ctrlKey) {
+                e.preventDefault();
+                if (e.deltaY < 0) {
+                    adjustZoom(0.05); // zoom in
+                } else {
+                    adjustZoom(-0.05); // zoom out
+                }
+            }
+        }, { passive: false });
     }
     
+    // Sync initial stepper progress
+    updateStepper(1);
+    
+    // Set initial Zoom
+    applyZoom();
+    
+    // Monitor sidebar inputs for page fit calculations & auto-save
+    const sidebar = document.querySelector('.editor-sidebar');
+    if (sidebar) {
+        sidebar.addEventListener('input', () => {
+            saveToLocalStorage();
+            checkPageFit();
+        });
+    }
+    
+    // Initial page fit check
+    checkPageFit();
+});
+
+// Load state values into DOM inputs & preview text
+function loadStateIntoUI() {
+    // Personal Info
+    document.getElementById('input-name').value = cvState.personal.name || "";
+    document.getElementById('input-title').value = cvState.personal.title || "";
+    document.getElementById('input-email').value = cvState.personal.email || "";
+    document.getElementById('input-phone').value = cvState.personal.phone || "";
+    document.getElementById('input-location').value = cvState.personal.location || "";
+    document.getElementById('input-github').value = cvState.personal.github || "";
+    document.getElementById('input-linkedin').value = cvState.personal.linkedin || "";
+    document.getElementById('input-website').value = cvState.personal.website || "";
+    document.getElementById('input-summary').value = cvState.personal.summary || "";
+    
+    // Skills
+    if (cvState.skills) {
+        document.getElementById('input-skills-technical').value = cvState.skills.technical || "";
+        const toolsInp = document.getElementById('input-skills-tools');
+        if (toolsInp) toolsInp.value = cvState.skills.tools || "";
+        document.getElementById('input-skills-langs').value = cvState.skills.langs || "";
+    }
+    
+    // Ensure certifications array exists
+    if (!cvState.certifications) {
+        if (cvState.skills && cvState.skills.certs) {
+            // Migrating old string data if present
+            cvState.certifications = cvState.skills.certs.split(',').map(c => ({ name: c.trim(), issuer: "", year: "" }));
+            delete cvState.skills.certs;
+        } else {
+            cvState.certifications = [
+                { name: "Network Technician", issuer: "Cisco", year: "2026" },
+                { name: "Introduction to Python", issuer: "AIBusinessSchool", year: "2025" },
+                { name: "Introduction to Data Science", issuer: "Cisco", year: "2025" },
+                { name: "Veri Bilimi ve Yapay Zeka", issuer: "Doğuş Teknoloji", year: "2025" },
+                { name: "Computer Hardware Basics", issuer: "Cisco", year: "2024" },
+                { name: "Python Programlama", issuer: "Turkcell Geleceği Yazanlar", year: "2024" },
+                { name: "Cisco IT Essentials", issuer: "Cisco", year: "2024" }
+            ];
+        }
+    }
+    renderEditorCertifications();
+    renderCVCertifications();
+    
+    // Custom Titles Sync
+    const custom = (cvState.settings && cvState.settings.customTitles) ? cvState.settings.customTitles : {};
+    const sumInp = document.getElementById('input-custom-title-summary');
+    if (sumInp) sumInp.value = custom.summary || "";
+    const expInp = document.getElementById('input-custom-title-experience');
+    if (expInp) expInp.value = custom.experience || "";
+    const eduInp = document.getElementById('input-custom-title-education');
+    if (eduInp) eduInp.value = custom.education || "";
+    const leadInp = document.getElementById('input-custom-title-leadership');
+    if (leadInp) leadInp.value = custom.leadership || "";
+    const skInp = document.getElementById('input-custom-title-skills');
+    if (skInp) skInp.value = custom.skills || "";
+    const refInp = document.getElementById('input-custom-title-references');
+    if (refInp) refInp.value = custom.references || "";
+    
+    renderSectionTitles();
+
+    // Dropdown Settings
+    if (cvState.settings) {
+        document.getElementById('setting-font').value = cvState.settings.font || "font-garamond";
+        document.getElementById('setting-size').value = cvState.settings.size || "size-medium";
+        document.getElementById('setting-spacing').value = cvState.settings.spacing || "spacing-normal";
+        document.getElementById('setting-margin').value = cvState.settings.margin || "margin-normal";
+        document.getElementById('setting-alignment').value = cvState.settings.alignment || "align-top";
+        document.getElementById('setting-accent').value = cvState.settings.accent || "accent-black";
+        document.getElementById('setting-headings').value = cvState.settings.headings || "headings-line";
+    }
+    
+    // Check visibility states and apply to checkboxes
+    if (!cvState.settings.visibility) {
+        cvState.settings.visibility = { location: true, email: true, phone: true, github: true, linkedin: true };
+    }
+    const vis = cvState.settings.visibility;
+    document.getElementById('toggle-location').checked = vis.location !== false;
+    document.getElementById('toggle-email').checked = vis.email !== false;
+    document.getElementById('toggle-phone').checked = vis.phone !== false;
+    document.getElementById('toggle-github').checked = vis.github !== false;
+    document.getElementById('toggle-linkedin').checked = vis.linkedin !== false;
+    if (vis.website === undefined) vis.website = true;
+    document.getElementById('toggle-website').checked = vis.website !== false;
+
+    // Check visibility states for profile photo
+    if (cvState.settings.visibility.photo === undefined) {
+        cvState.settings.visibility.photo = false; // Hide by default to protect US/UK Ivy League HBS standard
+    }
+    
+    // Check visibility states for references
+    if (cvState.settings.visibility.references === undefined) {
+        cvState.settings.visibility.references = false; // Hide by default to protect Ivy League text-only space
+    }
+    
+    // Pre-fill references default data if empty
+    if (!cvState.references) {
+        cvState.references = [
+            { name: "Dr. John Smith", title: "Professor of Finance at Yale SOM", email: "j.smith@yale.edu", phone: "+1 (203) 432-0000" },
+            { name: "Jane Johnson", title: "VP of Product at Google", email: "j.johnson@google.com", phone: "+1 (650) 253-0000" }
+        ];
+    }
+    
+    // Sync references preview and input fields
+    document.getElementById('toggle-references').checked = cvState.settings.visibility.references === true;
+    
+    // Sync display mode select
+    if (!cvState.settings.refMode) {
+        cvState.settings.refMode = "details";
+    }
+    const refModeSelect = document.getElementById('setting-ref-mode');
+    if (refModeSelect) {
+        refModeSelect.value = cvState.settings.refMode;
+    }
+    
+    renderEditorReferences();
+    renderCVReferences();
+    
+    // Sync profile photo preview and inputs
+    const photoPreviewEl = document.getElementById('cv-photo-preview');
+    const photoWrapperEl = document.getElementById('cv-photo-wrapper');
+    const photoCheckboxEl = document.getElementById('toggle-photo');
+    
+    if (photoPreviewEl && photoWrapperEl && photoCheckboxEl) {
+        photoCheckboxEl.checked = cvState.settings.visibility.photo === true;
+        if (cvState.personal.photo) {
+            photoPreviewEl.src = cvState.personal.photo;
+            if (cvState.settings.visibility.photo === true) {
+                photoWrapperEl.style.display = 'block';
+            } else {
+                photoWrapperEl.style.display = 'none';
+            }
+        } else {
+            photoWrapperEl.style.display = 'none';
+        }
+    }
+
+    // Pre-fill registered user's name if present in localStorage and cvState name is blank/default
+    const registeredName = localStorage.getItem("cvsom_user_name");
+    if (registeredName && (!cvState.personal.name || cvState.personal.name.trim() === "" || cvState.personal.name === "Jane Doe")) {
+        cvState.personal.name = registeredName;
+        localStorage.removeItem("cvsom_user_name"); // Clean up so it doesn't overwrite future changes
+        saveToLocalStorage();
+    }
+
+    // Sync preview text elements
+    document.getElementById('cv-name').textContent = cvState.personal.name || "";
+    document.getElementById('cv-title-display').textContent = cvState.personal.title || "";
+    document.getElementById('cv-summary').textContent = cvState.personal.summary || "";
+    
+    // Sync contact info displaying and icons
+    renderCVContactInfo();
+    
+    if (cvState.skills) {
+        document.getElementById('cv-skills-technical').textContent = cvState.skills.technical || "";
+        const toolsEl = document.getElementById('cv-skills-tools');
+        const toolsItem = document.getElementById('cv-skills-tools-item');
+        if (toolsEl) toolsEl.textContent = cvState.skills.tools || "";
+        if (toolsItem) toolsItem.style.display = (cvState.skills.tools && cvState.skills.tools.trim()) ? 'block' : 'none';
+        
+        const certsEl = document.getElementById('cv-skills-certs');
+        if (certsEl) certsEl.textContent = cvState.skills.certs || "";
+        
+        document.getElementById('cv-skills-langs').textContent = cvState.skills.langs || "";
+    }
+    applyLanguage();
+}
+
+// Switch Tab Logic
+function switchTab(tabId) {
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    document.querySelectorAll('.tab-pane').forEach(pane => {
+        pane.classList.remove('active');
+    });
+    
+    // Find active button and tab pane
+    const activeBtn = Array.from(document.querySelectorAll('.tab-btn')).find(btn => btn.getAttribute('onclick').includes(tabId));
+    if (activeBtn) activeBtn.classList.add('active');
+    
+    const activePane = document.getElementById(`tab-${tabId}`);
+    if (activePane) activePane.classList.add('active');
+    
+    // Dynamically update Stepper progress
     if (tabId === 'settings') {
         updateStepper(2);
     } else {
@@ -1349,30 +1632,8 @@ function setupInputListeners() {
 function updatePersonalField(field, value) {
     if (!cvState.personal) cvState.personal = {};
     cvState.personal[field] = value;
-    
-    // Direct sync DOM preview target
-    const targetMap = {
-        'name': 'cv-name',
-        'title': 'cv-title-display',
-        'summary': 'cv-summary',
-        'email': 'cv-email',
-        'phone': 'cv-phone',
-        'location': 'cv-location',
-        'github': 'cv-github',
-        'linkedin': 'cv-linkedin',
-        'website': 'cv-website'
-    };
-    
-    if (targetMap[field]) {
-        const targetEl = document.getElementById(targetMap[field]);
-        if (targetEl) targetEl.textContent = value || '';
-    }
-    
     if (typeof renderCVContactInfo === 'function') {
         renderCVContactInfo();
-    }
-    if (typeof calculateATSScore === 'function') {
-        calculateATSScore();
     }
     saveToLocalStorage();
 }
@@ -1568,30 +1829,24 @@ function renderAll() {
     renderCVEducation();
     renderCVLeadership();
     renderCVCertifications();
-    renderCVProjects();
     renderCVReferences();
     
     renderEditorExperiences();
     renderEditorEducation();
     renderEditorLeadership();
     renderEditorCertifications();
-    renderEditorProjects();
     renderEditorReferences();
-    
-    if (typeof renderCVContactInfo === 'function') renderCVContactInfo();
-    if (typeof calculateATSScore === 'function') calculateATSScore();
 }
 
 // Helper to format bullets with bold text before colons (Harvard style)
 function formatBulletPoint(bullet) {
-    const safeBullet = escapeHTML(bullet);
-    const colonIndex = safeBullet.indexOf(':');
+    const colonIndex = bullet.indexOf(':');
     if (colonIndex > 0) {
-        const lead = safeBullet.substring(0, colonIndex + 1);
-        const tail = safeBullet.substring(colonIndex + 1);
+        const lead = bullet.substring(0, colonIndex + 1);
+        const tail = bullet.substring(colonIndex + 1);
         return `<strong>${lead}</strong>${tail}`;
     }
-    return safeBullet;
+    return bullet;
 }
 
 // Render CV Document parts
@@ -1680,8 +1935,7 @@ function resetData() {
         cvState = (lang === 'en') ? JSON.parse(JSON.stringify(EN_SAMPLE_STATE)) : JSON.parse(JSON.stringify(TR_SAMPLE_STATE));
         saveToLocalStorage();
         applyLanguage();
-        validateAndRepairCVState();
-    loadStateIntoUI();
+        loadStateIntoUI();
         renderAll();
         updateStyles();
         alert(lang === 'en' ? "CV data successfully reset!" : "CV verileriniz başarıyla sıfırlandı!");
@@ -1758,21 +2012,18 @@ function updateContactVisibility() {
 }
 
 function loadPresetTemplate(val) {
-    if (val === 'tr' || val === 'tr_standard' || val === 'tr_ats') {
+    const lang = (cvState.settings && cvState.settings.uiLang) ? cvState.settings.uiLang : "tr";
+    if (val === 'tr_standard' || val === 'tr_ats') {
         cvState = JSON.parse(JSON.stringify(TR_SAMPLE_STATE));
         if (!cvState.settings) cvState.settings = {};
         cvState.settings.uiLang = 'tr';
-    } else if (val === 'en' || val === 'en_standard' || val === 'en_ats') {
+    } else if (val === 'en_standard' || val === 'en_ats') {
         cvState = JSON.parse(JSON.stringify(EN_SAMPLE_STATE));
         if (!cvState.settings) cvState.settings = {};
         cvState.settings.uiLang = 'en';
-    } else {
-        return;
     }
     saveToLocalStorage();
     applyLanguage();
-    validateAndRepairCVState();
-    validateAndRepairCVState();
     loadStateIntoUI();
     renderAll();
     updateStyles();
@@ -1833,10 +2084,10 @@ function renderCVReferences() {
     refs.forEach(r => {
         const div = document.createElement('div');
         div.className = 'reference-item';
-        let text = `<strong>${escapeHTML(r.name)}</strong>`;
-        if (r.title) text += `<br><span>${escapeHTML(r.title)}</span>`;
-        if (r.company) text += `<br><span>${escapeHTML(r.company)}</span>`;
-        if (r.contact) text += `<br><span style="font-size: 11px; color: #666;">${escapeHTML(r.contact)}</span>`;
+        let text = `<strong>${r.name || ''}</strong>`;
+        if (r.title) text += `<br><span>${r.title}</span>`;
+        if (r.company) text += `<br><span>${r.company}</span>`;
+        if (r.contact) text += `<br><span style="font-size: 11px; color: #666;">${r.contact}</span>`;
         div.innerHTML = text;
         container.appendChild(div);
     });
@@ -1845,37 +2096,44 @@ function renderCVReferences() {
 
 function renderCVExperiences() {
     const container = document.getElementById('cv-experience-container');
-    if (!container) return;
+    container.innerHTML = '';
     
-    let exps = (cvState && cvState.experiences && cvState.experiences.length > 0) ? cvState.experiences : TR_SAMPLE_STATE.experiences;
-    if (cvState && cvState.settings && cvState.settings.uiLang === 'en' && (!cvState.experiences || cvState.experiences.length === 0)) {
-        exps = EN_SAMPLE_STATE.experiences;
+    if (cvState.experiences.length === 0) {
+        document.getElementById('sec-experience').style.display = 'none';
+        return;
     }
+    document.getElementById('sec-experience').style.display = 'block';
     
-    const secExp = document.getElementById('sec-experience');
-    if (secExp) secExp.style.display = 'block';
-    
-    container.innerHTML = exps.map(exp => `
-        <div class="cv-item" style="margin-bottom: 10px;">
-            <div class="cv-item-header">
-                <span class="cv-item-title">${exp.company || ''}</span>
-                <span class="cv-item-date">${exp.dates || ''}</span>
+    cvState.experiences.forEach(exp => {
+        const expDiv = document.createElement('div');
+        expDiv.className = 'entry-block';
+        
+        let bulletsHtml = '';
+        if (exp.bullets && exp.bullets.length > 0) {
+            bulletsHtml = `<ul class="entry-bullets">` + 
+                exp.bullets.map(b => `<li>${formatBulletPoint(b)}</li>`).join('') + 
+                `</ul>`;
+        }
+        
+        expDiv.innerHTML = `
+            <div class="entry-header">
+                <span class="company-name">${exp.company}</span>
+                <span class="entry-location">${exp.location}</span>
             </div>
-            <div class="cv-item-sub">
-                <span class="cv-item-role">${exp.role || ''}</span>
-                <span class="cv-item-location">${exp.location || ''}</span>
+            <div class="entry-subheader">
+                <span class="entry-role">${exp.role}</span>
+                <span class="entry-date">${exp.dates}</span>
             </div>
-            ${(exp.bullets && exp.bullets.length > 0) ? `
-                <ul class="cv-bullets">
-                    ${exp.bullets.map(b => `<li>${formatBulletPoint(b)}</li>`).join('')}
-                </ul>
-            ` : ''}
-        </div>
-    `).join('');
+            ${bulletsHtml}
+        `;
+        container.appendChild(expDiv);
+    });
+    saveToLocalStorage();
+    checkPageFit();
 }
 
 
-function renderCVReferencesLegacy() {
+function renderCVReferences() {
     const container = document.getElementById('cv-references-container');
     if (!container) return;
     container.innerHTML = '';
@@ -1896,7 +2154,7 @@ function renderCVReferencesLegacy() {
         if (r.title) text += `, ${r.title}`;
         if (r.company) text += ` — ${r.company}`;
         if (r.contact) text += ` (${r.contact})`;
-        div.innerHTML = `<div class="entry-subheader"><span class="entry-title">${escapeHTML(text)}</span></div>`;
+        div.innerHTML = `<div class="entry-subheader"><span class="entry-title">${text}</span></div>`;
         container.appendChild(div);
     });
 }
@@ -1904,73 +2162,96 @@ function renderCVReferencesLegacy() {
 
 function renderCVEducation() {
     const container = document.getElementById('cv-education-container');
-    if (!container) return;
+    container.innerHTML = '';
     
-    let edus = (cvState && cvState.educations && cvState.educations.length > 0) ? cvState.educations : TR_SAMPLE_STATE.educations;
-    if (cvState && cvState.settings && cvState.settings.uiLang === 'en' && (!cvState.educations || cvState.educations.length === 0)) {
-        edus = EN_SAMPLE_STATE.educations;
+    if (cvState.educations.length === 0) {
+        document.getElementById('sec-education').style.display = 'none';
+        return;
     }
+    document.getElementById('sec-education').style.display = 'block';
     
-    const secEdu = document.getElementById('sec-education');
-    if (secEdu) secEdu.style.display = 'block';
-    
-    const lang = (cvState && cvState.settings && cvState.settings.uiLang) ? cvState.settings.uiLang : "tr";
-    const gpaLabel = lang === 'tr' ? 'GANO' : 'GPA';
-    
-    container.innerHTML = edus.map(edu => {
+    cvState.educations.forEach(edu => {
+        const eduDiv = document.createElement('div');
+        eduDiv.className = 'entry-block';
+        
+        const lang = (cvState.settings && cvState.settings.uiLang) ? cvState.settings.uiLang : "tr";
+        const gpaLabel = lang === 'tr' ? 'GANO' : 'GPA';
         let gpaText = "";
         if (edu.gpa && edu.gpa.trim() !== "") {
             const cleanGpa = edu.gpa.trim();
-            if (cleanGpa.toLowerCase().includes('gano') || cleanGpa.toLowerCase().includes('gpa')) {
-                gpaText = ` — ${cleanGpa}`;
-            } else {
-                gpaText = ` — ${gpaLabel}: ${cleanGpa}`;
+            if (!edu.degree || !edu.degree.includes(cleanGpa)) {
+                if (cleanGpa.toLowerCase().includes('gano') || cleanGpa.toLowerCase().includes('gpa')) {
+                    gpaText = ` — ${cleanGpa}`;
+                } else {
+                    gpaText = ` — ${gpaLabel}: ${cleanGpa}`;
+                }
             }
         }
-        return `
-            <div class="cv-item" style="margin-bottom: 8px;">
-                <div class="cv-item-header">
-                    <span class="cv-item-title">${edu.university || ''}</span>
-                    <span class="cv-item-date">${edu.dates || ''}</span>
+        
+        // Clean degree string if it already contains GANO/GPA duplicate
+        let cleanDegree = edu.degree || "";
+        cleanDegree = cleanDegree.replace(/[-–—]\s*(?:GANO|GPA)\s*:\s*[0-9.]+\s*\/\s*[0-9.]+/gi, "").trim();
+        cleanDegree = cleanDegree.replace(/(?:GANO|GPA)\s*:\s*[0-9.]+\s*\/\s*[0-9.]+/gi, "").trim();
+        
+        let detailsHtml = '';
+        if (edu.details && edu.details.trim()) {
+            detailsHtml = `<div class="entry-description">${edu.details}</div>`;
+        }
+        
+        eduDiv.innerHTML = `
+            <div class="entry-header">
+                <div>
+                    <span class="entry-title">${edu.university || ''}</span>
                 </div>
-                <div class="cv-item-sub">
-                    <span class="cv-item-role">${edu.degree || ''}${gpaText}</span>
-                    <span class="cv-item-location">${edu.location || ''}</span>
-                </div>
+                <div class="entry-right">${edu.location || ''}</div>
             </div>
+            <div class="entry-subheader">
+                <span class="entry-degree">${cleanDegree}${gpaText}</span>
+                <span class="entry-date">${edu.dates || ''}</span>
+            </div>
+            ${detailsHtml}
         `;
-    }).join('');
+        
+        container.appendChild(eduDiv);
+    });
 }
 
 function renderCVLeadership() {
     const container = document.getElementById('cv-leadership-container');
-    if (!container) return;
+    container.innerHTML = '';
     
-    let leads = (cvState && cvState.leadership && cvState.leadership.length > 0) ? cvState.leadership : TR_SAMPLE_STATE.leadership;
-    if (cvState && cvState.settings && cvState.settings.uiLang === 'en' && (!cvState.leadership || cvState.leadership.length === 0)) {
-        leads = EN_SAMPLE_STATE.leadership;
+    if (cvState.leaderships.length === 0) {
+        document.getElementById('sec-leadership').style.display = 'none';
+        return;
     }
+    document.getElementById('sec-leadership').style.display = 'block';
     
-    const secLead = document.getElementById('sec-leadership');
-    if (secLead) secLead.style.display = 'block';
-    
-    container.innerHTML = leads.map(l => `
-        <div class="cv-item" style="margin-bottom: 8px;">
-            <div class="cv-item-header">
-                <span class="cv-item-title">${l.organization || ''}</span>
-                <span class="cv-item-date">${l.dates || ''}</span>
+    cvState.leaderships.forEach(lead => {
+        const leadDiv = document.createElement('div');
+        leadDiv.className = 'entry-block';
+        
+        let bulletsHtml = '';
+        if (lead.bullets && lead.bullets.length > 0) {
+            bulletsHtml = `<ul class="entry-bullets">` + 
+                lead.bullets.map(b => `<li>${formatBulletPoint(b)}</li>`).join('') + 
+                `</ul>`;
+        }
+        
+        leadDiv.innerHTML = `
+            <div class="entry-header">
+                <span class="company-name">${lead.organization}</span>
+                <span class="entry-date">${lead.dates}</span>
             </div>
-            <div class="cv-item-sub">
-                <span class="cv-item-role">${l.role || ''}</span>
-                <span class="cv-item-location">${l.location || ''}</span>
+            <div class="entry-subheader" style="margin-bottom: 2px;">
+                <span class="entry-role">${lead.role}</span>
+                <span></span>
             </div>
-            ${(l.bullets && l.bullets.length > 0) ? `
-                <ul class="cv-bullets">
-                    ${l.bullets.map(b => `<li>${formatBulletPoint(b)}</li>`).join('')}
-                </ul>
-            ` : ''}
-        </div>
-    `).join('');
+            ${bulletsHtml}
+        `;
+        container.appendChild(leadDiv);
+    });
+    saveToLocalStorage();
+    checkPageFit();
 }
 
 
@@ -2167,7 +2448,6 @@ function moveCert(idx, dir) {
     renderCVCertifications();
 }
 
-// updateCertField
 function updateCertField(idx, field, value) {
     if (cvState.certifications && cvState.certifications[idx]) {
         cvState.certifications[idx][field] = value;
@@ -2236,7 +2516,6 @@ function renderEditorReferences() {
     });
 }
 
-// updateRefField
 function updateRefField(idx, field, value) {
     if (cvState.references && cvState.references[idx]) {
         cvState.references[idx][field] = value;
@@ -2268,7 +2547,7 @@ function renderEditorLeadership() {
     container.innerHTML = '';
     const lang = (cvState.settings && cvState.settings.uiLang) ? cvState.settings.uiLang : 'tr';
     
-    getLeadershipArray().forEach((lead, idx) => {
+    cvState.leaderships.forEach((lead, idx) => {
         const card = document.createElement('div');
         card.className = 'dynamic-item-card';
         card.setAttribute('draggable', 'true');
@@ -2342,7 +2621,6 @@ function addExperience() {
     renderEditorExperiences();
 }
 
-// updateExpField
 function updateExpField(idx, field, value) {
     cvState.experiences[idx][field] = value;
     renderCVExperiences();
@@ -2407,7 +2685,6 @@ function addEducation() {
     renderEditorEducation();
 }
 
-// updateEduField
 function updateEduField(idx, field, value) {
     cvState.educations[idx][field] = value;
     renderCVEducation();
@@ -2429,7 +2706,7 @@ function deleteEducation(idx) {
 // -------------------------------------------------------------
 
 function addLeadership() {
-    getLeadershipArray().push({
+    cvState.leaderships.push({
         organization: "Yeni Kulüp / Dernek",
         role: "Rol / Görev",
         dates: "Yıl - Yıl",
@@ -2439,9 +2716,8 @@ function addLeadership() {
     renderEditorLeadership();
 }
 
-// updateLeadField
 function updateLeadField(idx, field, value) {
-    getLeadershipArray()[idx][field] = value;
+    cvState.leaderships[idx][field] = value;
     renderCVLeadership();
     const cardTitle = document.querySelectorAll('#leadership-list .dynamic-item-title')[idx];
     if (cardTitle && field === 'organization') {
@@ -2450,24 +2726,24 @@ function updateLeadField(idx, field, value) {
 }
 
 function updateLeadBullet(idx, bulletIdx, value) {
-    getLeadershipArray()[idx].bullets[bulletIdx] = value;
+    cvState.leaderships[idx].bullets[bulletIdx] = value;
     renderCVLeadership();
 }
 
 function addLeadBullet(idx) {
-    getLeadershipArray()[idx].bullets.push("Yeni faaliyet maddesi.");
+    cvState.leaderships[idx].bullets.push("Yeni faaliyet maddesi.");
     renderCVLeadership();
     renderEditorLeadership();
 }
 
 function deleteLeadBullet(idx, bulletIdx) {
-    getLeadershipArray()[idx].bullets.splice(bulletIdx, 1);
+    cvState.leaderships[idx].bullets.splice(bulletIdx, 1);
     renderCVLeadership();
     renderEditorLeadership();
 }
 
 function deleteLeadership(idx) {
-    getLeadershipArray().splice(idx, 1);
+    cvState.leaderships.splice(idx, 1);
     renderCVLeadership();
     renderEditorLeadership();
 }
@@ -2610,8 +2886,7 @@ function autoFitToPage() {
         if (!isOverflowing) {
             cvState.settings.dynamicScale = scale.toFixed(2);
             saveToLocalStorage();
-            validateAndRepairCVState();
-    loadStateIntoUI();
+            loadStateIntoUI();
             updateStyles();
             checkPageFit();
             
@@ -2630,7 +2905,6 @@ function autoFitToPage() {
     doc.style.setProperty('--dynamic-scale', '0.65');
     cvState.settings.dynamicScale = '0.65';
     saveToLocalStorage();
-    validateAndRepairCVState();
     loadStateIntoUI();
     updateStyles();
     checkPageFit();
@@ -2724,11 +2998,9 @@ async function _legacy_processPDFImport1_disabled(file) {
         
         const parsedState = parseCVTextToState(extractedText);
         cvState = parsedState;
-        validateAndRepairCVState();
         saveToLocalStorage();
         applyLanguage();
-        validateAndRepairCVState();
-    loadStateIntoUI();
+        loadStateIntoUI();
         renderAll();
         updateStyles();
         
@@ -2758,11 +3030,9 @@ function _legacy_importJSON_disabled(event) {
             const data = JSON.parse(e.target.result);
             if (data && (data.personal || data.experiences)) {
                 cvState = data;
-                validateAndRepairCVState();
                 saveToLocalStorage();
                 applyLanguage();
-                validateAndRepairCVState();
-    loadStateIntoUI();
+                loadStateIntoUI();
                 renderAll();
                 updateStyles();
                 alert("🎉 Özgeçmiş yedek dosyanız başarıyla yüklendi!");
@@ -2803,8 +3073,7 @@ function _legacy_processPDFImport_disabled(file, lang, event) {
             cvState = parsedState;
             saveToLocalStorage();
             applyLanguage();
-            validateAndRepairCVState();
-    loadStateIntoUI();
+            loadStateIntoUI();
             renderAll();
             updateStyles();
             
@@ -3297,8 +3566,7 @@ async function processPDFImport(file) {
         cvState = parsedState;
         saveToLocalStorage();
         applyLanguage();
-        validateAndRepairCVState();
-    loadStateIntoUI();
+        loadStateIntoUI();
         renderAll();
         updateStyles();
         
@@ -3330,8 +3598,7 @@ function importJSON(event) {
                 cvState = data;
                 saveToLocalStorage();
                 applyLanguage();
-                validateAndRepairCVState();
-    loadStateIntoUI();
+                loadStateIntoUI();
                 renderAll();
                 updateStyles();
                 alert("🎉 Özgeçmiş dosyanız başarıyla yüklendi!");
@@ -3381,145 +3648,204 @@ function closeGuideModal(event) {
 
 
 
-function renderEditorProjects() {
-    const container = document.getElementById('projects-list');
-    if (!container) return;
-    if (!container) return;
-    container.innerHTML = '';
-    const lang = (cvState.settings && cvState.settings.uiLang) ? cvState.settings.uiLang : 'tr';
-    
-    const projects = cvState.projects || [];
-    projects.forEach((p, idx) => {
-        const card = document.createElement('div');
-        card.className = 'dynamic-item-card';
-        card.innerHTML = `
-            <div class="dynamic-item-header">
-                <span class="dynamic-item-title">${lang === 'en' ? 'Project' : 'Proje'} #${idx + 1}: ${p.title || (lang === 'en' ? 'New Project' : 'Yeni Proje')}</span>
-                <div>
-                    <button class="btn btn-sm btn-secondary" onclick="moveProject(${idx}, -1)">▲</button>
-                    <button class="btn btn-sm btn-secondary" onclick="moveProject(${idx}, 1)">▼</button>
-                    <button class="btn btn-sm btn-danger" onclick="deleteProject(${idx})">${lang === 'en' ? 'Delete' : 'Sil'}</button>
-                </div>
-            </div>
-            <div class="input-grid">
-                <div class="input-group" style="grid-column: 1 / -1;">
-                    <label>${lang === 'en' ? 'Project Title' : 'Proje Adı'}</label>
-                    <input type="text" value="${p.title || ''}" placeholder="Örn: Açık Kaynak Veri İşleme Motoru" oninput="updateProjectField(${idx}, 'title', this.value)">
-                </div>
-            </div>
-            <div class="input-grid">
-                <div class="input-group" style="grid-column: 1 / -1;">
-                    <label>${lang === 'en' ? 'Project Details' : 'Proje Açıklaması & Teknolojiler'}</label>
-                    <textarea rows="2" placeholder="Örn: Geliştiricilerin veri kümelerini hızlıca analiz etmesini sağlayan 1.800+ GitHub yıldızlı açık kaynak proje." oninput="updateProjectField(${idx}, 'details', this.value)">${p.details || ''}</textarea>
-                </div>
-            </div>
-        `;
-        container.appendChild(card);
-    });
-}
+// -------------------------------------------------------------
+// INTERACTIVE TUTORIAL & PROMOTIONAL TOUR ENGINE
+// -------------------------------------------------------------
 
-function renderCVProjects() {
-    const projectsSpan = document.getElementById('cv-projects-list');
-    const section = document.getElementById('sec-projects');
-    if (!projectsSpan) return;
-    const projects = cvState.projects || [];
-    if (section) section.style.display = projects.length ? 'block' : 'none';
-    if (projects.length === 0) {
-        projectsSpan.innerHTML = '';
-        return;
+let currentTourStep = 0;
+const tourSteps = [
+    {
+        title: "👋 1. Harvard CV Builder'a Hoş Geldiniz!",
+        desc: "Bu uygulama, Harvard Extension School (2026) standartlarına uyumlu, 90+ ATS skorlu profesyonel özgeçmişler oluşturmanızı sağlar. Şimdi tüm özellikleri adım adım keşfedelim!",
+        badge: "Giriş & Genel Bakış",
+        target: ".preview-canvas"
+    },
+    {
+        title: "✍️ 2. Kişisel Bilgilerinizi Doldurun",
+        desc: "Sol taraftaki 'Kişisel Bilgiler' sekmesinden Ad, Unvan, İletişim ve Profesyonel Özet bilgilerinizi girin. Önizleme panelinde anında canlı olarak güncellenir.",
+        badge: "Kişisel Bilgiler",
+        target: "#tab-personal"
+    },
+    {
+        title: "💼 3. Deneyim & Sertifika Kartları (▲ / ▼ Sıralama)",
+        desc: "İş deneyimleri ve sertifikalarınızı dinamik ekleyin. Kartların üzerindeki ▲ ve ▼ butonlarına basarak istediğiniz kartı tepeye veya aşağıya taşıyabilirsiniz.",
+        badge: "Dinamik Sıralama",
+        target: "#experiences-list"
+    },
+    {
+        title: "📄 4. Tek Tıkla PDF CV Yükleme (Sıfır JSON Çilesi)",
+        desc: "Mevcut PDF CV dosyanızı 'Yedek / CV Yükle' butonuna tıklayarak seçin. PDF.js motoru dosyanızı tarayıcıda 2 saniyede çözer ve editöre aktarır.",
+        badge: "PDF Ayrıştırma Motoru",
+        target: "button[onclick='triggerImport()']"
+    },
+    {
+        title: "🎯 5. Canlı %96+ ATS Skor Rozeti",
+        desc: "Sağ üstteki 'ATS Skoru' rozetine tıklayarak CV'nizin Taleo, Workday ve Harvard kurumsal işe alım algoritmalarına uyumunu ve eksiklerinizi anında görün.",
+        badge: "ATS Robot Analizi",
+        target: "#ats-score-badge"
+    },
+    {
+        title: "🤖 6. Canlı Akıllı AI CV Asistanı",
+        desc: "Sağ alttaki AI sohbet penceresinden tek tıkla deneyim maddelerinizi etken fiillerle güçlendirin, ATS tavsiyesi alın ve unvan önerilerini değerlendirin.",
+        badge: "Yapay Zeka Asistanı",
+        target: "button[onclick='openAIAssistant()']"
+    },
+    {
+        title: "🌐 7. Türkçe - İngilizce Otomatik Çevirici",
+        desc: "'CV Otomatik Çevir' butonuna basarak tüm CV'nizi tek tıkla Harvard İngilizcesine çevirin. Sistem 'He/She' zamirlerini otomatik temizler ve etken fiillere dönüştürür.",
+        badge: "Çoklu Dil & Filtre",
+        target: "button[onclick='openTranslateModal()']"
+    },
+    {
+        title: "🖨️ 8. Jilet Gibi Vektörel PDF Çıktısı Alın",
+        desc: "'Yazdır veya PDF Kaydet' butonuna basarak Kenar Boşluklarını 'Yok', Arka Plan Grafiklerini 'Etkin' yapın ve 1 sayfa kusursuz PDF'inizi indirin!",
+        badge: "PDF Çıktı & Yazdırma",
+        target: "button[onclick='printCV()']"
     }
-    
-    projectsSpan.innerHTML = projects.map(p => `
-        <div style="margin-bottom: 6px;">
-            <strong>${escapeHTML(p.title)}</strong>: ${escapeHTML(p.details)}
-        </div>
-    `).join('');
+];
+
+function startInteractiveTour() {
+    currentTourStep = 0;
+    showTourStep(currentTourStep);
+    const modal = document.getElementById('interactive-tour-modal');
+    if (modal) modal.style.display = 'flex';
 }
 
-function updateProjectField(idx, field, value) {
-    if (!cvState.projects) cvState.projects = [];
-    if (cvState.projects[idx]) {
-        cvState.projects[idx][field] = value;
-        renderCVProjects();
-        saveToLocalStorage();
-        if (typeof calculateATSScore === 'function') calculateATSScore();
+function showTourStep(index) {
+    if (index < 0 || index >= tourSteps.length) return;
+    const step = tourSteps[index];
+    
+    const titleEl = document.getElementById('tour-title');
+    const descEl = document.getElementById('tour-desc');
+    const badgeEl = document.getElementById('tour-badge');
+    const stepCounterEl = document.getElementById('tour-step-counter');
+    
+    if (titleEl) titleEl.textContent = step.title;
+    if (descEl) descEl.textContent = step.desc;
+    if (badgeEl) badgeEl.textContent = step.badge;
+    if (stepCounterEl) stepCounterEl.textContent = `${index + 1} / ${tourSteps.length}`;
+}
+
+function nextTourStep() {
+    if (currentTourStep < tourSteps.length - 1) {
+        currentTourStep++;
+        showTourStep(currentTourStep);
+    } else {
+        closeTour();
     }
 }
 
-function addProject() {
-    if (!cvState.projects) cvState.projects = [];
-    cvState.projects.push({
-        title: "Yeni Proje Başlığı",
-        details: "Proje açıklaması ve kullanılan teknolojiler."
-    });
-    renderCVProjects();
-    renderEditorProjects();
-    saveToLocalStorage();
-    if (typeof calculateATSScore === 'function') calculateATSScore();
+function prevTourStep() {
+    if (currentTourStep > 0) {
+        currentTourStep--;
+        showTourStep(currentTourStep);
+    }
 }
 
-function deleteProject(idx) {
-    if (!cvState.projects) return;
-    cvState.projects.splice(idx, 1);
-    renderCVProjects();
-    renderEditorProjects();
-    saveToLocalStorage();
-    if (typeof calculateATSScore === 'function') calculateATSScore();
+function closeTour() {
+    const modal = document.getElementById('interactive-tour-modal');
+    if (modal) modal.style.display = 'none';
 }
 
-function moveProject(idx, direction) {
-    if (!cvState.projects) return;
-    const targetIdx = idx + direction;
-    if (targetIdx < 0 || targetIdx >= cvState.projects.length) return;
-    const temp = cvState.projects[idx];
-    cvState.projects[idx] = cvState.projects[targetIdx];
-    cvState.projects[targetIdx] = temp;
-    renderCVProjects();
-    renderEditorProjects();
-    saveToLocalStorage();
+
+
+function openVideoPlayerModal() {
+    const modal = document.getElementById('video-player-modal');
+    if (modal) {
+        modal.style.display = 'flex';
+        const video = document.getElementById('demo-video-element');
+        if (video) video.play();
+    }
+}
+
+function closeVideoPlayerModal() {
+    const modal = document.getElementById('video-player-modal');
+    if (modal) {
+        modal.style.display = 'none';
+        const video = document.getElementById('demo-video-element');
+        if (video) video.pause();
+    }
+}
+
+
+
+function seekVideo(seconds) {
+    const video = document.getElementById('demo-video-element');
+    if (video) {
+        video.currentTime = seconds;
+        video.play();
+    }
+}
+
+
+
+function openYouTubeShowcase() {
+    const modal = document.getElementById('youtube-showcase-modal');
+    if (modal) {
+        modal.style.display = 'flex';
+        const video = document.getElementById('yt-video-player');
+        if (video) video.play();
+    }
+}
+
+function closeYouTubeShowcase() {
+    const modal = document.getElementById('youtube-showcase-modal');
+    if (modal) {
+        modal.style.display = 'none';
+        const video = document.getElementById('yt-video-player');
+        if (video) video.pause();
+    }
+}
+
+function seekYTVideo(seconds) {
+    const video = document.getElementById('yt-video-player');
+    if (video) {
+        video.currentTime = seconds;
+        video.play();
+    }
 }
 
 
 
 // -------------------------------------------------------------
-// EXPLICIT SAMPLE TEMPLATE LOADERS (TR & EN)
+// AUTOMATED IN-BROWSER 60FPS SCREEN STUDIO VIDEO ENGINE
 // -------------------------------------------------------------
 
-
-
-
-
-
-
-
-
-
-// FORCE INSTANT INITIALIZATION ON SCRIPT LOAD
-initAppImmediately();
-
-
-function loadTRSample() {
+async function generateScreenStudioVideo() {
+    console.log("SCREEN_STUDIO: Launching 60FPS In-Browser Screen Studio Engine...");
+    
+    // Create status banner
+    let statusDiv = document.getElementById('screen-studio-banner');
+    if (!statusDiv) {
+        statusDiv = document.createElement('div');
+        statusDiv.id = 'screen-studio-banner';
+        statusDiv.style.cssText = "position: fixed; top: 15px; left: 50%; transform: translateX(-50%); background: #1a73e8; color: #fff; padding: 12px 24px; border-radius: 30px; font-weight: 700; font-size: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 999999; font-family: sans-serif; display: flex; align-items: center; gap: 10px;";
+        document.body.appendChild(statusDiv);
+    }
+    statusDiv.innerHTML = '🎥 <strong>Screen Studio 60FPS Video Çekiliyor...</strong> <span id="ss-step-name">Başlatılıyor</span>';
+    
+    // Ensure clean state
     localStorage.clear();
     cvState = JSON.parse(JSON.stringify(TR_SAMPLE_STATE));
-    if (!cvState.settings) cvState.settings = {};
-    cvState.settings.uiLang = 'tr';
-    saveToLocalStorage();
-    applyLanguage();
-    loadStateIntoUI();
-    renderAll();
-    updateStyles();
-    if (typeof calculateATSScore === 'function') calculateATSScore();
-}
-
-function loadENSample() {
-    localStorage.clear();
-    cvState = JSON.parse(JSON.stringify(EN_SAMPLE_STATE));
-    if (!cvState.settings) cvState.settings = {};
-    cvState.settings.uiLang = 'en';
-    saveToLocalStorage();
-    applyLanguage();
-    loadStateIntoUI();
-    renderAll();
-    updateStyles();
-    if (typeof calculateATSScore === 'function') calculateATSScore();
+    saveToLocalStorage(); applyLanguage(); loadStateIntoUI(); renderAll(); updateStyles();
+    
+    const steps = [
+        { name: "1. Kişisel Bilgiler Düzenleniyor", action: () => { updatePersonalField('name', 'Asil Doğukan Samay'); updatePersonalField('title', 'Management Information Systems Specialist'); updatePersonalField('location', 'İstanbul / Çanakkale / KKTC, Türkiye'); } },
+        { name: "2. İş Deneyimi Ekleniyor & Sıralanıyor", action: () => { addExperience(); const expIdx = cvState.experiences.length - 1; updateExpField(expIdx, 'company', 'TRENDYOL GROUP'); updateExpField(expIdx, 'role', 'Kıdemli İş Analisti & Veri Mimarisi'); moveExp(expIdx, -1); } },
+        { name: "3. ATS Skoru (%96) İnceleniyor", action: () => { openATSModal(); } },
+        { name: "4. Canlı AI Asistanı Çalıştırılıyor", action: () => { closeATSModal(); openAIAssistant(); askAIAssistant('bullet'); } },
+        { name: "5. Türkçe - İngilizce Çevirisi Yapılıyor", action: () => { closeAIAssistant(); changeUILanguage('en'); } },
+        { name: "6. Vektörel PDF Çıktı Rehberi", action: () => { toggleGuideModal(); } }
+    ];
+    
+    for (let i = 0; i < steps.length; i++) {
+        const stepNameEl = document.getElementById('ss-step-name');
+        if (stepNameEl) stepNameEl.textContent = steps[i].name;
+        steps[i].action();
+        await new Promise(r => setTimeout(r, 2200));
+    }
+    
+    statusDiv.style.background = '#2e7d32';
+    statusDiv.innerHTML = '🎉 <strong>Screen Studio Tanıtım Videosu Tamamlandı!</strong>';
+    setTimeout(() => { statusDiv.remove(); }, 3000);
 }
