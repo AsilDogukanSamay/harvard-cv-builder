@@ -1,4 +1,22 @@
 
+
+// FORCE FRESH REFILL IF STALE OR JANE DOE (V4)
+(function forceV4StateRefill() {
+    try {
+        const raw = localStorage.getItem('harvard_cv_state_v3_fresh');
+        if (!raw) {
+            localStorage.setItem('harvard_cv_state_v3_fresh', JSON.stringify(TR_SAMPLE_STATE));
+            return;
+        }
+        const parsed = JSON.parse(raw);
+        if (!parsed.personal || !parsed.personal.name || parsed.personal.name === "Jane Doe" || !parsed.experiences || parsed.experiences.length === 0) {
+            localStorage.setItem('harvard_cv_state_v3_fresh', JSON.stringify(TR_SAMPLE_STATE));
+        }
+    } catch(e) {
+        localStorage.setItem('harvard_cv_state_v3_fresh', JSON.stringify(TR_SAMPLE_STATE));
+    }
+})();
+
 // FORCE FRESH CACHE MIGRATION (V3)
 (function forceFreshCacheMigration() {
     const FRESH_KEY = 'harvard_cv_state_v3_fresh';
