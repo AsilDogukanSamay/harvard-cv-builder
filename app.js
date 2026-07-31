@@ -82,18 +82,18 @@ function validateAndRepairCVState() {
 const EN_SAMPLE_STATE = {
     "personal": {
         "name": "Alex Morgan",
-        "title": "Senior Data Scientist & Software Architect",
+        "title": "Management Information Systems Specialist",
         "email": "alex.morgan@example.com",
         "phone": "+1 (555) 234-5678",
-        "location": "Boston, MA, USA",
+        "location": "Boston, MA, USA | TRNC",
         "github": "github.com/alexmorgan-dev",
         "linkedin": "linkedin.com/in/alexmorgan-dev",
         "website": "alexmorgan.dev",
-        "summary": "Management Information Systems (MIS) and Data Analytics specialist with extensive experience ensuring coordination between technical engineering teams and corporate business operations. Highly proficient in building scalable data pipelines, automating complex workflows, and designing REST API integrations for enterprise scale."
+        "summary": "Management Information Systems (MIS) specialist with experience in ensuring coordination between technical engineering teams and corporate business operations, focusing on data analytics, process automation, and software development. Proficient in building scalable data pipelines, automating complex workflows, and designing REST API integrations. Aims to create technology-focused value in international and large corporate structures."
     },
     "experiences": [
         {
-            "company": "MEDTECH INNOVATIONS CORP",
+            "company": "MEDİBULUT",
             "role": "Product Management and CRM Intern",
             "dates": "September 2025 - June 2026",
             "location": "Boston, MA, USA",
@@ -105,7 +105,7 @@ const EN_SAMPLE_STATE = {
             ]
         },
         {
-            "company": "SOFTTECH ANALYTICS INC.",
+            "company": "SOFTTECH",
             "role": "Business Analyst Intern",
             "dates": "August 2025 - September 2025",
             "location": "Cambridge, MA, USA",
@@ -114,17 +114,17 @@ const EN_SAMPLE_STATE = {
             ]
         },
         {
-            "company": "GLOBAL RETAIL INC.",
+            "company": "KOÇTAŞ",
             "role": "Intern (S.T.E.P. Program)",
             "dates": "July 2025 - August 2025",
             "location": "Boston, MA, USA",
             "bullets": [
-                "Won First Place Award with 'Youth Innovation' department development project in nationwide competition among participants across the USA.",
+                "Won First Place Award with 'Youth Innovation' department development project in nationwide competition among participants across the country.",
                 "Conducted operational efficiency analyses by managing product placement, stock tracking, and price control processes; reduced inventory audit deviations by 20%."
             ]
         },
         {
-            "company": "LOCOMAR SOLUTIONS",
+            "company": "LOCOMAR",
             "role": "Business Development Assistant",
             "dates": "April 2025 - June 2025",
             "location": "New York, NY, USA",
@@ -133,8 +133,8 @@ const EN_SAMPLE_STATE = {
             ]
         },
         {
-            "company": "VITRIOL CYBERSECURITY",
-            "role": "Cybersecurity Analytics Intern",
+            "company": "VITRIOL",
+            "role": "Cybersecurity Intern",
             "dates": "September 2023 - June 2024",
             "location": "Boston, MA, USA",
             "bullets": [
@@ -142,8 +142,8 @@ const EN_SAMPLE_STATE = {
             ]
         },
         {
-            "company": "DENIZBANK FINTECH INC.",
-            "role": "Quantitative Intern",
+            "company": "DENİZBANK",
+            "role": "Intern",
             "dates": "March 2023 - June 2023",
             "location": "Boston, MA, USA",
             "bullets": [
@@ -174,7 +174,7 @@ const EN_SAMPLE_STATE = {
             ]
         },
         {
-            "organization": "HARVARD COMPUTER & CYBERSECURITY CLUBS",
+            "organization": "UNIVERSITY CLUBS",
             "role": "Club President | Executive Board Member",
             "dates": "2022 - 2023",
             "location": "Cambridge, MA, USA",
@@ -184,10 +184,10 @@ const EN_SAMPLE_STATE = {
             ]
         },
         {
-            "organization": "HABITAT ASSOCIATION & NETFLIX INITIATIVE",
+            "organization": "Habitat Association & Netflix",
             "role": "Volunteer Trainer",
             "dates": "2025 - Present",
-            "location": "Boston, MA, USA",
+            "location": "USA",
             "bullets": [
                 "Provided digital safety education to 500+ children within 'Once Upon a Time, in Screen Time!' project.",
                 "Designed training methodology on digital security, access to accurate information, and cyberbullying awareness for early age group."
@@ -208,48 +208,32 @@ const EN_SAMPLE_STATE = {
         },
         {
             "name": "Basic Level ERP Training Certificate of Achievement",
-            "issuer": "University & Software Corp",
+            "issuer": "University & Mikro Software",
             "year": "2025"
         },
         {
             "name": "15th, 16th and 17th Information Technologies Summit Certificates",
             "issuer": "ITU Management Engineering Club",
-            "year": "2024"
+            "year": "2022-2024"
         },
         {
-            "name": "Python Programming Certificate",
+            "name": "Python Programming",
             "issuer": "Turkcell Gelecegi Yazanlar",
             "year": "2023"
         },
         {
-            "name": "ProSchool IT Class Certificate",
+            "name": "Is Bankasi ProSchool IT Class",
             "issuer": "Is Bankasi",
             "year": "2023"
         },
         {
-            "name": "Artificial Intelligence Camp Certificate",
+            "name": "Artificial Intelligence Camp",
             "issuer": "Google Cloud",
             "year": "2023"
         }
     ],
-    "projects": [
-        {
-            "title": "Field Sales Performance and Location Tracking Platform",
-            "details": "Python and SQL based real-time location and performance tracking enterprise application."
-        },
-        {
-            "title": "n8n Based Lead and Customer Feedback Automation",
-            "details": "HubSpot and Slack integration automation system improving customer response times by 35%."
-        }
-    ],
-    "references": [
-        {
-            "name": "Dr. Robert Harvard",
-            "title": "Department Chair of Computer Science",
-            "company": "Harvard University",
-            "contact": "r.harvard@harvard.edu"
-        }
-    ],
+    "projects": [],
+    "references": [],
     "settings": {
         "uiLang": "en",
         "showPhoto": false,
@@ -268,10 +252,10 @@ const EN_SAMPLE_STATE = {
 const TR_SAMPLE_STATE = {
     "personal": {
         "name": "Ahmet Yılmaz",
-        "title": "Yönetim Bilişim Sistemleri Uzmanı & Veri Analisti",
+        "title": "Yönetim Bilişim Sistemleri Uzmanı",
         "email": "ahmet.yilmaz@example.com",
         "phone": "+90 544 331 76 20",
-        "location": "İstanbul / Çanakkale, Türkiye",
+        "location": "İstanbul / Çanakkale, Türkiye | KKTC",
         "github": "github.com/ahmetyilmaz-dev",
         "linkedin": "linkedin.com/in/ahmetyilmaz-dev",
         "website": "ahmetyilmaz.dev",
@@ -341,11 +325,11 @@ const TR_SAMPLE_STATE = {
     ],
     "educations": [
         {
-            "university": "İSTANBUL TEKNİK ÜNİVERSİTESİ",
+            "university": "İSTANBUL GEDİK ÜNİVERSİTESİ",
             "degree": "Lisans, Yönetim Bilişim Sistemleri (MIS)",
             "dates": "Eylül 2022 - Mayıs 2026",
             "location": "İstanbul, Türkiye",
-            "gpa": "3.65 / 4.00"
+            "gpa": "3.15 / 4.00"
         }
     ],
     "leadership": [
@@ -353,27 +337,27 @@ const TR_SAMPLE_STATE = {
             "organization": "YAPAY ZEKA VE TEKNOLOJİ AKADEMİSİ",
             "role": "Veri Bilimi Programı Bursiyeri",
             "dates": "Aralık 2025 - Devam Ediyor",
-            "location": "İstanbul, Türkiye",
+            "location": "Türkiye",
             "bullets": [
                 "Türkiye genelinden gelen 31.700 başvuru arasından üstün başarı göstererek kabul alan 1.500 bursiyerden biri (%4,7'lik başarı dilimi) olarak seçildi.",
                 "Google Türkiye, GİRVAK ve T3 Girişim Merkezi ortaklığında düzenlenen 100 saatten fazla yoğun veri bilimi, veri işleme ve yapay zeka eğitim programını tamamladı."
             ]
         },
         {
-            "organization": "ÜNİVERSİTE BİLİŞİM & SİBER GÜVENLİK KULÜPLERİ",
+            "organization": "İSTANBUL GEDİK ÜNİVERSİTESİ KULÜPLERİ",
             "role": "Kulüp Başkanı | Yönetim Kurulu Üyesi",
             "dates": "2022 - 2023",
-            "location": "İstanbul, Türkiye",
+            "location": "İstanbul",
             "bullets": [
                 "Siber Güvenlik & MIS Kulübü Başkanı olarak 300'den fazla öğrenciye ulaştı; teknik workshoplar ve siber güvenlik farkındalık eğitimleri organize etti.",
                 "Kariyer Kulübü Yönetim Kurulu Üyesi olarak öğrenci kariyer gelişim etkinliklerini ve sektör panellerini koordine etti."
             ]
         },
         {
-            "organization": "HABİTAT DERNEĞİ & NETFLIX",
+            "organization": "Habitat Derneği & Netflix",
             "role": "Gönüllü Eğitmen",
             "dates": "2025 - Devam Ediyor",
-            "location": "İstanbul, Türkiye",
+            "location": "Türkiye",
             "bullets": [
                 "Çocukların dijital dünyada güvenli adımlar atmasını sağlamak amacıyla 'Evvel Zaman İçinde Ekran Zamanında!' projesinde 500'den fazla çocuğa eğitim sundu.",
                 "Erken yaş grubuna yönelik dijital güvenlik, doğru bilgiye erişim ve siber zorbalık farkındalığı eğitim metodolojisi kurguladı."
@@ -394,13 +378,13 @@ const TR_SAMPLE_STATE = {
         },
         {
             "name": "Temel Düzey Mikro ERP Eğitimi Başarı Belgesi",
-            "issuer": "Üniversite & Mikro Software",
+            "issuer": "İstanbul Gedik Üniversitesi & Mikro Yazılım",
             "year": "2025"
         },
         {
-            "name": "Bilişim Teknolojileri Zirvesi Katılım Sertifikaları",
+            "name": "15, 16 ve 17. Bilişim Teknolojileri Zirvesi Katılım Sertifikaları",
             "issuer": "İTÜ İşletme Mühendisliği Kulübü",
-            "year": "2024"
+            "year": "2022-2024"
         },
         {
             "name": "Python Programlama",
@@ -408,34 +392,18 @@ const TR_SAMPLE_STATE = {
             "year": "2023"
         },
         {
-            "name": "ProSchool IT Class Sertifikası",
+            "name": "İş Bankası ProSchool IT Class",
             "issuer": "İş Bankası",
             "year": "2023"
         },
         {
-            "name": "Yapay Zeka Kampı Başarı Belgesi",
+            "name": "Yapay Zeka Kampı",
             "issuer": "Google Cloud",
             "year": "2023"
         }
     ],
-    "projects": [
-        {
-            "title": "Saha Satış Performans ve Konum Takip Platformu",
-            "details": "Python ve SQL tabanlı canlı konum ve satış performans takibi sağlayan kurumsal otomasyon yazılımı."
-        },
-        {
-            "title": "n8n Tabanlı Lead ve Müşteri Geri Bildirim Otomasyonu",
-            "details": "HubSpot ve Slack bağlantılarını kurgulayarak müşteri yanıt sürelerini %35 iyileştiren otomasyon sistemi."
-        }
-    ],
-    "references": [
-        {
-            "name": "Prof. Dr. Mehmet Yılmaz",
-            "title": "Yönetim Bilişim Sistemleri Bölüm Başkanı",
-            "company": "İstanbul Teknik Üniversitesi",
-            "contact": "m.yilmaz@itu.edu.tr"
-        }
-    ],
+    "projects": [],
+    "references": [],
     "settings": {
         "uiLang": "tr",
         "showPhoto": false,
