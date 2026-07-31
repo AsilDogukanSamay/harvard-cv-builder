@@ -69,7 +69,7 @@ function validateAndRepairCVState() {
         return;
     }
     
-    if (!cvState.experiences || cvState.experiences.length === 0) {
+    if (!cvState.experiences || cvState.experiences.length < 3) {
         cvState.experiences = JSON.parse(JSON.stringify(defaultState.experiences));
     }
     if (!cvState.educations || cvState.educations.length === 0) {
@@ -77,7 +77,7 @@ function validateAndRepairCVState() {
     }
     if (!cvState.leadership && !cvState.leaderships) {
         cvState.leadership = JSON.parse(JSON.stringify(defaultState.leadership));
-    } else if (cvState.leadership && cvState.leadership.length === 0) {
+    } else if (cvState.leadership && cvState.leadership.length < 2) {
         cvState.leadership = JSON.parse(JSON.stringify(defaultState.leadership));
     }
     if (!cvState.projects || cvState.projects.length === 0) {
@@ -96,108 +96,164 @@ function validateAndRepairCVState() {
 const EN_SAMPLE_STATE = {
     "personal": {
         "name": "Alex Morgan",
-        "title": "Senior Software Architect & Data Specialist",
+        "title": "Senior Data Scientist & Software Architect",
         "email": "alex.morgan@example.com",
         "phone": "+1 (555) 234-5678",
         "location": "Boston, MA, USA",
         "github": "github.com/alexmorgan-dev",
         "linkedin": "linkedin.com/in/alexmorgan-dev",
         "website": "alexmorgan.dev",
-        "summary": "Results-driven Senior Software Architect with 7+ years of experience specializing in high-throughput distributed systems, cloud infrastructure, and data analytics. Proven track record of scaling microservice applications serving over 3M active users while optimizing infrastructure cost by 35%."
+        "summary": "Management Information Systems (MIS) and Data Analytics specialist with extensive experience ensuring coordination between technical engineering teams and corporate business operations. Highly proficient in building scalable data pipelines, automating complex workflows, and designing REST API integrations for enterprise scale."
     },
     "experiences": [
         {
-            "company": "TECH INNOVATIONS CORP",
-            "role": "Senior Software Architect & Team Lead",
-            "dates": "2022 - Present",
-            "location": "Boston, MA",
+            "company": "MEDTECH INNOVATIONS CORP",
+            "role": "Product Management and CRM Intern",
+            "dates": "September 2025 - June 2026",
+            "location": "Boston, MA, USA",
             "bullets": [
-                "Architected distributed microservices handling 3M+ active daily users, reducing average API response latency by 40%.",
-                "Spearheaded automated CI/CD deployment pipelines for an engineering team of 12, accelerating release velocity from 4 days to 15 minutes.",
-                "Optimized AWS cloud infrastructure resources, cutting annual operational hosting expenditure by $120,000."
+                "Managed integration of workflow processes by coordinating communication between software development, sales, and operations teams.",
+                "Designed and developed an integrated platform based on Python and SQL for instant location and performance tracking of field sales teams; managed data architecture and UI phases.",
+                "Architected HubSpot and Slack connections with n8n integration tool; By fully automating lead tracking and customer feedback processes, improved response times by 35%.",
+                "Prepared strategic reports on sales trends and user behavior by analyzing large-scale customer data through CRM systems."
             ]
         },
         {
-            "company": "GLOBAL DATA SOLUTIONS INC.",
-            "role": "Senior Software & Data Engineer",
-            "dates": "2019 - 2022",
-            "location": "Cambridge, MA",
+            "company": "SOFTTECH ANALYTICS INC.",
+            "role": "Business Analyst Intern",
+            "dates": "August 2025 - September 2025",
+            "location": "Cambridge, MA, USA",
             "bullets": [
-                "Engineered Python and SQL data processing pipelines to stream and analyze 500GB daily telemetry data with zero data loss.",
-                "Developed executive analytics dashboards that increased sales conversion rate by 25% across 4 global business units.",
-                "Optimized database indexing strategies, accelerating complex query execution from 4.5 seconds to 180 milliseconds."
+                "Provided support to Agile/Scrum operations and interdisciplinary team coordination by carrying out sprint tracking, metric analysis, and daily data reporting processes."
             ]
         },
         {
-            "company": "INNOVATIVE SOFTWARE SOLUTIONS",
-            "role": "Software Engineer",
-            "dates": "2017 - 2019",
-            "location": "Boston, MA",
+            "company": "GLOBAL RETAIL INC.",
+            "role": "Intern (S.T.E.P. Program)",
+            "dates": "July 2025 - August 2025",
+            "location": "Boston, MA, USA",
             "bullets": [
-                "Built frontend core architecture for client analytics portal using React, Node.js, and RESTful APIs.",
-                "Expanded unit test code coverage from 30% to 88%, reducing production software defect rate by 60%."
+                "Won First Place Award with 'Youth Innovation' department development project in nationwide competition among participants across the USA.",
+                "Conducted operational efficiency analyses by managing product placement, stock tracking, and price control processes; reduced inventory audit deviations by 20%."
+            ]
+        },
+        {
+            "company": "LOCOMAR SOLUTIONS",
+            "role": "Business Development Assistant",
+            "dates": "April 2025 - June 2025",
+            "location": "New York, NY, USA",
+            "bullets": [
+                "Analyzed B2B marketing processes; enabled development of new customer acquisition strategies through market analysis and competitor research."
+            ]
+        },
+        {
+            "company": "VITRIOL CYBERSECURITY",
+            "role": "Cybersecurity Analytics Intern",
+            "dates": "September 2023 - June 2024",
+            "location": "Boston, MA, USA",
+            "bullets": [
+                "Provided technical support to cybersecurity projects by taking part in IT infrastructure and data analysis processes; reported system analysis and security procedures."
+            ]
+        },
+        {
+            "company": "DENIZBANK FINTECH INC.",
+            "role": "Quantitative Intern",
+            "dates": "March 2023 - June 2023",
+            "location": "Boston, MA, USA",
+            "bullets": [
+                "Won First Place Award among 100+ candidates with high performance within the scope of internship program.",
+                "Published analytical financial research article prepared as corporate content and disseminated it on the bank's official digital channels.",
+                "Presented corporate operational efficiency reports by experiencing financial processes and banking workflows in 4 different departments."
             ]
         }
     ],
     "educations": [
         {
             "university": "HARVARD UNIVERSITY",
-            "degree": "Master of Science in Computer Science & Data Analytics",
-            "dates": "2019 - 2021",
-            "location": "Cambridge, MA",
-            "gpa": "3.92 / 4.00"
-        },
-        {
-            "university": "HARVARD UNIVERSITY",
-            "degree": "Bachelor of Science in Computer Science",
-            "dates": "2015 - 2019",
-            "location": "Cambridge, MA",
-            "gpa": "3.88 / 4.00"
+            "degree": "Bachelor's Degree, Management Information Systems (MIS)",
+            "dates": "September 2022 - May 2026",
+            "location": "Cambridge, MA, USA",
+            "gpa": "3.85 / 4.00"
         }
     ],
     "leadership": [
         {
-            "organization": "OPEN SOURCE SOFTWARE ALLIANCE",
-            "role": "Community Leader & Technical Mentor",
-            "dates": "2021 - Present",
-            "location": "Boston, MA",
+            "organization": "ARTIFICIAL INTELLIGENCE AND TECHNOLOGY ACADEMY",
+            "role": "Data Science Program Scholar",
+            "dates": "December 2025 - Present",
+            "location": "Boston, MA, USA",
             "bullets": [
-                "Provided technical mentorship to 500+ junior developers on code quality and open-source contribution best practices.",
-                "Served as technical judge for National Hackathon event, evaluating over 45 software innovations."
+                "Selected as one of 1,500 scholars accepted with outstanding success among 31,700 applications from across the nation (top 4.7% acceptance rate).",
+                "Completed 100+ hours of intensive data science, data processing, and artificial intelligence training program organized in partnership with Google and Tech Center."
+            ]
+        },
+        {
+            "organization": "HARVARD COMPUTER & CYBERSECURITY CLUBS",
+            "role": "Club President | Executive Board Member",
+            "dates": "2022 - 2023",
+            "location": "Cambridge, MA, USA",
+            "bullets": [
+                "As President of Cybersecurity & MIS Club, reached over 300 students; organized technical workshops and cybersecurity awareness trainings.",
+                "As Career Club Executive Board Member, coordinated student career development events and industry panel sessions."
+            ]
+        },
+        {
+            "organization": "HABITAT ASSOCIATION & NETFLIX INITIATIVE",
+            "role": "Volunteer Trainer",
+            "dates": "2025 - Present",
+            "location": "Boston, MA, USA",
+            "bullets": [
+                "Provided digital safety education to 500+ children within 'Once Upon a Time, in Screen Time!' project.",
+                "Designed training methodology on digital security, access to accurate information, and cyberbullying awareness for early age group."
             ]
         }
     ],
     "skills": {
-        "technical": "Python, JavaScript, TypeScript, Node.js, React, Docker, Kubernetes, PostgreSQL, MongoDB, AWS, Git, CI/CD",
-        "tools": "Git, GitHub Actions, Docker, Kubernetes, Visual Studio Code, JIRA, Tableau, AWS EC2/S3",
-        "langs": "English (Native), Spanish (Fluent)",
-        "frameworks": "Express.js, Django, REST APIs, GraphQL, Microservices"
+        "technical": "SQL, Python, JavaScript, React.js, Node.js, HTML/CSS, REST API, Streamlit, Tableau, Power BI, Excel, Data Analysis & Visualization, Agile/Scrum",
+        "tools": "Git, GitHub, n8n Automation, Jira, VS Code, Chrome DevTools, MSSQL Server, Active Directory, Figma, Vite, MS Office",
+        "langs": "English (Native Language), Spanish (Advanced / B2), German (Beginner / A1)",
+        "frameworks": "Express.js, Django, REST APIs, Microservices"
     },
     "certifications": [
         {
-            "name": "AWS Certified Solutions Architect - Professional",
-            "issuer": "Amazon Web Services",
+            "name": "Google Data Analytics Professional Certificate",
+            "issuer": "Google",
+            "year": "2026"
+        },
+        {
+            "name": "Basic Level ERP Training Certificate of Achievement",
+            "issuer": "University & Software Corp",
+            "year": "2025"
+        },
+        {
+            "name": "15th, 16th and 17th Information Technologies Summit Certificates",
+            "issuer": "ITU Management Engineering Club",
+            "year": "2024"
+        },
+        {
+            "name": "Python Programming Certificate",
+            "issuer": "Turkcell Gelecegi Yazanlar",
             "year": "2023"
         },
         {
-            "name": "Certified Scrum Master (CSM)",
-            "issuer": "Scrum Alliance",
-            "year": "2022"
+            "name": "ProSchool IT Class Certificate",
+            "issuer": "Is Bankasi",
+            "year": "2023"
         },
         {
-            "name": "Google Cloud Professional Data Engineer",
+            "name": "Artificial Intelligence Camp Certificate",
             "issuer": "Google Cloud",
-            "year": "2021"
+            "year": "2023"
         }
     ],
     "projects": [
         {
-            "title": "Open-Source High-Speed Data Parser",
-            "details": "Created an open-source data analytics library with over 1,800 GitHub stars, utilized by 200+ developer teams worldwide."
+            "title": "Field Sales Performance and Location Tracking Platform",
+            "details": "Python and SQL based real-time location and performance tracking enterprise application."
         },
         {
-            "title": "Microservice Performance Monitor",
-            "details": "Developed open-source telemetry dashboard for real-time latency monitoring and anomaly detection."
+            "title": "n8n Based Lead and Customer Feedback Automation",
+            "details": "HubSpot and Slack integration automation system improving customer response times by 35%."
         }
     ],
     "references": [
@@ -226,114 +282,170 @@ const EN_SAMPLE_STATE = {
 const TR_SAMPLE_STATE = {
     "personal": {
         "name": "Ahmet Yılmaz",
-        "title": "Kıdemli Yazılım Mimarı & Veri Mühendisi",
+        "title": "Yönetim Bilişim Sistemleri Uzmanı & Veri Analisti",
         "email": "ahmet.yilmaz@example.com",
-        "phone": "+90 532 123 45 67",
-        "location": "İstanbul, Türkiye",
+        "phone": "+90 544 331 76 20",
+        "location": "İstanbul / Çanakkale, Türkiye",
         "github": "github.com/ahmetyilmaz-dev",
         "linkedin": "linkedin.com/in/ahmetyilmaz-dev",
         "website": "ahmetyilmaz.dev",
-        "summary": "Veri analitiği, dağıtık mikroservis sistemleri ve süreç otomasyonu konularında 7+ yıl deneyimli Kıdemli Yazılım Mimarı. Yüksek performanslı veri işleme boru hatları geliştirme, bulut altyapı optimizasyonu ve mühendislik ekiplerine liderlik etme konusunda uzmanlaşmıştır."
+        "summary": "Veri analitiği, süreç otomasyonu ve yazılım geliştirme konularına odaklanan, teknik mühendislik ekipleri ile kurumsal iş operasyonları arasındaki koordinasyonu sağlama konusunda deneyim sahibi Yönetim Bilişim Sistemleri (MIS) uzmanı. Ölçeklenebilir veri hatları kurgulama, karmaşık iş akışlarını otomatize etme ve REST API entegrasyonları tasarlama konularında yetkin. Uluslararası ve büyük kurumsal yapılarda teknoloji odaklı değer yaratmayı hedeflemektedir."
     },
     "experiences": [
         {
-            "company": "GLOBAL TEKNOLOJİ A.Ş.",
-            "role": "Kıdemli Yazılım Mimarı & Ekip Lideri",
-            "dates": "2022 - Günümüz",
-            "location": "İstanbul",
+            "company": "MEDİBULUT",
+            "role": "Ürün Yönetimi ve CRM Stajyeri",
+            "dates": "Eylül 2025 - Haziran 2026",
+            "location": "Çanakkale, Türkiye",
             "bullets": [
-                "3M+ günlük aktif kullanıcıya hizmet veren mikroservis mimarisini yeniden tasarlayarak ortalama API yanıt süresini %40 iyileştirdi.",
-                "12 kişilik mühendislik ekibine liderlik ederek CI/CD süreçlerini otomatize etti; canlıya alma süresini 4 günden 15 dakikaya düşürdü.",
-                "AWS bulut sunucu altyapısını optimize ederek yıllık operasyonel sunucu maliyetlerini 120.000$ azalttı."
+                "Yazılım geliştirme, satış ve operasyon ekipleri arasındaki iletişimi koordine ederek iş akış süreçlerinin entegrasyonunu yönetti.",
+                "Saha satış ekiplerinin anlık konum ve performans takibi için Python ve SQL tabanlı entegre platform tasarlayıp geliştirdi; tüm veri mimarisi ve UI aşamalarını yönetti.",
+                "n8n entegrasyon aracı ile HubSpot ve Slack bağlantılarını kurguladı; lead takip ve müşteri geri bildirim süreçlerini tam otomatize hale getirerek yanıt sürelerini %35 iyileştirdi.",
+                "CRM sistemleri üzerinden geniş ölçekli müşteri verilerini analiz ederek satış trendleri ve kullanıcı davranışlarına yönelik stratejik raporlar hazırladı."
             ]
         },
         {
-            "company": "VERİ ANALİTİĞİ ÇÖZÜMLERİ LTD.",
-            "role": "Kıdemli Veri Mühendisi & Yazılım Geliştirici",
-            "dates": "2019 - 2022",
-            "location": "Ankara",
+            "company": "SOFTTECH",
+            "role": "Stajyer İş Analisti",
+            "dates": "Ağustos 2025 - Eylül 2025",
+            "location": "İstanbul, Türkiye",
             "bullets": [
-                "Python ve SQL tabanlı dağıtık veri işleme mimarisi kurarak günlük 500GB akış verisini sıfır kayıp ile analiz etti.",
-                "Şirket içi müşteri davranış analizi panellerini geliştirerek satış ekibinin dönüşüm oranını %25 artırdı.",
-                "Veri tabanı indeksleme stratejilerini optimize ederek karmaşık sorgu sürelerini 4.5 saniyeden 180 milisaniyeye düşürdü."
+                "Sprint takibi, metrik analizi ve günlük veri raporlama süreçlerini yürüterek Agile/Scrum operasyonlarına ve disiplinlerarası ekip içi koordinasyona destek sağladı."
             ]
         },
         {
-            "company": "İNOVASYON YAZILIM A.Ş.",
-            "role": "Yazılım Geliştirme Uzmanı",
-            "dates": "2017 - 2019",
-            "location": "İstanbul",
+            "company": "KOÇTAŞ",
+            "role": "Stajyer (S.T.E.P. Programı)",
+            "dates": "Temmuz 2025 - Ağustos 2025",
+            "location": "Çanakkale, Türkiye",
             "bullets": [
-                "React ve Node.js mimarisiyle geliştirilen müşteri yönetim panelinin frontend altyapısını kurdu.",
-                "Birim test (Unit Test) kapsama oranını %30'dan %88'e çıkararak canlı sistemdeki hata oranını %60 azalttı."
+                "Türkiye genelindeki katılımcılar arasında düzenlenen proje yarışmasında 'Koçtaş Kids' departman geliştirme projesiyle Birincilik Ödülü kazandı.",
+                "Ürün yerleşimi, stok takibi ve fiyat kontrolü süreçlerini yöneterek operasyonel verimlilik analizleri gerçekleştirdi; stok denetim sapmalarını %20 azalttı."
+            ]
+        },
+        {
+            "company": "LOCOMAR",
+            "role": "İş Geliştirme Asistanı",
+            "dates": "Nisan 2025 - Haziran 2025",
+            "location": "İzmir, Türkiye",
+            "bullets": [
+                "B2B pazarlama süreçlerini analiz ederek; pazar analizi ve rakip araştırmalarıyla yeni müşteri kazanım stratejilerinin geliştirilmesini sağladı."
+            ]
+        },
+        {
+            "company": "VITRIOL",
+            "role": "Siber Güvenlik Stajyeri",
+            "dates": "Eylül 2023 - Haziran 2024",
+            "location": "İstanbul, Türkiye",
+            "bullets": [
+                "BT altyapısı ve veri analizi süreçlerinde görev alarak siber güvenlik projelerine teknik destek sağladı; sistem analiz ve güvenlik prosedürlerini raporladı."
+            ]
+        },
+        {
+            "company": "DENİZBANK",
+            "role": "Stajyer",
+            "dates": "Mart 2023 - Haziran 2023",
+            "location": "İstanbul, Türkiye",
+            "bullets": [
+                "Staj programı kapsamında gösterdiği yüksek performansla 100'den fazla aday arasından Birincilik Ödülü kazandı.",
+                "Hazırladığı analitik finansal araştırma makalesini kurumsal içerik olarak yayımlayarak bankanın resmi dijital kanallarında yaygınlaştırdı.",
+                "Finansal süreçleri ve bankacılık iş akışlarını 4 farklı departmanda deneyimleyerek kurumsal operasyonel verimlilik raporları sundu."
             ]
         }
     ],
     "educations": [
         {
             "university": "İSTANBUL TEKNİK ÜNİVERSİTESİ",
-            "degree": "Yüksek Lisans, Veri Analitiği ve Yazılım Mühendisliği",
-            "dates": "2019 - 2021",
-            "location": "İstanbul",
-            "gpa": "3.90 / 4.00"
-        },
-        {
-            "university": "İSTANBUL TEKNİK ÜNİVERSİTESİ",
-            "degree": "Lisans, Bilgisayar Mühendisliği",
-            "dates": "2015 - 2019",
-            "location": "İstanbul",
-            "gpa": "3.82 / 4.00"
+            "degree": "Lisans, Yönetim Bilişim Sistemleri (MIS)",
+            "dates": "Eylül 2022 - Mayıs 2026",
+            "location": "İstanbul, Türkiye",
+            "gpa": "3.65 / 4.00"
         }
     ],
     "leadership": [
         {
-            "organization": "AÇIK KAYNAK YAZILIM TOPLULUĞU",
-            "role": "Topluluk Lideri & Teknik Mentor",
-            "dates": "2021 - Günümüz",
-            "location": "İstanbul",
+            "organization": "YAPAY ZEKA VE TEKNOLOJİ AKADEMİSİ",
+            "role": "Veri Bilimi Programı Bursiyeri",
+            "dates": "Aralık 2025 - Devam Ediyor",
+            "location": "İstanbul, Türkiye",
             "bullets": [
-                "500+ genç yazılımcıya açık kaynak katkısı ve kod kalitesi konularında aylık mentörlük sağladı.",
-                "Ulusal Hackathon organizasyonunda teknik jüri üyesi olarak 45 projeyi değerlendirdi."
+                "Türkiye genelinden gelen 31.700 başvuru arasından üstün başarı göstererek kabul alan 1.500 bursiyerden biri (%4,7'lik başarı dilimi) olarak seçildi.",
+                "Google Türkiye, GİRVAK ve T3 Girişim Merkezi ortaklığında düzenlenen 100 saatten fazla yoğun veri bilimi, veri işleme ve yapay zeka eğitim programını tamamladı."
+            ]
+        },
+        {
+            "organization": "ÜNİVERSİTE BİLİŞİM & SİBER GÜVENLİK KULÜPLERİ",
+            "role": "Kulüp Başkanı | Yönetim Kurulu Üyesi",
+            "dates": "2022 - 2023",
+            "location": "İstanbul, Türkiye",
+            "bullets": [
+                "Siber Güvenlik & MIS Kulübü Başkanı olarak 300'den fazla öğrenciye ulaştı; teknik workshoplar ve siber güvenlik farkındalık eğitimleri organize etti.",
+                "Kariyer Kulübü Yönetim Kurulu Üyesi olarak öğrenci kariyer gelişim etkinliklerini ve sektör panellerini koordine etti."
+            ]
+        },
+        {
+            "organization": "HABİTAT DERNEĞİ & NETFLIX",
+            "role": "Gönüllü Eğitmen",
+            "dates": "2025 - Devam Ediyor",
+            "location": "İstanbul, Türkiye",
+            "bullets": [
+                "Çocukların dijital dünyada güvenli adımlar atmasını sağlamak amacıyla 'Evvel Zaman İçinde Ekran Zamanında!' projesinde 500'den fazla çocuğa eğitim sundu.",
+                "Erken yaş grubuna yönelik dijital güvenlik, doğru bilgiye erişim ve siber zorbalık farkındalığı eğitim metodolojisi kurguladı."
             ]
         }
     ],
     "skills": {
-        "technical": "Python, JavaScript, TypeScript, Node.js, React, Docker, Kubernetes, PostgreSQL, MongoDB, AWS, Git, CI/CD",
-        "tools": "Git, GitHub Actions, Docker, Kubernetes, Visual Studio Code, JIRA, Tableau, AWS EC2/S3",
-        "langs": "Türkçe (Ana Dil), İngilizce (İleri Düzey - C1)",
-        "frameworks": "Express.js, Django, REST APIs, GraphQL, Microservices"
+        "technical": "SQL, Python, JavaScript, React.js, Node.js, HTML/CSS, REST API, Streamlit, Tableau, Power BI, Excel, Veri Analizi ve Görselleştirme, Agile/Scrum",
+        "tools": "Git, GitHub, n8n Otomasyon, Jira, VS Code, Chrome DevTools, MSSQL Server, Active Directory, Figma, Vite, MS Office",
+        "langs": "Türkçe (Anadil), İngilizce (İleri Düzey / B2), Almanca (Başlangıç / A1)",
+        "frameworks": "Express.js, Django, REST APIs, Microservices"
     },
     "certifications": [
         {
-            "name": "AWS Certified Solutions Architect - Professional",
-            "issuer": "Amazon Web Services",
+            "name": "Google Data Analytics Professional Certificate",
+            "issuer": "Google",
+            "year": "2026"
+        },
+        {
+            "name": "Temel Düzey Mikro ERP Eğitimi Başarı Belgesi",
+            "issuer": "Üniversite & Mikro Software",
+            "year": "2025"
+        },
+        {
+            "name": "Bilişim Teknolojileri Zirvesi Katılım Sertifikaları",
+            "issuer": "İTÜ İşletme Mühendisliği Kulübü",
+            "year": "2024"
+        },
+        {
+            "name": "Python Programlama",
+            "issuer": "Turkcell Geleceği Yazanlar",
             "year": "2023"
         },
         {
-            "name": "Certified Scrum Master (CSM)",
-            "issuer": "Scrum Alliance",
-            "year": "2022"
+            "name": "ProSchool IT Class Sertifikası",
+            "issuer": "İş Bankası",
+            "year": "2023"
         },
         {
-            "name": "Google Cloud Professional Data Engineer",
+            "name": "Yapay Zeka Kampı Başarı Belgesi",
             "issuer": "Google Cloud",
-            "year": "2021"
+            "year": "2023"
         }
     ],
     "projects": [
         {
-            "title": "Açık Kaynak Yüksek Hızlı Veri İşleme Motoru",
-            "details": "Geliştiricilerin büyük veri kümelerini hızlıca analiz etmesini sağlayan 1.800+ GitHub yıldızlı açık kaynak proje."
+            "title": "Saha Satış Performans ve Konum Takip Platformu",
+            "details": "Python ve SQL tabanlı canlı konum ve satış performans takibi sağlayan kurumsal otomasyon yazılımı."
         },
         {
-            "title": "Mikroservis Performans İzleme Paneli",
-            "details": "Dağıtık sistemlerde gecikme sürelerini canlı ölçen ve anomalileri uyaran açık kaynaklı izleme aracı."
+            "title": "n8n Tabanlı Lead ve Müşteri Geri Bildirim Otomasyonu",
+            "details": "HubSpot ve Slack bağlantılarını kurgulayarak müşteri yanıt sürelerini %35 iyileştiren otomasyon sistemi."
         }
     ],
     "references": [
         {
             "name": "Prof. Dr. Mehmet Yılmaz",
-            "title": "Bilgisayar Mühendisliği Bölüm Başkanı",
+            "title": "Yönetim Bilişim Sistemleri Bölüm Başkanı",
             "company": "İstanbul Teknik Üniversitesi",
             "contact": "m.yilmaz@itu.edu.tr"
         }
