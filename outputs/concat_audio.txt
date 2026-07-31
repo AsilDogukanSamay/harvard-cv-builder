@@ -1,0 +1,7 @@
+file 'C:/Users/doguk/.gemini/antigravity/scratch/asil_harvard_cv/outputs/cvsom_video_assets/line_01.mp3'
+file 'C:/Users/doguk/.gemini/antigravity/scratch/asil_harvard_cv/outputs/cvsom_video_assets/line_02.mp3'
+file 'C:/Users/doguk/.gemini/antigravity/scratch/asil_harvard_cv/outputs/cvsom_video_assets/line_03.mp3'
+file 'C:/Users/doguk/.gemini/antigravity/scratch/asil_harvard_cv/outputs/cvsom_video_assets/line_04.mp3'
+file 'C:/Users/doguk/.gemini/antigravity/scratch/asil_harvard_cv/outputs/cvsom_video_assets/line_05.mp3'
+file 'C:/Users/doguk/.gemini/antigravity/scratch/asil_harvard_cv/outputs/cvsom_video_assets/line_06.mp3'
+file 'C:/Users/doguk/.gemini/antigravity/scratch/asil_harvard_cv/outputs/cvsom_video_assets/line_07.mp3'

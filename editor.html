@@ -108,12 +108,6 @@
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="theme-icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
                 </button>
                 
-                    <button class="btn-guide btn-video" onclick="openVideoPlayerModal()" style="background: linear-gradient(135deg, #e53935, #c62828); color: #fff; margin-right: 6px; font-weight: 600;" title="Kullanım Videosunu İzle"><i class="fas fa-video"></i> 🎬 Tanıtım Videosunu İzle</button>
-                    <button class="btn-guide btn-youtube" onclick="openYouTubeShowcase()" style="background: #ff0000; color: #fff; margin-right: 6px; font-weight: 700;" title="YouTube İnceleme Videosunu İzle"><i class="fab fa-youtube"></i> 📺 YouTube İnceleme Videosu</button>
-                    <a href="linear_style_video.html" class="btn-guide btn-linear" style="background: linear-gradient(135deg, #0284c7, #0369a1); color: #fff; margin-right: 6px; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;" title="Linear / Motion Canvas 3D Sinematik Lansman"><i class="fas fa-cube"></i> ⚡ 3D Motion Sinematik Lansman</a>
-                    <a href="showcase_video.html" class="btn-guide btn-showcase" style="background: linear-gradient(135deg, #e53935, #b71c1c); color: #fff; margin-right: 6px; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;" title="60FPS İnteraktif Lansman Videosunu İzle"><i class="fas fa-play-circle"></i> 🎬 60FPS Lansman Videosu</a>
-                    <button class="btn-guide btn-screen-studio" onclick="generateScreenStudioVideo()" style="background: linear-gradient(135deg, #7b1fa2, #4a148c); color: #fff; margin-right: 6px; font-weight: 700;" title="Screen Studio 60FPS Canlı Çekim Başlat"><i class="fas fa-video"></i> 🎥 Screen Studio Çekimi Başlat</button>
-                    <button class="btn-guide btn-tour" onclick="startInteractiveTour()" style="background: linear-gradient(135deg, #2e7d32, #1b5e20); color: #fff; margin-right: 6px; font-weight: 600;" title="Canlı Tanıtım ve Kullanım Rehberi"><i class="fas fa-play-circle"></i> 📹 Canlı Tanıtım Turu</button>
                     <button class="btn-guide" onclick="toggleGuideModal()">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
                     <span data-i18n="how_it_works">Nasıl Çalışır?</span>
@@ -697,153 +691,18 @@
     
 
     <!-- Interactive Promotional Tour Modal -->
-    <div id="interactive-tour-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.75); z-index: 99999; justify-content: center; align-items: center; font-family: sans-serif;">
-        <div style="background: #fff; width: 92%; max-width: 600px; border-radius: 16px; padding: 28px; box-shadow: 0 20px 50px rgba(0,0,0,0.4); position: relative; border: 2px solid #1a73e8;">
-            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 14px; margin-bottom: 18px;">
-                <span id="tour-badge" style="background: #e8f0fe; color: #1a73e8; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 12px; text-transform: uppercase;">Giriş & Genel Bakış</span>
-                <span id="tour-step-counter" style="font-size: 12px; font-weight: 600; color: #666;">1 / 8</span>
-            </div>
-            
-            <h2 id="tour-title" style="margin: 0 0 12px 0; font-size: 20px; color: #111; font-weight: 700;">👋 Harvard CV Builder'a Hoş Geldiniz!</h2>
-            <p id="tour-desc" style="font-size: 14px; line-height: 1.6; color: #444; margin-bottom: 24px; min-height: 70px;">
-                Bu uygulama, Harvard Extension School (2026) standartlarına uyumlu, 90+ ATS skorlu profesyonel özgeçmişler oluşturmanızı sağlar. Şimdi tüm özellikleri adım adım keşfedelim!
-            </p>
-
-            <div style="display: flex; justify-content: space-between; align-items: center; pt-3; border-top: 1px solid #eee; padding-top: 16px;">
-                <button onclick="closeTour()" style="background: none; border: 1px solid #ccc; padding: 8px 16px; border-radius: 6px; font-size: 13px; cursor: pointer; color: #666;">Turu Kapat</button>
-                <div style="display: flex; gap: 8px;">
-                    <button onclick="prevTourStep()" style="background: #f1f3f4; border: 1px solid #dadce0; padding: 8px 16px; border-radius: 6px; font-size: 13px; cursor: pointer; font-weight: 600;">← Geri</button>
-                    <button onclick="nextTourStep()" style="background: linear-gradient(135deg, #1a73e8, #1557b0); border: none; color: #fff; padding: 8px 20px; border-radius: 6px; font-size: 13px; cursor: pointer; font-weight: 600;">İleri →</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    
     
 
     <!-- HTML5 Video Player Modal -->
     
     <!-- HTML5 Video Player & Chapter Showcase Modal -->
-    <div id="video-player-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 999999; justify-content: center; align-items: center; font-family: sans-serif;">
-        <div style="background: #12121a; width: 94%; max-width: 1000px; border-radius: 18px; padding: 24px; box-shadow: 0 30px 80px rgba(0,0,0,0.8); position: relative; border: 1px solid #2a2a3c; color: #fff;">
-            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #2a2a3c; padding-bottom: 14px; margin-bottom: 18px;">
-                <div>
-                    <h3 style="margin: 0; font-size: 19px; color: #fff; font-weight: 700;"><i class="fas fa-play-circle" style="color: #e53935;"></i> Harvard CV Builder - Profesyonel Ürün Tanıtımı</h3>
-                    <span style="font-size: 12px; color: #94a3b8;">Harvard Extension School 2026 & ATS 90+ Standartları Kılavuzu</span>
-                </div>
-                <button onclick="closeVideoPlayerModal()" style="border: none; background: none; color: #94a3b8; font-size: 26px; cursor: pointer;">&times;</button>
-            </div>
-            
-            <div style="display: grid; grid-template-columns: 1fr 280px; gap: 16px;">
-                <div style="border-radius: 12px; overflow: hidden; background: #000; display: flex; justify-content: center; align-items: center; border: 1px solid #2a2a3c;">
-                    <video id="demo-video-element" src="harvard_cv_builder_demo.mp4" controls style="width: 100%; max-height: 480px; outline: none;" autoplay loop></video>
-                </div>
-                
-                <!-- Chapter Timestamps Sidebar -->
-                <div style="background: #1a1a28; border-radius: 12px; padding: 14px; border: 1px solid #2a2a3c; display: flex; flex-direction: column; gap: 8px;">
-                    <div style="font-size: 13px; font-weight: 700; color: #cbd5e1; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;">📍 Video Bölümleri</div>
-                    <button onclick="seekVideo(0)" style="text-align: left; background: #252538; border: 1px solid #3b3b54; color: #fff; padding: 8px 10px; border-radius: 6px; font-size: 11px; cursor: pointer;">⏱️ 00:00 | Giriş & Harvard Standartları</button>
-                    <button onclick="seekVideo(10)" style="text-align: left; background: #252538; border: 1px solid #3b3b54; color: #fff; padding: 8px 10px; border-radius: 6px; font-size: 11px; cursor: pointer;">⏱️ 00:10 | Kişisel Bilgiler & Canlı Önizleme</button>
-                    <button onclick="seekVideo(20)" style="text-align: left; background: #252538; border: 1px solid #3b3b54; color: #fff; padding: 8px 10px; border-radius: 6px; font-size: 11px; cursor: pointer;">⏱️ 00:20 | Dinamik Kartlar & ▲/▼ Sıralama</button>
-                    <button onclick="seekVideo(35)" style="text-align: left; background: #252538; border: 1px solid #3b3b54; color: #fff; padding: 8px 10px; border-radius: 6px; font-size: 11px; cursor: pointer;">⏱️ 00:35 | Tek Tıkla PDF CV Yükleme</button>
-                    <button onclick="seekVideo(50)" style="text-align: left; background: #252538; border: 1px solid #3b3b54; color: #fff; padding: 8px 10px; border-radius: 6px; font-size: 11px; cursor: pointer;">⏱️ 00:50 | %96+ ATS Skor & Algoritma</button>
-                    <button onclick="seekVideo(65)" style="text-align: left; background: #252538; border: 1px solid #3b3b54; color: #fff; padding: 8px 10px; border-radius: 6px; font-size: 11px; cursor: pointer;">⏱️ 01:05 | 🤖 Canlı AI CV Asistanı</button>
-                    <button onclick="seekVideo(75)" style="text-align: left; background: #252538; border: 1px solid #3b3b54; color: #fff; padding: 8px 10px; border-radius: 6px; font-size: 11px; cursor: pointer;">⏱️ 01:15 | Türkçe - İngilizce Harvard Çeviri</button>
-                </div>
-            </div>
-
-            <div style="text-align: right; margin-top: 16px;">
-                <button onclick="closeVideoPlayerModal()" class="btn btn-secondary" style="padding: 8px 20px; border-radius: 6px; font-size: 13px; background: #2a2a3c; color: #fff; border: none; cursor: pointer;">Kapat</button>
-            </div>
-        </div>
-    </div>
+    
 </div>
     
 
     <!-- YouTube Style Interactive Video & Showcase Modal -->
-    <div id="youtube-showcase-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 15, 20, 0.95); z-index: 999999; justify-content: center; align-items: center; font-family: 'Inter', sans-serif; color: #fff; overflow-y: auto;">
-        <div style="background: #0f0f0f; width: 95%; max-width: 1100px; max-height: 90vh; border-radius: 16px; padding: 24px; box-shadow: 0 30px 90px rgba(0,0,0,0.9); border: 1px solid #272727; overflow-y: auto;">
-            
-            <!-- YouTube Header Bar -->
-            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #272727; padding-bottom: 16px; margin-bottom: 20px;">
-                <div style="display: flex; align-items: center; gap: 12px;">
-                    <div style="background: #ff0000; color: #fff; width: 36px; height: 26px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800;"><i class="fas fa-play"></i></div>
-                    <span style="font-size: 18px; font-weight: 700; letter-spacing: -0.5px;">YouTube Tanıtım & İnceleme Videosu</span>
-                </div>
-                <button onclick="closeYouTubeShowcase()" style="background: none; border: none; color: #aaa; font-size: 28px; cursor: pointer;">&times;</button>
-            </div>
-
-            <!-- Main YouTube Grid Layout -->
-            <div style="display: grid; grid-template-columns: 1fr 320px; gap: 20px;">
-                
-                <!-- Left: Video Screen & Player -->
-                <div>
-                    <div style="position: relative; width: 100%; border-radius: 12px; overflow: hidden; background: #000; border: 1px solid #272727; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-                        <video id="yt-video-player" src="harvard_cv_builder_demo.mp4" controls autoplay loop style="width: 100%; max-height: 480px; display: block; outline: none;"></video>
-                    </div>
-
-                    <!-- Video Title & Meta -->
-                    <h2 style="font-size: 18px; font-weight: 700; margin: 16px 0 8px 0; color: #f1f1f1;">🔥 Harvard CV Builder 2026 - %96+ ATS Skorlu Özgeçmiş Nasıl Yapılır? (Tam Rehber)</h2>
-                    
-                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #272727; padding-bottom: 14px; margin-bottom: 16px;">
-                        <div style="display: flex; align-items: center; gap: 12px;">
-                            <div style="width: 42px; height: 42px; border-radius: 50%; background: linear-gradient(135deg, #1a73e8, #8e24aa); display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; font-size: 16px;">AD</div>
-                            <div>
-                                <div style="font-weight: 700; font-size: 14px; color: #f1f1f1;">Asil Doğukan Samay</div>
-                                <div style="font-size: 12px; color: #aaa;">12.4 B Abone</div>
-                            </div>
-                            <button style="background: #f1f1f1; color: #0f0f0f; border: none; font-weight: 700; padding: 8px 16px; border-radius: 18px; font-size: 12px; margin-left: 12px; cursor: pointer;">Abone Ol</button>
-                        </div>
-                        
-                        <div style="display: flex; gap: 8px;">
-                            <button style="background: #272727; color: #fff; border: none; padding: 8px 14px; border-radius: 18px; font-size: 12px; font-weight: 600; cursor: pointer;"><i class="fas fa-thumbs-up"></i> 1.8 B</button>
-                            <button style="background: #272727; color: #fff; border: none; padding: 8px 14px; border-radius: 18px; font-size: 12px; font-weight: 600; cursor: pointer;"><i class="fas fa-share"></i> Paylaş</button>
-                        </div>
-                    </div>
-
-                    <!-- Video Description Box -->
-                    <div style="background: #272727; border-radius: 12px; padding: 14px; font-size: 13px; line-height: 1.6; color: #d1d1d1;">
-                        <div style="font-weight: 700; margin-bottom: 6px; color: #fff;">45.219 görüntülenme • 29 Tem 2026</div>
-                        <p style="margin: 0 0 10px 0;">
-                            🚀 Bu videoda Harvard Extension School (2026) standartlarında, Taleo ve Workday işe alım robotlarından %96+ puan alan profesyonel özgeçmiş oluşturmanın tüm detaylarını anlatıyorum!
-                        </p>
-                        <div style="font-weight: 700; color: #3ea6ff; margin-bottom: 4px;">📌 Bölüm Zaman Damgaları:</div>
-                        <div style="display: flex; flex-direction: column; gap: 4px; font-size: 12px;">
-                            <span onclick="seekYTVideo(0)" style="color: #3ea6ff; cursor: pointer;">⏱️ 00:00 - Giriş ve ATS Problemi</span>
-                            <span onclick="seekYTVideo(10)" style="color: #3ea6ff; cursor: pointer;">⏱️ 00:10 - Canlı A4 Önizleme & Editör Kullanımı</span>
-                            <span onclick="seekYTVideo(20)" style="color: #3ea6ff; cursor: pointer;">⏱️ 00:20 - Dinamik Kartlar & ▲/▼ Sıralama</span>
-                            <span onclick="seekYTVideo(35)" style="color: #3ea6ff; cursor: pointer;">⏱️ 00:35 - Tek Tıkla PDF CV Yükleme</span>
-                            <span onclick="seekYTVideo(50)" style="color: #3ea6ff; cursor: pointer;">⏱️ 00:50 - %96+ ATS Skor Analizi</span>
-                            <span onclick="seekYTVideo(65)" style="color: #3ea6ff; cursor: pointer;">⏱️ 01:05 - Canlı Akıllı AI CV Asistanı</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right: YouTube Comments & Related Showcase -->
-                <div style="display: flex; flex-direction: column; gap: 16px;">
-                    <div style="background: #181818; border-radius: 12px; padding: 16px; border: 1px solid #272727;">
-                        <div style="font-size: 14px; font-weight: 700; margin-bottom: 14px; border-bottom: 1px solid #272727; padding-bottom: 8px;">💬 Öne Çıkan Yorumlar (142)</div>
-                        
-                        <div style="display: flex; flex-direction: column; gap: 12px; font-size: 12px;">
-                            <div>
-                                <div style="font-weight: 700; color: #3ea6ff;">@MertYilmaz • 2 saat önce</div>
-                                <div style="color: #e1e1e1; margin-top: 2px;">Kanka harika bir proje olmuş! PDF yükleme saniyeler sürdü, ATS skoru bende %96 çıktı 🚀</div>
-                            </div>
-                            <div>
-                                <div style="font-weight: 700; color: #3ea6ff;">@Selin_HR • 5 saat önce</div>
-                                <div style="color: #e1e1e1; margin-top: 2px;">Bir İK uzmanı olarak söylüyorum, Harvard tek kolonlu format tam bizim aradığımız standart!</div>
-                            </div>
-                            <div>
-                                <div style="font-weight: 700; color: #3ea6ff;">@BurakYazilim • 1 gün önce</div>
-                                <div style="color: #e1e1e1; margin-top: 2px;">AI asistanının etken fiil önerileri mükemmel. YouTube inceleme videosu için tebrikler! 🔥</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-    </div>
+    
 
 </body>
 </html>
