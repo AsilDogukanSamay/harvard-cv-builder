@@ -1359,6 +1359,13 @@ function loadStateIntoUI() {
     setText('cv-linkedin', cvState.personal.linkedin);
     setText('cv-website', cvState.personal.website);
     
+    // CRITICAL FIX: Re-render all left sidebar editor input cards so they match cvState!
+    if (typeof renderEditorExperiences === 'function') renderEditorExperiences();
+    if (typeof renderEditorEducation === 'function') renderEditorEducation();
+    if (typeof renderEditorLeadership === 'function') renderEditorLeadership();
+    if (typeof renderEditorCertifications === 'function') renderEditorCertifications();
+    if (typeof renderEditorProjects === 'function') renderEditorProjects();
+    if (typeof renderEditorReferences === 'function') renderEditorReferences();
     if (typeof renderCVContactInfo === 'function') renderCVContactInfo();
 }
 
