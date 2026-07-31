@@ -1965,24 +1965,23 @@ function renderCVExperiences() {
     
     exps.forEach(exp => {
         const expDiv = document.createElement('div');
-        expDiv.className = 'cv-item';
-        expDiv.style.marginBottom = '10px';
+        expDiv.className = 'entry-block';
         
         let bulletsHtml = '';
         if (exp.bullets && exp.bullets.length > 0) {
-            bulletsHtml = `<ul class="cv-bullets">` + 
+            bulletsHtml = `<ul class="entry-bullets">` + 
                 exp.bullets.map(b => `<li>${formatBulletPoint(b)}</li>`).join('') + 
                 `</ul>`;
         }
         
         expDiv.innerHTML = `
-            <div class="cv-item-header">
-                <span class="cv-item-title">${exp.company || ''}</span>
-                <span class="cv-item-date">${exp.dates || ''}</span>
+            <div class="entry-header">
+                <span class="company-name">${exp.company || ''}</span>
+                <span class="entry-location">${exp.location || ''}</span>
             </div>
-            <div class="cv-item-sub">
-                <span class="cv-item-role">${exp.role || ''}</span>
-                <span class="cv-item-location">${exp.location || ''}</span>
+            <div class="entry-subheader">
+                <span class="entry-role">${exp.role || ''}</span>
+                <span class="entry-date">${exp.dates || ''}</span>
             </div>
             ${bulletsHtml}
         `;
@@ -2042,16 +2041,15 @@ function renderCVEducation() {
         }
         
         const eduDiv = document.createElement('div');
-        eduDiv.className = 'cv-item';
-        eduDiv.style.marginBottom = '8px';
+        eduDiv.className = 'entry-block';
         eduDiv.innerHTML = `
-            <div class="cv-item-header">
-                <span class="cv-item-title">${edu.university || ''}</span>
-                <span class="cv-item-date">${edu.dates || ''}</span>
+            <div class="entry-header">
+                <span class="university-name">${edu.university || ''}</span>
+                <span class="entry-location">${edu.location || ''}</span>
             </div>
-            <div class="cv-item-sub">
-                <span class="cv-item-role">${edu.degree || ''}${gpaText}</span>
-                <span class="cv-item-location">${edu.location || ''}</span>
+            <div class="entry-subheader">
+                <span class="entry-role">${edu.degree || ''}${gpaText}</span>
+                <span class="entry-date">${edu.dates || ''}</span>
             </div>
         `;
         container.appendChild(eduDiv);
@@ -2070,22 +2068,21 @@ function renderCVLeadership() {
     leads.forEach(l => {
         let bulletsHtml = '';
         if (l.bullets && l.bullets.length > 0) {
-            bulletsHtml = `<ul class="cv-bullets">` + 
+            bulletsHtml = `<ul class="entry-bullets">` + 
                 l.bullets.map(b => `<li>${formatBulletPoint(b)}</li>`).join('') + 
                 `</ul>`;
         }
         
         const leadDiv = document.createElement('div');
-        leadDiv.className = 'cv-item';
-        leadDiv.style.marginBottom = '8px';
+        leadDiv.className = 'entry-block';
         leadDiv.innerHTML = `
-            <div class="cv-item-header">
-                <span class="cv-item-title">${l.organization || ''}</span>
-                <span class="cv-item-date">${l.dates || ''}</span>
+            <div class="entry-header">
+                <span class="company-name">${l.organization || ''}</span>
+                <span class="entry-location">${l.location || ''}</span>
             </div>
-            <div class="cv-item-sub">
-                <span class="cv-item-role">${l.role || ''}</span>
-                <span class="cv-item-location">${l.location || ''}</span>
+            <div class="entry-subheader">
+                <span class="entry-role">${l.role || ''}</span>
+                <span class="entry-date">${l.dates || ''}</span>
             </div>
             ${bulletsHtml}
         `;
