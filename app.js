@@ -1,3 +1,13 @@
+// FORCE AUTO CACHE CLEAR FOR VERSION 100
+(function() {
+    if (typeof localStorage !== 'undefined' && !localStorage.getItem('harvard_v100_cleared')) {
+        try {
+            localStorage.clear();
+            localStorage.setItem('harvard_v100_cleared', 'true');
+        } catch(e){}
+    }
+})();
+
 
 // -------------------------------------------------------------
 // USER SESSION & AUTHENTICATION HANDLERS
@@ -3700,25 +3710,96 @@ async function generateScreenStudioVideo() {
 
 
 
+
+
+
+
+
 function loadTRSample() {
-    localStorage.clear();
+    try { localStorage.clear(); localStorage.setItem('harvard_v100_cleared', 'true'); } catch(e){}
     cvState = JSON.parse(JSON.stringify(TR_SAMPLE_STATE));
+    if (!cvState.settings) cvState.settings = {};
     cvState.settings.uiLang = 'tr';
     saveToLocalStorage();
+    
+    // Direct DOM Input Force Updates
+    const setVal = (id, val) => { const el = document.getElementById(id); if (el) el.value = val || ""; };
+    setVal('input-name', cvState.personal.name);
+    setVal('input-title', cvState.personal.title);
+    setVal('input-email', cvState.personal.email);
+    setVal('input-phone', cvState.personal.phone);
+    setVal('input-location', cvState.personal.location);
+    setVal('input-github', cvState.personal.github);
+    setVal('input-linkedin', cvState.personal.linkedin);
+    setVal('input-website', cvState.personal.website);
+    setVal('input-summary', cvState.personal.summary);
+    if (cvState.skills) {
+        setVal('input-skills-technical', cvState.skills.technical);
+        setVal('input-skills-tools', cvState.skills.tools);
+        setVal('input-skills-langs', cvState.skills.langs);
+    }
+    
+    // Direct DOM Preview Force Updates
+    const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val || ""; };
+    setText('cv-name', cvState.personal.name);
+    setText('cv-title-display', cvState.personal.title);
+    setText('cv-summary', cvState.personal.summary);
+    setText('cv-email', cvState.personal.email);
+    setText('cv-phone', cvState.personal.phone);
+    setText('cv-location', cvState.personal.location);
+    setText('cv-github', cvState.personal.github);
+    setText('cv-linkedin', cvState.personal.linkedin);
+    setText('cv-website', cvState.personal.website);
+    
+    const langSelect = document.getElementById('setting-ui-lang');
+    if (langSelect) langSelect.value = 'tr';
+    
     applyLanguage();
-    loadStateIntoUI();
     renderAll();
     updateStyles();
     if (typeof calculateATSScore === 'function') calculateATSScore();
 }
 
 function loadENSample() {
-    localStorage.clear();
+    try { localStorage.clear(); localStorage.setItem('harvard_v100_cleared', 'true'); } catch(e){}
     cvState = JSON.parse(JSON.stringify(EN_SAMPLE_STATE));
+    if (!cvState.settings) cvState.settings = {};
     cvState.settings.uiLang = 'en';
     saveToLocalStorage();
+    
+    // Direct DOM Input Force Updates
+    const setVal = (id, val) => { const el = document.getElementById(id); if (el) el.value = val || ""; };
+    setVal('input-name', cvState.personal.name);
+    setVal('input-title', cvState.personal.title);
+    setVal('input-email', cvState.personal.email);
+    setVal('input-phone', cvState.personal.phone);
+    setVal('input-location', cvState.personal.location);
+    setVal('input-github', cvState.personal.github);
+    setVal('input-linkedin', cvState.personal.linkedin);
+    setVal('input-website', cvState.personal.website);
+    setVal('input-summary', cvState.personal.summary);
+    if (cvState.skills) {
+        setVal('input-skills-technical', cvState.skills.technical);
+        setVal('input-skills-tools', cvState.skills.tools);
+        setVal('input-skills-langs', cvState.skills.langs);
+    }
+    
+    // Direct DOM Preview Force Updates
+    const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val || ""; };
+    setText('cv-name', cvState.personal.name);
+    setText('cv-title-display', cvState.personal.title);
+    setText('cv-summary', cvState.personal.summary);
+    setText('cv-email', cvState.personal.email);
+    setText('cv-phone', cvState.personal.phone);
+    setText('cv-location', cvState.personal.location);
+    setText('cv-github', cvState.personal.github);
+    setText('cv-linkedin', cvState.personal.linkedin);
+    setText('cv-website', cvState.personal.website);
+    
+    const langSelect = document.getElementById('setting-ui-lang');
+    if (langSelect) langSelect.value = 'en';
+    
     applyLanguage();
-    loadStateIntoUI();
     renderAll();
     updateStyles();
     if (typeof calculateATSScore === 'function') calculateATSScore();
