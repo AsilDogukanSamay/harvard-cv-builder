@@ -156,7 +156,7 @@
                                 <label for="input-phone" data-i18n="phone">Telefon</label>
                                 <input type="checkbox" id="toggle-phone" checked onchange="updateContactVisibility()">
                             </div>
-                            <input type="text" id="input-phone" oninput="updatePersonalField('phone', this.value)" value="+1 (555) 019-2834">
+                            <input type="text" id="input-phone" oninput="updatePersonalField('phone', this.value)" value="">
                         </div>
                     </div>
                     <div class="input-grid">
@@ -233,7 +233,7 @@
                 <div id="tab-skills" class="tab-pane">
                     <div class="input-group">
                         <label for="input-skills-technical" data-i18n="tech_skills">Teknik Yetenekler</label>
-                        <input type="text" id="input-skills-technical" value="Python, SQL, JavaScript, React.js, Node.js, Tableau, Git, HTML/CSS, Agile" oninput="updateSkillField('technical', this.value)">
+                        <input type="text" id="input-skills-technical" value="" oninput="updateSkillField('technical', this.value)">
                     </div>
                     <div class="input-group" style="margin-top: 10px;">
                         <label for="input-skills-tools" data-i18n="tools_skills">Araçlar ve Platformlar</label>
@@ -248,7 +248,7 @@
                     </div>
                     <div class="input-group">
                         <label for="input-skills-langs" data-i18n="langs">Diller</label>
-                        <input type="text" id="input-skills-langs" oninput="updateSkillField('langs', this.value)" value="English (Native), Spanish (Conversational)">
+                        <input type="text" id="input-skills-langs" oninput="updateSkillField('langs', this.value)" value="">
                     </div>
 
                     <hr class="editor-divider">

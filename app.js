@@ -900,8 +900,8 @@ async function autoTranslateCV(targetLang) {
             });
         }
         
-        if (cvState.leaderships && Array.isArray(cvState.leaderships)) {
-            cvState.leaderships.forEach((lead, i) => {
+        if (getLeadershipArray() && Array.isArray(getLeadershipArray())) {
+            getLeadershipArray().forEach((lead, i) => {
                 if (lead.organization) items.push({ type: 'lead', idx: i, field: 'organization', text: lead.organization });
                 if (lead.role) items.push({ type: 'lead', idx: i, field: 'role', text: lead.role });
                 if (lead.dates) items.push({ type: 'lead', idx: i, field: 'dates', text: lead.dates });
@@ -981,9 +981,9 @@ async function autoTranslateCV(targetLang) {
             } else if (item.type === 'edu') {
                 cvState.educations[item.idx][item.field] = transVal;
             } else if (item.type === 'lead') {
-                cvState.leaderships[item.idx][item.field] = transVal;
+                getLeadershipArray()[item.idx][item.field] = transVal;
             } else if (item.type === 'lead_bullet') {
-                cvState.leaderships[item.idx].bullets[item.bulletIdx] = transVal;
+                getLeadershipArray()[item.idx].bullets[item.bulletIdx] = transVal;
             } else if (item.type === 'skills') {
                 cvState.skills[item.field] = transVal;
             } else if (item.type === 'cert') {
@@ -1545,13 +1545,18 @@ function renderAll() {
     renderCVEducation();
     renderCVLeadership();
     renderCVCertifications();
+    renderCVProjects();
     renderCVReferences();
     
     renderEditorExperiences();
     renderEditorEducation();
     renderEditorLeadership();
     renderEditorCertifications();
+    renderEditorProjects();
     renderEditorReferences();
+    
+    if (typeof renderCVContactInfo === 'function') renderCVContactInfo();
+    if (typeof calculateATSScore === 'function') calculateATSScore();
 }
 
 // Helper to format bullets with bold text before colons (Harvard style)
@@ -1937,13 +1942,13 @@ function renderCVLeadership() {
     const container = document.getElementById('cv-leadership-container');
     container.innerHTML = '';
     
-    if (cvState.leaderships.length === 0) {
+    if (getLeadershipArray().length === 0) {
         document.getElementById('sec-leadership').style.display = 'none';
         return;
     }
     document.getElementById('sec-leadership').style.display = 'block';
     
-    cvState.leaderships.forEach(lead => {
+    getLeadershipArray().forEach(lead => {
         const leadDiv = document.createElement('div');
         leadDiv.className = 'entry-block';
         
@@ -2165,6 +2170,7 @@ function moveCert(idx, dir) {
     renderCVCertifications();
 }
 
+// updateCertField
 function updateCertField(idx, field, value) {
     if (cvState.certifications && cvState.certifications[idx]) {
         cvState.certifications[idx][field] = value;
@@ -2233,6 +2239,7 @@ function renderEditorReferences() {
     });
 }
 
+// updateRefField
 function updateRefField(idx, field, value) {
     if (cvState.references && cvState.references[idx]) {
         cvState.references[idx][field] = value;
@@ -2264,7 +2271,7 @@ function renderEditorLeadership() {
     container.innerHTML = '';
     const lang = (cvState.settings && cvState.settings.uiLang) ? cvState.settings.uiLang : 'tr';
     
-    cvState.leaderships.forEach((lead, idx) => {
+    getLeadershipArray().forEach((lead, idx) => {
         const card = document.createElement('div');
         card.className = 'dynamic-item-card';
         card.setAttribute('draggable', 'true');
@@ -2338,6 +2345,7 @@ function addExperience() {
     renderEditorExperiences();
 }
 
+// updateExpField
 function updateExpField(idx, field, value) {
     cvState.experiences[idx][field] = value;
     renderCVExperiences();
@@ -2402,6 +2410,7 @@ function addEducation() {
     renderEditorEducation();
 }
 
+// updateEduField
 function updateEduField(idx, field, value) {
     cvState.educations[idx][field] = value;
     renderCVEducation();
@@ -2423,7 +2432,7 @@ function deleteEducation(idx) {
 // -------------------------------------------------------------
 
 function addLeadership() {
-    cvState.leaderships.push({
+    getLeadershipArray().push({
         organization: "Yeni Kulüp / Dernek",
         role: "Rol / Görev",
         dates: "Yıl - Yıl",
@@ -2433,8 +2442,9 @@ function addLeadership() {
     renderEditorLeadership();
 }
 
+// updateLeadField
 function updateLeadField(idx, field, value) {
-    cvState.leaderships[idx][field] = value;
+    getLeadershipArray()[idx][field] = value;
     renderCVLeadership();
     const cardTitle = document.querySelectorAll('#leadership-list .dynamic-item-title')[idx];
     if (cardTitle && field === 'organization') {
@@ -2443,24 +2453,24 @@ function updateLeadField(idx, field, value) {
 }
 
 function updateLeadBullet(idx, bulletIdx, value) {
-    cvState.leaderships[idx].bullets[bulletIdx] = value;
+    getLeadershipArray()[idx].bullets[bulletIdx] = value;
     renderCVLeadership();
 }
 
 function addLeadBullet(idx) {
-    cvState.leaderships[idx].bullets.push("Yeni faaliyet maddesi.");
+    getLeadershipArray()[idx].bullets.push("Yeni faaliyet maddesi.");
     renderCVLeadership();
     renderEditorLeadership();
 }
 
 function deleteLeadBullet(idx, bulletIdx) {
-    cvState.leaderships[idx].bullets.splice(bulletIdx, 1);
+    getLeadershipArray()[idx].bullets.splice(bulletIdx, 1);
     renderCVLeadership();
     renderEditorLeadership();
 }
 
 function deleteLeadership(idx) {
-    cvState.leaderships.splice(idx, 1);
+    getLeadershipArray().splice(idx, 1);
     renderCVLeadership();
     renderEditorLeadership();
 }
@@ -3589,4 +3599,117 @@ function validateAndRepairCVState() {
     if (!cvState.references || cvState.references.length === 0) {
         cvState.references = JSON.parse(JSON.stringify(TR_SAMPLE_STATE.references));
     }
+}
+
+
+
+function getLeadershipArray() {
+    if (!cvState.leadership && !cvState.leaderships) {
+        cvState.leadership = JSON.parse(JSON.stringify(TR_SAMPLE_STATE.leadership));
+    }
+    if (!cvState.leadership && cvState.leaderships) {
+        cvState.leadership = cvState.leaderships;
+    }
+    return cvState.leadership;
+}
+
+
+
+// -------------------------------------------------------------
+// PROJECTS MANAGEMENT & RENDERING
+// -------------------------------------------------------------
+
+function renderEditorProjects() {
+    const container = document.getElementById('projects-list');
+    if (!container) return;
+    container.innerHTML = '';
+    const lang = (cvState.settings && cvState.settings.uiLang) ? cvState.settings.uiLang : 'tr';
+    
+    const projects = cvState.projects || [];
+    projects.forEach((p, idx) => {
+        const card = document.createElement('div');
+        card.className = 'dynamic-item-card';
+        card.innerHTML = `
+            <div class="dynamic-item-header">
+                <span class="dynamic-item-title">${lang === 'en' ? 'Project' : 'Proje'} #${idx + 1}: ${p.title || (lang === 'en' ? 'New Project' : 'Yeni Proje')}</span>
+                <div>
+                    <button class="btn btn-sm btn-secondary" onclick="moveProject(${idx}, -1)">▲</button>
+                    <button class="btn btn-sm btn-secondary" onclick="moveProject(${idx}, 1)">▼</button>
+                    <button class="btn btn-sm btn-danger" onclick="deleteProject(${idx})">${lang === 'en' ? 'Delete' : 'Sil'}</button>
+                </div>
+            </div>
+            <div class="input-grid">
+                <div class="input-group" style="grid-column: 1 / -1;">
+                    <label>${lang === 'en' ? 'Project Title' : 'Proje Adı'}</label>
+                    <input type="text" value="${p.title || ''}" placeholder="Örn: Açık Kaynak Veri İşleme Motoru" oninput="updateProjectField(${idx}, 'title', this.value)">
+                </div>
+            </div>
+            <div class="input-grid">
+                <div class="input-group" style="grid-column: 1 / -1;">
+                    <label>${lang === 'en' ? 'Project Details' : 'Proje Açıklaması & Teknolojiler'}</label>
+                    <textarea rows="2" placeholder="Örn: Geliştiricilerin veri kümelerini hızlıca analiz etmesini sağlayan 1.800+ GitHub yıldızlı açık kaynak proje." oninput="updateProjectField(${idx}, 'details', this.value)">${p.details || ''}</textarea>
+                </div>
+            </div>
+        `;
+        container.appendChild(card);
+    });
+}
+
+function renderCVProjects() {
+    const projectsSpan = document.getElementById('cv-projects-list');
+    if (!projectsSpan) return;
+    const projects = cvState.projects || [];
+    if (projects.length === 0) {
+        projectsSpan.innerHTML = '';
+        return;
+    }
+    
+    projectsSpan.innerHTML = projects.map(p => `
+        <div style="margin-bottom: 6px;">
+            <strong>${p.title || ''}</strong>: ${p.details || ''}
+        </div>
+    `).join('');
+}
+
+function updateProjectField(idx, field, value) {
+    if (!cvState.projects) cvState.projects = [];
+    if (cvState.projects[idx]) {
+        cvState.projects[idx][field] = value;
+        renderCVProjects();
+        saveToLocalStorage();
+        if (typeof calculateATSScore === 'function') calculateATSScore();
+    }
+}
+
+function addProject() {
+    if (!cvState.projects) cvState.projects = [];
+    cvState.projects.push({
+        title: "Yeni Proje Başlığı",
+        details: "Proje açıklaması ve kullanılan teknolojiler."
+    });
+    renderCVProjects();
+    renderEditorProjects();
+    saveToLocalStorage();
+    if (typeof calculateATSScore === 'function') calculateATSScore();
+}
+
+function deleteProject(idx) {
+    if (!cvState.projects) return;
+    cvState.projects.splice(idx, 1);
+    renderCVProjects();
+    renderEditorProjects();
+    saveToLocalStorage();
+    if (typeof calculateATSScore === 'function') calculateATSScore();
+}
+
+function moveProject(idx, direction) {
+    if (!cvState.projects) return;
+    const targetIdx = idx + direction;
+    if (targetIdx < 0 || targetIdx >= cvState.projects.length) return;
+    const temp = cvState.projects[idx];
+    cvState.projects[idx] = cvState.projects[targetIdx];
+    cvState.projects[targetIdx] = temp;
+    renderCVProjects();
+    renderEditorProjects();
+    saveToLocalStorage();
 }
