@@ -55,32 +55,50 @@ const EN_SAMPLE_STATE = {
         "github": "github.com/alexmorgan-dev",
         "linkedin": "linkedin.com/in/alexmorgan-dev",
         "website": "alexmorgan.dev",
-        "summary": "Results-driven Senior Software Architect with 6+ years of experience specializing in high-throughput distributed systems, cloud infrastructure, and data analytics. Proven track record of scaling microservice applications serving over 3M active users while optimizing infrastructure cost by 35%."
+        "summary": "Results-driven Senior Software Architect with 7+ years of experience specializing in high-throughput distributed systems, cloud infrastructure, and data analytics. Proven track record of scaling microservice applications serving over 3M active users while optimizing infrastructure cost by 35%."
     },
     "experiences": [
         {
             "company": "TECH INNOVATIONS CORP",
-            "role": "Senior Software Architect",
+            "role": "Senior Software Architect & Team Lead",
             "dates": "2022 - Present",
             "location": "Boston, MA",
             "bullets": [
                 "Architected distributed microservices handling 3M+ active daily users, reducing average API response latency by 40%.",
                 "Spearheaded automated CI/CD deployment pipelines for an engineering team of 12, accelerating release velocity from 4 days to 15 minutes.",
-                "Optimized cloud infrastructure resources, cutting annual operational hosting expenditure by $120,000."
+                "Optimized AWS cloud infrastructure resources, cutting annual operational hosting expenditure by $120,000."
             ]
         },
         {
             "company": "GLOBAL DATA SOLUTIONS INC.",
-            "role": "Software & Data Engineer",
+            "role": "Senior Software & Data Engineer",
             "dates": "2019 - 2022",
             "location": "Cambridge, MA",
             "bullets": [
                 "Engineered Python and SQL data processing pipelines to stream and analyze 500GB daily telemetry data with zero data loss.",
-                "Developed executive analytics dashboards that increased sales conversion rate by 25% across 4 business units."
+                "Developed executive analytics dashboards that increased sales conversion rate by 25% across 4 global business units.",
+                "Optimized database indexing strategies, accelerating complex query execution from 4.5 seconds to 180 milliseconds."
+            ]
+        },
+        {
+            "company": "INNOVATIVE SOFTWARE SOLUTIONS",
+            "role": "Software Engineer",
+            "dates": "2017 - 2019",
+            "location": "Boston, MA",
+            "bullets": [
+                "Built frontend core architecture for client analytics portal using React, Node.js, and RESTful APIs.",
+                "Expanded unit test code coverage from 30% to 88%, reducing production software defect rate by 60%."
             ]
         }
     ],
     "educations": [
+        {
+            "university": "HARVARD UNIVERSITY",
+            "degree": "Master of Science in Computer Science & Data Analytics",
+            "dates": "2019 - 2021",
+            "location": "Cambridge, MA",
+            "gpa": "3.92 / 4.00"
+        },
         {
             "university": "HARVARD UNIVERSITY",
             "degree": "Bachelor of Science in Computer Science",
@@ -89,19 +107,57 @@ const EN_SAMPLE_STATE = {
             "gpa": "3.88 / 4.00"
         }
     ],
+    "leadership": [
+        {
+            "organization": "OPEN SOURCE SOFTWARE ALLIANCE",
+            "role": "Community Leader & Technical Mentor",
+            "dates": "2021 - Present",
+            "location": "Boston, MA",
+            "bullets": [
+                "Provided technical mentorship to 500+ junior developers on code quality and open-source contribution best practices.",
+                "Served as technical judge for National Hackathon event, evaluating over 45 software innovations."
+            ]
+        }
+    ],
     "skills": {
-        "technical": "Python, JavaScript, Node.js, React, Docker, Kubernetes, PostgreSQL, AWS, Git, CI/CD",
-        "languages": "English (Native), Spanish (Fluent)",
+        "technical": "Python, JavaScript, TypeScript, Node.js, React, Docker, Kubernetes, PostgreSQL, MongoDB, AWS, Git, CI/CD",
+        "tools": "Git, GitHub Actions, Docker, Kubernetes, Visual Studio Code, JIRA, Tableau, AWS EC2/S3",
+        "langs": "English (Native), Spanish (Fluent)",
         "frameworks": "Express.js, Django, REST APIs, GraphQL, Microservices"
     },
     "certifications": [
-        "AWS Certified Solutions Architect (2023)",
-        "Certified Scrum Master (CSM) (2022)"
+        {
+            "name": "AWS Certified Solutions Architect - Professional",
+            "issuer": "Amazon Web Services",
+            "year": "2023"
+        },
+        {
+            "name": "Certified Scrum Master (CSM)",
+            "issuer": "Scrum Alliance",
+            "year": "2022"
+        },
+        {
+            "name": "Google Cloud Professional Data Engineer",
+            "issuer": "Google Cloud",
+            "year": "2021"
+        }
     ],
     "projects": [
         {
             "title": "Open-Source High-Speed Data Parser",
-            "details": "Created an open-source data analytics library with over 1,500 GitHub stars, utilized by 200+ developer teams worldwide."
+            "details": "Created an open-source data analytics library with over 1,800 GitHub stars, utilized by 200+ developer teams worldwide."
+        },
+        {
+            "title": "Microservice Performance Monitor",
+            "details": "Developed open-source telemetry dashboard for real-time latency monitoring and anomaly detection."
+        }
+    ],
+    "references": [
+        {
+            "name": "Dr. Robert Harvard",
+            "title": "Department Chair of Computer Science",
+            "company": "Harvard University",
+            "contact": "r.harvard@harvard.edu"
         }
     ],
     "settings": {
@@ -122,39 +178,57 @@ const EN_SAMPLE_STATE = {
 const TR_SAMPLE_STATE = {
     "personal": {
         "name": "Ahmet Yılmaz",
-        "title": "Yazılım Mimarı & Veri Analisti",
+        "title": "Kıdemli Yazılım Mimarı & Veri Mühendisi",
         "email": "ahmet.yilmaz@example.com",
         "phone": "+90 532 123 45 67",
         "location": "İstanbul, Türkiye",
-        "github": "github.com/ornek-kullanici",
-        "linkedin": "linkedin.com/in/ornek-kullanici",
+        "github": "github.com/ahmetyilmaz-dev",
+        "linkedin": "linkedin.com/in/ahmetyilmaz-dev",
         "website": "ahmetyilmaz.dev",
-        "summary": "Veri analitiği, dağıtık sistemler ve süreç otomasyonu konularında 6+ yıl deneyimli Kıdemli Yazılım Mimarı. Yüksek performanslı mikroservis mimarileri geliştirme ve operasyonel verimliliği %35 artıran veri sistemleri tasarımında uzmanlaşmıştır."
+        "summary": "Veri analitiği, dağıtık mikroservis sistemleri ve süreç otomasyonu konularında 7+ yıl deneyimli Kıdemli Yazılım Mimarı. Yüksek performanslı veri işleme boru hatları geliştirme, bulut altyapı optimizasyonu ve mühendislik ekiplerine liderlik etme konusunda uzmanlaşmıştır."
     },
     "experiences": [
         {
             "company": "GLOBAL TEKNOLOJİ A.Ş.",
-            "role": "Kıdemli Yazılım Mimarı",
+            "role": "Kıdemli Yazılım Mimarı & Ekip Lideri",
             "dates": "2022 - Günümüz",
             "location": "İstanbul",
             "bullets": [
-                "3M+ günlük aktif kullanıcıya hizmet veren mikroservis mimarisini tasarlayarak API yanıt sürelerini %40 iyileştirdi.",
+                "3M+ günlük aktif kullanıcıya hizmet veren mikroservis mimarisini yeniden tasarlayarak ortalama API yanıt süresini %40 iyileştirdi.",
                 "12 kişilik mühendislik ekibine liderlik ederek CI/CD süreçlerini otomatize etti; canlıya alma süresini 4 günden 15 dakikaya düşürdü.",
-                "Bulut altyapı kaynaklarını optimize ederek yıllık operasyonel sunucu maliyetlerini 120.000$ azalttı."
+                "AWS bulut sunucu altyapısını optimize ederek yıllık operasyonel sunucu maliyetlerini 120.000$ azalttı."
             ]
         },
         {
             "company": "VERİ ANALİTİĞİ ÇÖZÜMLERİ LTD.",
-            "role": "Veri Analisti & Yazılım Geliştirici",
+            "role": "Kıdemli Veri Mühendisi & Yazılım Geliştirici",
             "dates": "2019 - 2022",
             "location": "Ankara",
             "bullets": [
-                "Python ve SQL tabanlı veri işleme boru hatları kurarak günlük 500GB veri akışını sıfır veri kaybı ile işledi.",
-                "Şirket içi müşteri davranış analizi panellerini geliştirerek satış ekibinin dönüşüm oranını %25 artırdı."
+                "Python ve SQL tabanlı dağıtık veri işleme mimarisi kurarak günlük 500GB akış verisini sıfır kayıp ile analiz etti.",
+                "Şirket içi müşteri davranış analizi panellerini geliştirerek satış ekibinin dönüşüm oranını %25 artırdı.",
+                "Veri tabanı indeksleme stratejilerini optimize ederek karmaşık sorgu sürelerini 4.5 saniyeden 180 milisaniyeye düşürdü."
+            ]
+        },
+        {
+            "company": "INOVASYON YAZILIM A.Ş.",
+            "role": "Yazılım Geliştirme Uzmanı",
+            "dates": "2017 - 2019",
+            "location": "İstanbul",
+            "bullets": [
+                "React ve Node.js mimarisiyle geliştirilen müşteri yönetim panelinin frontend altyapısını kurdu.",
+                "Birim test (Unit Test) kapsama oranını %30'dan %88'e çıkararak canlı sistemdeki hata oranını %60 azalttı."
             ]
         }
     ],
     "educations": [
+        {
+            "university": "İSTANBUL TEKNİK ÜNİVERSİTESİ",
+            "degree": "Yüksek Lisans, Veri Analitiği ve Yazılım Mühendisliği",
+            "dates": "2019 - 2021",
+            "location": "İstanbul",
+            "gpa": "3.90 / 4.00"
+        },
         {
             "university": "İSTANBUL TEKNİK ÜNİVERSİTESİ",
             "degree": "Lisans, Bilgisayar Mühendisliği",
@@ -163,19 +237,57 @@ const TR_SAMPLE_STATE = {
             "gpa": "3.82 / 4.00"
         }
     ],
+    "leadership": [
+        {
+            "organization": "AÇIK KAYNAK YAZILIM TOPLULUĞU",
+            "role": "Topluluk Lideri & Teknik Mentor",
+            "dates": "2021 - Günümüz",
+            "location": "İstanbul",
+            "bullets": [
+                "500+ genç yazılımcıya açık kaynak katkısı ve kod kalitesi konularında aylık mentörlük sağladı.",
+                "Ulusal Hackathon organizasyonunda teknik jüri üyesi olarak 45 projeyi değerlendirdi."
+            ]
+        }
+    ],
     "skills": {
-        "technical": "Python, JavaScript, Node.js, React, Docker, Kubernetes, PostgreSQL, AWS, Git, CI/CD",
-        "languages": "Türkçe (Ana Dil), İngilizce (İleri Düzey - C1)",
+        "technical": "Python, JavaScript, TypeScript, Node.js, React, Docker, Kubernetes, PostgreSQL, MongoDB, AWS, Git, CI/CD",
+        "tools": "Git, GitHub Actions, Docker, Kubernetes, Visual Studio Code, JIRA, Tableau, AWS EC2/S3",
+        "langs": "Türkçe (Ana Dil), İngilizce (İleri Düzey - C1)",
         "frameworks": "Express.js, Django, REST APIs, GraphQL, Microservices"
     },
     "certifications": [
-        "AWS Certified Solutions Architect (2023)",
-        "Certified Scrum Master (CSM) (2022)"
+        {
+            "name": "AWS Certified Solutions Architect - Professional",
+            "issuer": "Amazon Web Services",
+            "year": "2023"
+        },
+        {
+            "name": "Certified Scrum Master (CSM)",
+            "issuer": "Scrum Alliance",
+            "year": "2022"
+        },
+        {
+            "name": "Google Cloud Professional Data Engineer",
+            "issuer": "Google Cloud",
+            "year": "2021"
+        }
     ],
     "projects": [
         {
-            "title": "Açık Kaynak Veri İşleme Motoru",
-            "details": "Geliştiricilerin büyük veri kümelerini hızlıca analiz etmesini sağlayan 1.500+ GitHub yıldızlı açık kaynak proje."
+            "title": "Açık Kaynak Yüksek Hızlı Veri İşleme Motoru",
+            "details": "Geliştiricilerin büyük veri kümelerini hızlıca analiz etmesini sağlayan 1.800+ GitHub yıldızlı açık kaynak proje."
+        },
+        {
+            "title": "Mikroservis Performans İzleme Paneli",
+            "details": "Dağıtık sistemlerde gecikme sürelerini canlı ölçen ve anomalileri uyaran açık kaynaklı izleme aracı."
+        }
+    ],
+    "references": [
+        {
+            "name": "Prof. Dr. Mehmet Yılmaz",
+            "title": "Bilgisayar Mühendisliği Bölüm Başkanı",
+            "company": "İstanbul Teknik Üniversitesi",
+            "contact": "m.yilmaz@itu.edu.tr"
         }
     ],
     "settings": {
@@ -1214,6 +1326,9 @@ function updatePersonalField(field, value) {
     cvState.personal[field] = value;
     if (typeof renderCVContactInfo === 'function') {
         renderCVContactInfo();
+    }
+    if (typeof calculateATSScore === 'function') {
+        calculateATSScore();
     }
     saveToLocalStorage();
 }

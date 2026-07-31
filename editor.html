@@ -137,11 +137,11 @@
                 <div id="tab-personal" class="tab-pane active">
                     <div class="input-group">
                         <label for="input-name" data-i18n="name">Ad Soyad</label>
-                        <input type="text" id="input-name" value="Jane Doe">
+                        <input type="text" id="input-name" oninput="updatePersonalField('name', this.value)" value="Jane Doe">
                     </div>
                     <div class="input-group">
                         <label for="input-title" data-i18n="title">Unvan / Alt Başlık</label>
-                        <input type="text" id="input-title" value="Software Engineering & Data Science Student">
+                        <input type="text" id="input-title" oninput="updatePersonalField('title', this.value)" value="Software Engineering & Data Science Student">
                     </div>
                     <div class="input-grid">
                         <div class="input-group">
@@ -149,14 +149,14 @@
                                 <label for="input-email" data-i18n="email">E-posta</label>
                                 <input type="checkbox" id="toggle-email" checked onchange="updateContactVisibility()">
                             </div>
-                            <input type="email" id="input-email" value="jane.doe@email.com">
+                            <input type="email" id="input-email" oninput="updatePersonalField('email', this.value)" value="jane.doe@email.com">
                         </div>
                         <div class="input-group">
                             <div style="display: flex; justify-content: space-between; align-items: center;">
                                 <label for="input-phone" data-i18n="phone">Telefon</label>
                                 <input type="checkbox" id="toggle-phone" checked onchange="updateContactVisibility()">
                             </div>
-                            <input type="text" id="input-phone" value="+1 (555) 019-2834">
+                            <input type="text" id="input-phone" oninput="updatePersonalField('phone', this.value)" value="+1 (555) 019-2834">
                         </div>
                     </div>
                     <div class="input-grid">
@@ -165,14 +165,14 @@
                                 <label for="input-location" data-i18n="location">Konum</label>
                                 <input type="checkbox" id="toggle-location" checked onchange="updateContactVisibility()">
                             </div>
-                            <input type="text" id="input-location" value="Boston, MA, USA">
+                            <input type="text" id="input-location" oninput="updatePersonalField('location', this.value)" value="Boston, MA, USA">
                         </div>
                         <div class="input-group">
                             <div style="display: flex; justify-content: space-between; align-items: center;">
                                 <label for="input-github" data-i18n="github">GitHub</label>
                                 <input type="checkbox" id="toggle-github" checked onchange="updateContactVisibility()">
                             </div>
-                            <input type="text" id="input-github" value="github.com/janedoe">
+                            <input type="text" id="input-github" oninput="updatePersonalField('github', this.value)" value="github.com/janedoe">
                         </div>
                     </div>
                     <div class="input-group">
@@ -180,18 +180,18 @@
                             <label for="input-linkedin" data-i18n="linkedin">LinkedIn</label>
                             <input type="checkbox" id="toggle-linkedin" checked onchange="updateContactVisibility()">
                         </div>
-                        <input type="text" id="input-linkedin" value="linkedin.com/in/jane-doe">
+                        <input type="text" id="input-linkedin" oninput="updatePersonalField('linkedin', this.value)" value="linkedin.com/in/jane-doe">
                     </div>
                     <div class="input-group">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             <label for="input-website" data-i18n="website">Web Sitesi</label>
                             <input type="checkbox" id="toggle-website" checked onchange="updateContactVisibility()">
                         </div>
-                        <input type="text" id="input-website" placeholder="www.example.com">
+                        <input type="text" id="input-website" oninput="updatePersonalField('website', this.value)" placeholder="www.example.com">
                     </div>
                     <div class="input-group">
                         <label for="input-summary" data-i18n="summary">Profesyonel Özet</label>
-                        <textarea id="input-summary" rows="5">Detail-oriented Software Engineering student with a strong foundation in database management, data visualization, and web technologies. Experienced in developing full-stack web applications, designing analytical dashboards, and implementing agile practices in team environments. Passionate about leveraging data-driven solutions to solve complex business problems.</textarea>
+                        <textarea id="input-summary" oninput="updatePersonalField('summary', this.value)" rows="5">Detail-oriented Software Engineering student with a strong foundation in database management, data visualization, and web technologies. Experienced in developing full-stack web applications, designing analytical dashboards, and implementing agile practices in team environments. Passionate about leveraging data-driven solutions to solve complex business problems.</textarea>
                     </div>
                     <!-- Dynamic Profile Photo Upload Group -->
                     <div class="input-grid" style="grid-template-columns: 1fr auto; gap: 12px; align-items: flex-end; margin-top: 14px;">
@@ -248,7 +248,7 @@
                     </div>
                     <div class="input-group">
                         <label for="input-skills-langs" data-i18n="langs">Diller</label>
-                        <input type="text" id="input-skills-langs" value="English (Native), Spanish (Conversational)">
+                        <input type="text" id="input-skills-langs" oninput="updateSkillField('langs', this.value)" value="English (Native), Spanish (Conversational)">
                     </div>
 
                     <hr class="editor-divider">
