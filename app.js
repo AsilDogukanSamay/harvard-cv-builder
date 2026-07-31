@@ -1877,40 +1877,33 @@ function renderCVReferences() {
 
 function renderCVExperiences() {
     const container = document.getElementById('cv-experience-container');
-    container.innerHTML = '';
+    if (!container) return;
     
-    if (cvState.experiences.length === 0) {
-        document.getElementById('sec-experience').style.display = 'none';
-        return;
+    let exps = (cvState && cvState.experiences && cvState.experiences.length > 0) ? cvState.experiences : TR_SAMPLE_STATE.experiences;
+    if (cvState && cvState.settings && cvState.settings.uiLang === 'en' && (!cvState.experiences || cvState.experiences.length === 0)) {
+        exps = EN_SAMPLE_STATE.experiences;
     }
-    document.getElementById('sec-experience').style.display = 'block';
     
-    cvState.experiences.forEach(exp => {
-        const expDiv = document.createElement('div');
-        expDiv.className = 'entry-block';
-        
-        let bulletsHtml = '';
-        if (exp.bullets && exp.bullets.length > 0) {
-            bulletsHtml = `<ul class="entry-bullets">` + 
-                exp.bullets.map(b => `<li>${formatBulletPoint(b)}</li>`).join('') + 
-                `</ul>`;
-        }
-        
-        expDiv.innerHTML = `
-            <div class="entry-header">
-                <span class="company-name">${escapeHTML(exp.company)}</span>
-                <span class="entry-location">${escapeHTML(exp.location)}</span>
+    const secExp = document.getElementById('sec-experience');
+    if (secExp) secExp.style.display = 'block';
+    
+    container.innerHTML = exps.map(exp => `
+        <div class="cv-item" style="margin-bottom: 10px;">
+            <div class="cv-item-header">
+                <span class="cv-item-title">${exp.company || ''}</span>
+                <span class="cv-item-date">${exp.dates || ''}</span>
             </div>
-            <div class="entry-subheader">
-                <span class="entry-role">${escapeHTML(exp.role)}</span>
-                <span class="entry-date">${escapeHTML(exp.dates)}</span>
+            <div class="cv-item-sub">
+                <span class="cv-item-role">${exp.role || ''}</span>
+                <span class="cv-item-location">${exp.location || ''}</span>
             </div>
-            ${bulletsHtml}
-        `;
-        container.appendChild(expDiv);
-    });
-    saveToLocalStorage();
-    checkPageFit();
+            ${(exp.bullets && exp.bullets.length > 0) ? `
+                <ul class="cv-bullets">
+                    ${exp.bullets.map(b => `<li>${formatBulletPoint(b)}</li>`).join('')}
+                </ul>
+            ` : ''}
+        </div>
+    `).join('');
 }
 
 
@@ -1943,96 +1936,73 @@ function renderCVReferencesLegacy() {
 
 function renderCVEducation() {
     const container = document.getElementById('cv-education-container');
-    container.innerHTML = '';
+    if (!container) return;
     
-    if (cvState.educations.length === 0) {
-        document.getElementById('sec-education').style.display = 'none';
-        return;
+    let edus = (cvState && cvState.educations && cvState.educations.length > 0) ? cvState.educations : TR_SAMPLE_STATE.educations;
+    if (cvState && cvState.settings && cvState.settings.uiLang === 'en' && (!cvState.educations || cvState.educations.length === 0)) {
+        edus = EN_SAMPLE_STATE.educations;
     }
-    document.getElementById('sec-education').style.display = 'block';
     
-    cvState.educations.forEach(edu => {
-        const eduDiv = document.createElement('div');
-        eduDiv.className = 'entry-block';
-        
-        const lang = (cvState.settings && cvState.settings.uiLang) ? cvState.settings.uiLang : "tr";
-        const gpaLabel = lang === 'tr' ? 'GANO' : 'GPA';
+    const secEdu = document.getElementById('sec-education');
+    if (secEdu) secEdu.style.display = 'block';
+    
+    const lang = (cvState && cvState.settings && cvState.settings.uiLang) ? cvState.settings.uiLang : "tr";
+    const gpaLabel = lang === 'tr' ? 'GANO' : 'GPA';
+    
+    container.innerHTML = edus.map(edu => {
         let gpaText = "";
         if (edu.gpa && edu.gpa.trim() !== "") {
             const cleanGpa = edu.gpa.trim();
-            if (!edu.degree || !edu.degree.includes(cleanGpa)) {
-                if (cleanGpa.toLowerCase().includes('gano') || cleanGpa.toLowerCase().includes('gpa')) {
-                    gpaText = ` — ${cleanGpa}`;
-                } else {
-                    gpaText = ` — ${gpaLabel}: ${cleanGpa}`;
-                }
+            if (cleanGpa.toLowerCase().includes('gano') || cleanGpa.toLowerCase().includes('gpa')) {
+                gpaText = ` — ${cleanGpa}`;
+            } else {
+                gpaText = ` — ${gpaLabel}: ${cleanGpa}`;
             }
         }
-        
-        // Clean degree string if it already contains GANO/GPA duplicate
-        let cleanDegree = edu.degree || "";
-        cleanDegree = cleanDegree.replace(/[-–—]\s*(?:GANO|GPA)\s*:\s*[0-9.]+\s*\/\s*[0-9.]+/gi, "").trim();
-        cleanDegree = cleanDegree.replace(/(?:GANO|GPA)\s*:\s*[0-9.]+\s*\/\s*[0-9.]+/gi, "").trim();
-        
-        let detailsHtml = '';
-        if (edu.details && edu.details.trim()) {
-            detailsHtml = `<div class="entry-description">${edu.details}</div>`;
-        }
-        
-        eduDiv.innerHTML = `
-            <div class="entry-header">
-                <div>
-                    <span class="entry-title">${edu.university || ''}</span>
+        return `
+            <div class="cv-item" style="margin-bottom: 8px;">
+                <div class="cv-item-header">
+                    <span class="cv-item-title">${edu.university || ''}</span>
+                    <span class="cv-item-date">${edu.dates || ''}</span>
                 </div>
-                <div class="entry-right">${edu.location || ''}</div>
+                <div class="cv-item-sub">
+                    <span class="cv-item-role">${edu.degree || ''}${gpaText}</span>
+                    <span class="cv-item-location">${edu.location || ''}</span>
+                </div>
             </div>
-            <div class="entry-subheader">
-                <span class="entry-degree">${cleanDegree}${gpaText}</span>
-                <span class="entry-date">${edu.dates || ''}</span>
-            </div>
-            ${detailsHtml}
         `;
-        
-        container.appendChild(eduDiv);
-    });
+    }).join('');
 }
 
 function renderCVLeadership() {
     const container = document.getElementById('cv-leadership-container');
-    container.innerHTML = '';
+    if (!container) return;
     
-    if (getLeadershipArray().length === 0) {
-        document.getElementById('sec-leadership').style.display = 'none';
-        return;
+    let leads = (cvState && cvState.leadership && cvState.leadership.length > 0) ? cvState.leadership : TR_SAMPLE_STATE.leadership;
+    if (cvState && cvState.settings && cvState.settings.uiLang === 'en' && (!cvState.leadership || cvState.leadership.length === 0)) {
+        leads = EN_SAMPLE_STATE.leadership;
     }
-    document.getElementById('sec-leadership').style.display = 'block';
     
-    getLeadershipArray().forEach(lead => {
-        const leadDiv = document.createElement('div');
-        leadDiv.className = 'entry-block';
-        
-        let bulletsHtml = '';
-        if (lead.bullets && lead.bullets.length > 0) {
-            bulletsHtml = `<ul class="entry-bullets">` + 
-                lead.bullets.map(b => `<li>${formatBulletPoint(b)}</li>`).join('') + 
-                `</ul>`;
-        }
-        
-        leadDiv.innerHTML = `
-            <div class="entry-header">
-                <span class="company-name">${lead.organization}</span>
-                <span class="entry-date">${lead.dates}</span>
+    const secLead = document.getElementById('sec-leadership');
+    if (secLead) secLead.style.display = 'block';
+    
+    container.innerHTML = leads.map(l => `
+        <div class="cv-item" style="margin-bottom: 8px;">
+            <div class="cv-item-header">
+                <span class="cv-item-title">${l.organization || ''}</span>
+                <span class="cv-item-date">${l.dates || ''}</span>
             </div>
-            <div class="entry-subheader" style="margin-bottom: 2px;">
-                <span class="entry-role">${lead.role}</span>
-                <span></span>
+            <div class="cv-item-sub">
+                <span class="cv-item-role">${l.role || ''}</span>
+                <span class="cv-item-location">${l.location || ''}</span>
             </div>
-            ${bulletsHtml}
-        `;
-        container.appendChild(leadDiv);
-    });
-    saveToLocalStorage();
-    checkPageFit();
+            ${(l.bullets && l.bullets.length > 0) ? `
+                <ul class="cv-bullets">
+                    ${l.bullets.map(b => `<li>${formatBulletPoint(b)}</li>`).join('')}
+                </ul>
+            ` : ''}
+        </div>
+    `).join('');
 }
 
 
