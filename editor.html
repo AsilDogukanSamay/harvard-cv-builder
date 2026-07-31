@@ -495,10 +495,9 @@
             
             <!-- Real physical sheet layout -->
             <div class="paper-wrapper">
-                <div id="cv-document" class="cv-page font-garamond size-medium spacing-normal margin-normal accent-black align-top">
-                    <div class="cv-page-inner">
-                        <!-- CV Header Section -->
-                        <header class="cv-header">
+                        <div id="cv-document" class="cv-page font-garamond size-medium spacing-normal margin-normal accent-black">
+            <!-- Header -->
+            <header class="cv-header">
                 <div class="cv-header-main">
                     <h1 id="cv-name" class="cv-title">Ahmet Yılmaz</h1>
                     <div id="cv-title-display" class="cv-subtitle">Yönetim Bilişim Sistemleri Uzmanı & Veri Analisti</div>
@@ -525,61 +524,65 @@
                 </div>
             </header>
 
-                        <!-- Summary Section -->
-                        <section class="cv-section" id="sec-summary">
-                            <h2 class="section-title" data-i18n="cv_title_summary">PROFESYONEL ÖZET</h2>
-                            <p id="cv-summary" class="section-content summary-text">
-                                Detail-oriented Software Engineering student with a strong foundation in database management, data visualization, and web technologies. Experienced in developing full-stack web applications, designing analytical dashboards, and implementing agile practices in team environments. Passionate about leveraging data-driven solutions to solve complex business problems.
-                            </p>
-                        </section>
+            <div class="cv-page-inner">
+                <!-- 1. Profesyonel Özet -->
+                <section class="cv-section" id="sec-summary">
+                    <h2 class="section-title" id="sec-title-summary" data-i18n="sec_summary">PROFESYONEL ÖZET</h2>
+                    <p id="cv-summary" class="section-content summary-text">
+                        Veri analitiği, süreç otomasyonu ve yazılım geliştirme konularına odaklanan, teknik mühendislik ekipleri ile kurumsal iş operasyonları arasındaki koordinasyonu sağlama konusunda deneyimli Yönetim Bilişim Sistemleri (MIS) uzmanı. Ölçeklenebilir veri hatları kurgulama, karmaşık iş akışlarını otomatize etme ve REST API entegrasyonları tasarlama konularında yetkin.
+                    </p>
+                </section>
 
-                        <!-- Experience Section -->
-                        <section class="cv-section" id="sec-experience">
-                            <h2 class="section-title" data-i18n="cv_title_experience">DENEYİM</h2>
-                            <div id="cv-experience-container">
-                        <div class="cv-item" style="margin-bottom: 12px;">
-                            <div class="cv-item-header">
-                                <span class="cv-item-title">GLOBAL TEKNOLOJİ A.Ş.</span>
-                                <span class="cv-item-date">2022 - Günümüz</span>
-                            </div>
-                            <div class="cv-item-sub">
-                                <span class="cv-item-role">Kıdemli Yazılım Mimarı & Ekip Lideri</span>
-                                <span class="cv-item-location">İstanbul</span>
-                            </div>
-                            <ul class="cv-bullets">
-                                <li>3M+ günlük aktif kullanıcıya hizmet veren mikroservis mimarisini yeniden tasarlayarak ortalama API yanıt süresini %40 iyileştirdi.</li>
-                                <li>12 kişilik mühendislik ekibine liderlik ederek CI/CD süreçlerini otomatize etti; canlıya alma süresini 4 günden 15 dakikaya düşürdü.</li>
-                                <li>AWS bulut sunucu altyapısını optimize ederek yıllık operasyonel sunucu maliyetlerini 120.000$ azalttı.</li>
-                            </ul>
+                <!-- 2. Deneyim -->
+                <section class="cv-section" id="sec-experience">
+                    <h2 class="section-title" id="sec-title-experience" data-i18n="sec_experience">DENEYİM</h2>
+                    <div id="cv-experience-container"></div>
+                </section>
+
+                <!-- 3. Eğitim -->
+                <section class="cv-section" id="sec-education">
+                    <h2 class="section-title" id="sec-title-education" data-i18n="sec_education">EĞİTİM</h2>
+                    <div id="cv-education-container"></div>
+                </section>
+
+                <!-- 4. Liderlik ve Gönüllülük -->
+                <section class="cv-section" id="sec-leadership">
+                    <h2 class="section-title" id="sec-title-leadership" data-i18n="sec_leadership">LİDERLİK VE GÖNÜLLÜLÜK</h2>
+                    <div id="cv-leadership-container"></div>
+                </section>
+
+                <!-- 5. Projeler -->
+                <section class="cv-section" id="sec-projects">
+                    <h2 class="section-title" id="sec-title-projects">PROJELER</h2>
+                    <div id="cv-projects-list"></div>
+                </section>
+
+                <!-- 6. Yetenekler, Sertifikalar ve İlgi Alanları -->
+                <section class="cv-section" id="sec-skills">
+                    <h2 class="section-title" id="sec-title-skills" data-i18n="sec_skills">YETENEKLER, SERTİFİKALAR VE İLGİ ALANLARI</h2>
+                    <div class="skills-list" id="cv-skills-container">
+                        <div class="skill-item" id="cv-skills-technical-item">
+                            <strong data-i18n="tech_label">Teknik:</strong> <span id="cv-skills-technical">SQL, Python, JavaScript, React.js, Node.js, HTML/CSS, REST API, Streamlit, Tableau, Power BI, Excel, Veri Analizi ve Görselleştirme, Agile/Scrum</span>
                         </div>
-                        <div class="cv-item" style="margin-bottom: 12px;">
-                            <div class="cv-item-header">
-                                <span class="cv-item-title">VERİ ANALİTİĞİ ÇÖZÜMLERİ LTD.</span>
-                                <span class="cv-item-date">2019 - 2022</span>
-                            </div>
-                            <div class="cv-item-sub">
-                                <span class="cv-item-role">Kıdemli Veri Mühendisi & Yazılım Geliştirici</span>
-                                <span class="cv-item-location">Ankara</span>
-                            </div>
-                            <ul class="cv-bullets">
-                                <li>Python ve SQL tabanlı dağıtık veri işleme mimarisi kurarak günlük 500GB akış verisini sıfır kayıp ile analiz etti.</li>
-                                <li>Şirket içi müşteri davranış analizi panellerini geliştirerek satış ekibinin dönüşüm oranını %25 artırdı.</li>
-                                <li>Veri tabanı indeksleme stratejilerini optimize ederek karmaşık sorgu sürelerini 4.5 saniyeden 180 milisaniyeye düşürdü.</li>
-                            </ul>
+                        <div class="skill-item" id="cv-skills-tools-item">
+                            <strong data-i18n="tools_label">Araçlar ve Platformlar:</strong> <span id="cv-skills-tools">Git, GitHub, n8n Otomasyon, Jira, VS Code, Chrome DevTools, MSSQL Server, Active Directory, Figma, Vite, MS Office</span>
+                        </div>
+                        <div class="skill-item" id="cv-skills-certs-item">
+                            <strong data-i18n="certs_label">Sertifikalar:</strong> <span id="cv-skills-certs">Google Data Analytics Professional Certificate (2026), Temel Düzey Mikro ERP Eğitimi Başarı Belgesi (2025), Bilişim Teknolojileri Zirvesi Sertifikaları (2024), Python Programlama (Turkcell Geleceği Yazanlar, 2023), İş Bankası ProSchool IT Class (2023), Yapay Zeka Kampı (Google Cloud, 2023)</span>
+                        </div>
+                        <div class="skill-item" id="cv-skills-langs-item">
+                            <strong data-i18n="langs_label">Diller:</strong> <span id="cv-skills-langs">Türkçe (Anadil), İngilizce (İleri Düzey / B2), Almanca (Başlangıç / A1)</span>
                         </div>
                     </div>
-                        </section>
+                </section>
 
-                        <!-- References Section (KVKK compliant / optionally toggled) -->
-                        <section class="cv-section" id="cv-section-references" style="display: none;">
-                            <h2 class="section-title" data-i18n="section_references">REFERANSLAR</h2>
-                            <div class="references-grid" id="cv-references-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px 24px; margin-top: 6px;">
-                                <!-- Dynamic References Rendered Here -->
-                            </div>
-                        </section>
-                    </div>
-                </div>
+                <!-- 7. Referanslar -->
+                <section class="cv-section" id="cv-section-references">
+                    <h2 class="section-title" id="sec-title-references" data-i18n="sec_references">REFERANSLAR</h2>
+                    <div class="references-grid" id="cv-references-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 6px;"></div>
+                </section>
             </div>
+        </div>
         </main>
     </div>
 </div>
