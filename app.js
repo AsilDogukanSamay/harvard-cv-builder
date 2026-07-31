@@ -43,485 +43,153 @@ function closeGuideModal(event) {
 
 
 // Initial CV data state
-let cvState = {
-    "personal": {
-        "name": "Asil Doğukan Samay",
-        "title": "Yönetim Bilişim Sistemleri Uzmanı",
-        "email": "dogukan__sam_ay@hotmail.com",
-        "phone": "+90 544 331 76 20",
-        "location": "Çanakkale, Türkiye",
-        "github": "github.com/AsilDogukan-Samay",
-        "linkedin": "linkedin.com/in/asil-dogukan-samay",
-        "website": "asildogukansamay.github.io",
-        "summary": "Veri analitiği, süreç otomasyonu ve yazılım geliştirme konularına odaklanan, teknik mühendislik ekipleri ile kurumsal iş operasyonları arasındaki koordinasyonu sağlama konusunda deneyim sahibi Yönetim Bilişim Sistemleri (MIS) uzmanı. Ölçeklenebilir veri hatları kurgulama, karmaşık iş akışlarını otomatize etme ve REST API entegrasyonları tasarlama konularında yetkin. Uluslararası ve büyük kurumsal yapılarda teknoloji odaklı değer yaratmayı hedeflemektedir."
-    },
-    "experiences": [
-        {
-            "company": "MEDİBULUT",
-            "role": "Ürün Yönetimi ve CRM Stajyeri",
-            "location": "Çanakkale, Türkiye",
-            "dates": "Eylül 2025 - Haziran 2026",
-            "bullets": [
-                "Yazılım geliştirme, satış ve operasyon ekipleri arasındaki iletişimi koordine ederek iş akış süreçlerinin entegrasyonunu yönetti.",
-                "Saha satış ekiplerinin anlık konum ve performans takibi için Python ve SQL tabanlı entegre platform tasarlayıp geliştirdi; tüm veri mimarisi ve UI aşamalarını yönetti.",
-                "n8n entegrasyon aracı ile HubSpot ve Slack bağlantılarını kurguladı; lead takip ve müşteri geri bildirim süreçlerini tam otomatize hale getirerek yanıt sürelerini %35 iyileştirdi.",
-                "CRM sistemleri üzerinden geniş ölçekli müşteri verilerini analiz ederek satış trendleri ve kullanıcı davranışlarına yönelik stratejik raporlar hazırladı."
-            ]
-        },
-        {
-            "company": "SOFTTECH",
-            "role": "Stajyer İş Analisti",
-            "location": "İstanbul, Türkiye",
-            "dates": "Ağustos 2025 - Eylül 2025",
-            "bullets": [
-                "Sprint takibi, metrik analizi ve günlük veri raporlama süreçlerini yürüterek Agile/Scrum operasyonlarına ve disiplinlerarası ekip içi koordinasyona destek sağladı."
-            ]
-        },
-        {
-            "company": "KOÇTAŞ",
-            "role": "Stajyer (S.T.E.P. Programı)",
-            "location": "Çanakkale, Türkiye",
-            "dates": "Temmuz 2025 - Ağustos 2025",
-            "bullets": [
-                "Türkiye genelindeki katılımcılar arasında düzenlenen proje yarışmasında 'Koçtaş Kids' departman geliştirme projesiyle Birincilik Ödülü kazandı.",
-                "Ürün yerleşimi, stok takibi ve fiyat kontrolü süreçlerini yöneterek operasyonel verimlilik analizleri gerçekleştirdi; stok denetim sapmalarını %20 azalttı."
-            ]
-        },
-        {
-            "company": "LOCOMAR",
-            "role": "İş Geliştirme Asistanı",
-            "location": "İzmir, Türkiye",
-            "dates": "Nisan 2025 - Haziran 2025",
-            "bullets": [
-                "B2B pazarlama süreçlerini analiz ederek; pazar analizi ve rakip araştırmalarıyla yeni müşteri kazanım stratejilerinin geliştirilmesini sağladı."
-            ]
-        },
-        {
-            "company": "VITRIOL",
-            "role": "Siber Güvenlik Stajyeri",
-            "location": "İstanbul, Türkiye",
-            "dates": "Eylül 2023 - Haziran 2024",
-            "bullets": [
-                "BT altyapısı ve veri analizi süreçlerinde görev alarak siber güvenlik projelerine teknik destek sağladı; sistem analiz ve güvenlik prosedürlerini raporladı."
-            ]
-        },
-        {
-            "company": "DENİZBANK",
-            "role": "Stajyer",
-            "location": "İstanbul, Türkiye",
-            "dates": "Mart 2023 - Haziran 2023",
-            "bullets": [
-                "Staj programı kapsamında gösterdiği yüksek performansla 100'den fazla aday arasından Birincilik Ödülü kazandı.",
-                "Hazırladığı analitik finansal araştırma makalesini kurumsal içerik olarak yayımlayarak bankanın resmi dijital kanallarında yaygınlaştırdı.",
-                "Finansal süreçleri ve bankacılık iş akışlarını 4 farklı departmanda deneyimleyerek kurumsal operasyonel verimlilik raporları sundu."
-            ]
-        }
-    ],
-    "educations": [
-        {
-            "university": "İSTANBUL GEDİK ÜNİVERSİTESİ",
-            "degree": "Lisans, Yönetim Bilişim Sistemleri (MIS)",
-            "location": "İstanbul, Türkiye",
-            "dates": "Eylül 2022 - Mayıs 2026",
-            "gpa": "3.15 / 4.00",
-            "details": ""
-        }
-    ],
-    "leaderships": [
-        {
-            "organization": "YAPAY ZEKA VE TEKNOLOJİ AKADEMİSİ",
-            "role": "Veri Bilimi Programı Bursiyeri",
-            "dates": "Aralık 2025 - Devam Ediyor",
-            "bullets": [
-                "Türkiye genelinden gelen 31.700 başvuru arasından üstün başarı göstererek kabul alan 1.500 bursiyerden biri (%4,7'lik başarı dilimi) olarak seçildi.",
-                "Google Türkiye, GİRVAK ve T3 Girişim Merkezi ortaklığında düzenlenen 100 saatten fazla yoğun veri bilimi, veri işleme ve yapay zeka eğitim programını tamamladı."
-            ]
-        },
-        {
-            "organization": "İSTANBUL GEDİK ÜNİVERSİTESİ KULÜPLERİ",
-            "role": "Kulüp Başkanı | Yönetim Kurulu Üyesi",
-            "dates": "2022 - 2023",
-            "bullets": [
-                "Siber Güvenlik & MIS Kulübü Başkanı olarak 300'den fazla öğrenciye ulaştı; teknik workshoplar ve siber güvenlik farkındalık eğitimleri organize etti.",
-                "Kariyer Kulübü Yönetim Kurulu Üyesi olarak öğrenci kariyer gelişim etkinliklerini ve sektör panellerini koordine etti."
-            ]
-        },
-        {
-            "organization": "Habitat Derneği & Netflix",
-            "role": "Gönüllü Eğitmen",
-            "dates": "2022 - 2023",
-            "bullets": [
-                "Çocukların dijital dünyada güvenli adımlar atmasını sağlamak amacıyla 'Evvel Zaman İçinde Ekran Zamanında!' projesinde 500'den fazla çocuğa eğitim sundu.",
-                "Erken yaş grubuna yönelik dijital güvenlik, doğru bilgiye erişim ve siber zorbalık farkındalığı eğitim metodolojisi kurguladı."
-            ]
-        }
-    ],
-    "skills": {
-        "technical": "SQL, Python, JavaScript, React.js, Node.js, HTML/CSS, REST API, Streamlit, Tableau, Power BI, Excel, Veri Analizi ve Görselleştirme, Agile/Scrum",
-        "tools": "Git, GitHub, n8n Otomasyon, Jira, VS Code, Chrome DevTools, MSSQL Server, Active Directory, Figma, Vite, MS Office",
-        "langs": "Türkçe (Anadil), İngilizce (İleri Düzey / B2), Almanca (Başlangıç / A1)"
-    },
-    "certifications": [
-        {
-            "name": "Google Data Analytics Professional Certificate",
-            "issuer": "Google",
-            "year": "2026"
-        },
-        {
-            "name": "YGA Zirvesi Katılım Sertifikası",
-            "issuer": "YGA",
-            "year": "2022"
-        },
-        {
-            "name": "Temel Düzey Mikro ERP Eğitimi Başarı Belgesi",
-            "issuer": "İstanbul Gedik Üniversitesi & Mikro Yazılım",
-            "year": "2025"
-        },
-        {
-            "name": "24. Yönetim Bilimleri Kongresi",
-            "issuer": "İTÜ İşletme Mühendisliği Kulübü",
-            "year": "2023"
-        },
-        {
-            "name": "15, 16 ve 17. Bilişim Teknolojileri Zirvesi Katılım Sertifikaları",
-            "issuer": "İTÜ İşletme Mühendisliği Kulübü",
-            "year": "2022-2024"
-        }
-    ],
-    "references": [],
-    "settings": {
-        "font": "font-garamond",
-        "size": "size-medium",
-        "spacing": "spacing-normal",
-        "margin": "margin-normal",
-        "alignment": "align-justify",
-        "accent": "accent-black",
-        "headings": "headings-line",
-        "refMode": "request",
-        "uiLang": "tr"
-    }
-};
+let cvState = JSON.parse(JSON.stringify(TR_SAMPLE_STATE));
 
 const EN_SAMPLE_STATE = {
     "personal": {
-        "name": "Asil Doğukan Samay",
-        "title": "Management Information Systems Specialist",
-        "email": "dogukan__sam_ay@hotmail.com",
-        "phone": "+90 544 331 76 20",
-        "location": "Istanbul / Canakkale / Cyprus, Turkey",
-        "github": "github.com/AsilDogukan-Samay",
-        "linkedin": "linkedin.com/in/asil-dogukan-samay",
-        "website": "asildogukansamay.github.io",
-        "summary": "Management Information Systems (MIS) specialist with experience in ensuring coordination between technical engineering teams and corporate business operations, focusing on data analytics, process automation, and software development. Proficient in building scalable data pipelines, automating complex workflows, and designing REST API integrations. Aims to create technology-focused value in international and large corporate structures."
+        "name": "Alex Morgan",
+        "title": "Senior Software Architect & Data Specialist",
+        "email": "alex.morgan@example.com",
+        "phone": "+1 (555) 234-5678",
+        "location": "Boston, MA, USA",
+        "github": "github.com/alexmorgan-dev",
+        "linkedin": "linkedin.com/in/alexmorgan-dev",
+        "website": "alexmorgan.dev",
+        "summary": "Results-driven Senior Software Architect with 6+ years of experience specializing in high-throughput distributed systems, cloud infrastructure, and data analytics. Proven track record of scaling microservice applications serving over 3M active users while optimizing infrastructure cost by 35%."
     },
     "experiences": [
         {
-            "company": "MEDİBULUT",
-            "role": "Product Management and CRM Intern",
-            "location": "Canakkale, Turkey",
-            "dates": "September 2025 - June 2026",
+            "company": "TECH INNOVATIONS CORP",
+            "role": "Senior Software Architect",
+            "dates": "2022 - Present",
+            "location": "Boston, MA",
             "bullets": [
-                "Managed integration of workflow processes by coordinating communication between software development, sales, and operations teams.",
-                "Designed and developed an integrated platform based on Python and SQL for instant location and performance tracking of field sales teams; managed data architecture and UI phases.",
-                "Architected HubSpot and Slack connections with n8n integration tool; By fully automating lead tracking and customer feedback processes, improved response times by 35%.",
-                "Prepared strategic reports on sales trends and user behavior by analyzing large-scale customer data through CRM systems."
+                "Architected distributed microservices handling 3M+ active daily users, reducing average API response latency by 40%.",
+                "Spearheaded automated CI/CD deployment pipelines for an engineering team of 12, accelerating release velocity from 4 days to 15 minutes.",
+                "Optimized cloud infrastructure resources, cutting annual operational hosting expenditure by $120,000."
             ]
         },
         {
-            "company": "SOFTTECH",
-            "role": "Business Analyst Intern",
-            "location": "Istanbul, Turkey",
-            "dates": "August 2025 - September 2025",
+            "company": "GLOBAL DATA SOLUTIONS INC.",
+            "role": "Software & Data Engineer",
+            "dates": "2019 - 2022",
+            "location": "Cambridge, MA",
             "bullets": [
-                "Provided support to Agile/Scrum operations and interdisciplinary team coordination by carrying out sprint tracking, metric analysis, and daily data reporting processes."
-            ]
-        },
-        {
-            "company": "KOÇTAŞ",
-            "role": "Intern (S.T.E.P. Program)",
-            "location": "Canakkale, Turkey",
-            "dates": "July 2025 - August 2025",
-            "bullets": [
-                "Won First Place Award with 'Koçtaş Kids' department development project in nationwide competition among participants across Turkey.",
-                "Conducted operational efficiency analyses by managing product placement, stock tracking, and price control processes; reduced inventory audit deviations by 20%."
-            ]
-        },
-        {
-            "company": "LOCOMAR",
-            "role": "Business Development Assistant",
-            "location": "Izmir, Turkey",
-            "dates": "April 2025 - June 2025",
-            "bullets": [
-                "Analyzed B2B marketing processes; enabled development of new customer acquisition strategies through market analysis and competitor research."
-            ]
-        },
-        {
-            "company": "VITRIOL",
-            "role": "Cybersecurity Intern",
-            "location": "Istanbul, Turkey",
-            "dates": "September 2023 - June 2024",
-            "bullets": [
-                "Provided technical support to cybersecurity projects by taking part in IT infrastructure and data analysis processes; reported system analysis and security procedures."
-            ]
-        },
-        {
-            "company": "DENİZBANK",
-            "role": "Intern",
-            "location": "Istanbul, Turkey",
-            "dates": "March 2023 - June 2023",
-            "bullets": [
-                "Won First Place Award among 100+ candidates with high performance within the scope of internship program.",
-                "Published analytical financial research article prepared as corporate content and disseminated it on the bank's official digital channels.",
-                "Presented corporate operational efficiency reports by experiencing financial processes and banking workflows in 4 different departments."
+                "Engineered Python and SQL data processing pipelines to stream and analyze 500GB daily telemetry data with zero data loss.",
+                "Developed executive analytics dashboards that increased sales conversion rate by 25% across 4 business units."
             ]
         }
     ],
     "educations": [
         {
-            "university": "ISTANBUL GEDIK UNIVERSITY",
-            "degree": "Bachelor's Degree, Management Information Systems (MIS)",
-            "location": "Istanbul, Turkey",
-            "dates": "September 2022 - May 2026",
-            "gpa": "3.15 / 4.00",
-            "details": ""
-        }
-    ],
-    "leaderships": [
-        {
-            "organization": "ARTIFICIAL INTELLIGENCE AND TECHNOLOGY ACADEMY",
-            "role": "Data Science Program Scholar",
-            "dates": "December 2025 - Present",
-            "bullets": [
-                "Selected as one of 1,500 scholars accepted with outstanding success among 31,700 applications from across Turkey (top 4.7% acceptance rate).",
-                "Completed 100+ hours of intensive data science, data processing, and artificial intelligence training program organized in partnership with Google Turkey, GİRVAK, and T3 Enterprise Center."
-            ]
-        },
-        {
-            "organization": "ISTANBUL GEDIK UNIVERSITY CLUBS",
-            "role": "Club President | Executive Board Member",
-            "dates": "2022 - 2023",
-            "bullets": [
-                "As President of Cybersecurity & MIS Club, reached over 300 students; organized technical workshops and cybersecurity awareness trainings.",
-                "As Career Club Executive Board Member, coordinated student career development events and industry panel sessions."
-            ]
-        },
-        {
-            "organization": "Habitat Association & Netflix",
-            "role": "Volunteer Trainer",
-            "dates": "2025 - ",
-            "bullets": [
-                "Provided digital safety education to 500+ children within 'Once Upon a Time, in Screen Time!' project.",
-                "Designed training methodology on digital security, access to accurate information, and cyberbullying awareness for early age group."
-            ]
+            "university": "HARVARD UNIVERSITY",
+            "degree": "Bachelor of Science in Computer Science",
+            "dates": "2015 - 2019",
+            "location": "Cambridge, MA",
+            "gpa": "3.88 / 4.00"
         }
     ],
     "skills": {
-        "technical": "SQL, Python, JavaScript, React.js, Node.js, HTML/CSS, REST API, Streamlit, Tableau, Power BI, Excel, Data Analysis & Visualization, Agile/Scrum",
-        "tools": "Git, GitHub, n8n Automation, Jira, VS Code, Chrome DevTools, MSSQL Server, Active Directory, Figma, Vite, MS Office",
-        "langs": "Turkish (Native Language), English (Advanced / B2), German (Beginner / A1)"
+        "technical": "Python, JavaScript, Node.js, React, Docker, Kubernetes, PostgreSQL, AWS, Git, CI/CD",
+        "languages": "English (Native), Spanish (Fluent)",
+        "frameworks": "Express.js, Django, REST APIs, GraphQL, Microservices"
     },
     "certifications": [
+        "AWS Certified Solutions Architect (2023)",
+        "Certified Scrum Master (CSM) (2022)"
+    ],
+    "projects": [
         {
-            "name": "Google Data Analytics Professional Certificate",
-            "issuer": "Google",
-            "year": "2026"
-        },
-        {
-            "name": "Basic Level Mikro ERP Training Certificate of Achievement",
-            "issuer": "Istanbul Gedik University & Mikro Software",
-            "year": "2025"
-        },
-        {
-            "name": "15th, 16th and 17th Information Technologies Summit Participation Certificates",
-            "issuer": "ITU Management Engineering Club",
-            "year": "2022-2024"
-        },
-        {
-            "name": "Python Programming",
-            "issuer": "Turkcell Gelecegi Yazanlar",
-            "year": "2023"
-        },
-        {
-            "name": "İş Bankası ProSchool IT Class",
-            "issuer": "İş Bankası",
-            "year": "2023"
-        },
-        {
-            "name": "Artificial Intelligence Camp",
-            "issuer": "Google Cloud",
-            "year": "2023"
+            "title": "Open-Source High-Speed Data Parser",
+            "details": "Created an open-source data analytics library with over 1,500 GitHub stars, utilized by 200+ developer teams worldwide."
         }
     ],
-    "references": [],
     "settings": {
-        "font": "font-garamond",
-        "size": "size-medium",
-        "spacing": "spacing-normal",
-        "margin": "margin-normal",
-        "alignment": "align-justify",
-        "accent": "accent-black",
-        "headings": "headings-line",
-        "refMode": "request",
-        "uiLang": "en"
+        "uiLang": "en",
+        "showPhoto": false,
+        "autoFitOnePage": true,
+        "contactVisibility": {
+            "toggle-email": true,
+            "toggle-phone": true,
+            "toggle-location": true,
+            "toggle-github": true,
+            "toggle-linkedin": true,
+            "toggle-website": true
+        }
     }
 };
 
 const TR_SAMPLE_STATE = {
     "personal": {
-        "name": "Asil Doğukan Samay",
-        "title": "Yönetim Bilişim Sistemleri Uzmanı",
-        "email": "dogukan__sam_ay@hotmail.com",
-        "phone": "+90 544 331 76 20",
-        "location": "Çanakkale, Türkiye",
-        "github": "github.com/AsilDogukan-Samay",
-        "linkedin": "linkedin.com/in/asil-dogukan-samay",
-        "website": "asildogukansamay.github.io",
-        "summary": "Veri analitiği, süreç otomasyonu ve yazılım geliştirme konularına odaklanan, teknik mühendislik ekipleri ile kurumsal iş operasyonları arasındaki koordinasyonu sağlama konusunda deneyim sahibi Yönetim Bilişim Sistemleri (MIS) uzmanı. Ölçeklenebilir veri hatları kurgulama, karmaşık iş akışlarını otomatize etme ve REST API entegrasyonları tasarlama konularında yetkin. Uluslararası ve büyük kurumsal yapılarda teknoloji odaklı değer yaratmayı hedeflemektedir."
+        "name": "Ahmet Yılmaz",
+        "title": "Yazılım Mimarı & Veri Analisti",
+        "email": "ahmet.yilmaz@example.com",
+        "phone": "+90 532 123 45 67",
+        "location": "İstanbul, Türkiye",
+        "github": "github.com/ornek-kullanici",
+        "linkedin": "linkedin.com/in/ornek-kullanici",
+        "website": "ahmetyilmaz.dev",
+        "summary": "Veri analitiği, dağıtık sistemler ve süreç otomasyonu konularında 6+ yıl deneyimli Kıdemli Yazılım Mimarı. Yüksek performanslı mikroservis mimarileri geliştirme ve operasyonel verimliliği %35 artıran veri sistemleri tasarımında uzmanlaşmıştır."
     },
     "experiences": [
         {
-            "company": "MEDİBULUT",
-            "role": "Ürün Yönetimi ve CRM Stajyeri",
-            "location": "Çanakkale, Türkiye",
-            "dates": "Eylül 2025 - Haziran 2026",
+            "company": "GLOBAL TEKNOLOJİ A.Ş.",
+            "role": "Kıdemli Yazılım Mimarı",
+            "dates": "2022 - Günümüz",
+            "location": "İstanbul",
             "bullets": [
-                "Yazılım geliştirme, satış ve operasyon ekipleri arasındaki iletişimi koordine ederek iş akış süreçlerinin entegrasyonunu yönetti.",
-                "Saha satış ekiplerinin anlık konum ve performans takibi için Python ve SQL tabanlı entegre platform tasarlayıp geliştirdi; tüm veri mimarisi ve UI aşamalarını yönetti.",
-                "n8n entegrasyon aracı ile HubSpot ve Slack bağlantılarını kurguladı; lead takip ve müşteri geri bildirim süreçlerini tam otomatize hale getirerek yanıt sürelerini %35 iyileştirdi.",
-                "CRM sistemleri üzerinden geniş ölçekli müşteri verilerini analiz ederek satış trendleri ve kullanıcı davranışlarına yönelik stratejik raporlar hazırladı."
+                "3M+ günlük aktif kullanıcıya hizmet veren mikroservis mimarisini tasarlayarak API yanıt sürelerini %40 iyileştirdi.",
+                "12 kişilik mühendislik ekibine liderlik ederek CI/CD süreçlerini otomatize etti; canlıya alma süresini 4 günden 15 dakikaya düşürdü.",
+                "Bulut altyapı kaynaklarını optimize ederek yıllık operasyonel sunucu maliyetlerini 120.000$ azalttı."
             ]
         },
         {
-            "company": "SOFTTECH",
-            "role": "Stajyer İş Analisti",
-            "location": "İstanbul, Türkiye",
-            "dates": "Ağustos 2025 - Eylül 2025",
+            "company": "VERİ ANALİTİĞİ ÇÖZÜMLERİ LTD.",
+            "role": "Veri Analisti & Yazılım Geliştirici",
+            "dates": "2019 - 2022",
+            "location": "Ankara",
             "bullets": [
-                "Sprint takibi, metrik analizi ve günlük veri raporlama süreçlerini yürüterek Agile/Scrum operasyonlarına ve disiplinlerarası ekip içi koordinasyona destek sağladı."
-            ]
-        },
-        {
-            "company": "KOÇTAŞ",
-            "role": "Stajyer (S.T.E.P. Programı)",
-            "location": "Çanakkale, Türkiye",
-            "dates": "Temmuz 2025 - Ağustos 2025",
-            "bullets": [
-                "Türkiye genelindeki katılımcılar arasında düzenlenen proje yarışmasında 'Koçtaş Kids' departman geliştirme projesiyle Birincilik Ödülü kazandı.",
-                "Ürün yerleşimi, stok takibi ve fiyat kontrolü süreçlerini yöneterek operasyonel verimlilik analizleri gerçekleştirdi; stok denetim sapmalarını %20 azalttı."
-            ]
-        },
-        {
-            "company": "LOCOMAR",
-            "role": "İş Geliştirme Asistanı",
-            "location": "İzmir, Türkiye",
-            "dates": "Nisan 2025 - Haziran 2025",
-            "bullets": [
-                "B2B pazarlama süreçlerini analiz ederek; pazar analizi ve rakip araştırmalarıyla yeni müşteri kazanım stratejilerinin geliştirilmesini sağladı."
-            ]
-        },
-        {
-            "company": "VITRIOL",
-            "role": "Siber Güvenlik Stajyeri",
-            "location": "İstanbul, Türkiye",
-            "dates": "Eylül 2023 - Haziran 2024",
-            "bullets": [
-                "BT altyapısı ve veri analizi süreçlerinde görev alarak siber güvenlik projelerine teknik destek sağladı; sistem analiz ve güvenlik prosedürlerini raporladı."
-            ]
-        },
-        {
-            "company": "DENİZBANK",
-            "role": "Stajyer",
-            "location": "İstanbul, Türkiye",
-            "dates": "Mart 2023 - Haziran 2023",
-            "bullets": [
-                "Staj programı kapsamında gösterdiği yüksek performansla 100'den fazla aday arasından Birincilik Ödülü kazandı.",
-                "Hazırladığı analitik finansal araştırma makalesini kurumsal içerik olarak yayımlayarak bankanın resmi dijital kanallarında yaygınlaştırdı.",
-                "Finansal süreçleri ve bankacılık iş akışlarını 4 farklı departmanda deneyimleyerek kurumsal operasyonel verimlilik raporları sundu."
+                "Python ve SQL tabanlı veri işleme boru hatları kurarak günlük 500GB veri akışını sıfır veri kaybı ile işledi.",
+                "Şirket içi müşteri davranış analizi panellerini geliştirerek satış ekibinin dönüşüm oranını %25 artırdı."
             ]
         }
     ],
     "educations": [
         {
-            "university": "İSTANBUL GEDİK ÜNİVERSİTESİ",
-            "degree": "Lisans, Yönetim Bilişim Sistemleri (MIS)",
-            "location": "İstanbul, Türkiye",
-            "dates": "Eylül 2022 - Mayıs 2026",
-            "gpa": "3.15 / 4.00",
-            "details": ""
-        }
-    ],
-    "leaderships": [
-        {
-            "organization": "YAPAY ZEKA VE TEKNOLOJİ AKADEMİSİ",
-            "role": "Veri Bilimi Programı Bursiyeri",
-            "dates": "Aralık 2025 - Devam Ediyor",
-            "bullets": [
-                "Türkiye genelinden gelen 31.700 başvuru arasından üstün başarı göstererek kabul alan 1.500 bursiyerden biri (%4,7'lik başarı dilimi) olarak seçildi.",
-                "Google Türkiye, GİRVAK ve T3 Girişim Merkezi ortaklığında düzenlenen 100 saatten fazla yoğun veri bilimi, veri işleme ve yapay zeka eğitim programını tamamladı."
-            ]
-        },
-        {
-            "organization": "İSTANBUL GEDİK ÜNİVERSİTESİ KULÜPLERİ",
-            "role": "Kulüp Başkanı | Yönetim Kurulu Üyesi",
-            "dates": "2022 - 2023",
-            "bullets": [
-                "Siber Güvenlik & MIS Kulübü Başkanı olarak 300'den fazla öğrenciye ulaştı; teknik workshoplar ve siber güvenlik farkındalık eğitimleri organize etti.",
-                "Kariyer Kulübü Yönetim Kurulu Üyesi olarak öğrenci kariyer gelişim etkinliklerini ve sektör panellerini koordine etti."
-            ]
-        },
-        {
-            "organization": "Habitat Derneği & Netflix",
-            "role": "Gönüllü Eğitmen",
-            "dates": "2022 - 2023",
-            "bullets": [
-                "Çocukların dijital dünyada güvenli adımlar atmasını sağlamak amacıyla 'Evvel Zaman İçinde Ekran Zamanında!' projesinde 500'den fazla çocuğa eğitim sundu.",
-                "Erken yaş grubuna yönelik dijital güvenlik, doğru bilgiye erişim ve siber zorbalık farkındalığı eğitim metodolojisi kurguladı."
-            ]
+            "university": "İSTANBUL TEKNİK ÜNİVERSİTESİ",
+            "degree": "Lisans, Bilgisayar Mühendisliği",
+            "dates": "2015 - 2019",
+            "location": "İstanbul",
+            "gpa": "3.82 / 4.00"
         }
     ],
     "skills": {
-        "technical": "SQL, Python, JavaScript, React.js, Node.js, HTML/CSS, REST API, Streamlit, Tableau, Power BI, Excel, Veri Analizi ve Görselleştirme, Agile/Scrum",
-        "tools": "Git, GitHub, n8n Otomasyon, Jira, VS Code, Chrome DevTools, MSSQL Server, Active Directory, Figma, Vite, MS Office",
-        "langs": "Türkçe (Anadil), İngilizce (İleri Düzey / B2), Almanca (Başlangıç / A1)"
+        "technical": "Python, JavaScript, Node.js, React, Docker, Kubernetes, PostgreSQL, AWS, Git, CI/CD",
+        "languages": "Türkçe (Ana Dil), İngilizce (İleri Düzey - C1)",
+        "frameworks": "Express.js, Django, REST APIs, GraphQL, Microservices"
     },
     "certifications": [
+        "AWS Certified Solutions Architect (2023)",
+        "Certified Scrum Master (CSM) (2022)"
+    ],
+    "projects": [
         {
-            "name": "Google Data Analytics Professional Certificate",
-            "issuer": "Google",
-            "year": "2026"
-        },
-        {
-            "name": "YGA Zirvesi Katılım Sertifikası",
-            "issuer": "YGA",
-            "year": "2022"
-        },
-        {
-            "name": "Temel Düzey Mikro ERP Eğitimi Başarı Belgesi",
-            "issuer": "İstanbul Gedik Üniversitesi & Mikro Yazılım",
-            "year": "2025"
-        },
-        {
-            "name": "24. Yönetim Bilimleri Kongresi",
-            "issuer": "İTÜ İşletme Mühendisliği Kulübü",
-            "year": "2023"
-        },
-        {
-            "name": "15, 16 ve 17. Bilişim Teknolojileri Zirvesi Katılım Sertifikaları",
-            "issuer": "İTÜ İşletme Mühendisliği Kulübü",
-            "year": "2022-2024"
+            "title": "Açık Kaynak Veri İşleme Motoru",
+            "details": "Geliştiricilerin büyük veri kümelerini hızlıca analiz etmesini sağlayan 1.500+ GitHub yıldızlı açık kaynak proje."
         }
     ],
-    "references": [],
     "settings": {
-        "font": "font-garamond",
-        "size": "size-medium",
-        "spacing": "spacing-normal",
-        "margin": "margin-normal",
-        "alignment": "align-justify",
-        "accent": "accent-black",
-        "headings": "headings-line",
-        "refMode": "request",
-        "uiLang": "tr"
+        "uiLang": "tr",
+        "showPhoto": false,
+        "autoFitOnePage": true,
+        "contactVisibility": {
+            "toggle-email": true,
+            "toggle-phone": true,
+            "toggle-location": true,
+            "toggle-github": true,
+            "toggle-linkedin": true,
+            "toggle-website": true
+        }
     }
 };
 
@@ -1253,95 +921,7 @@ let currentZoom = 0.85; // Default slightly zoomed out to fit desktop view nicel
 
 // Document Elements
 document.addEventListener("DOMContentLoaded", () => {
-    // Check if we need to migrate to Dogukan's default state once
-    const isMigrated = localStorage.getItem('dogukan_default_migrated_v2');
-    const savedState = localStorage.getItem('harvard_cv_state');
-    
-    if (!isMigrated) {
-        // Force migrate to Dogukan's CV as default
-        cvState = JSON.parse(JSON.stringify(TR_SAMPLE_STATE));
-        saveToLocalStorage();
-        localStorage.setItem('dogukan_default_migrated_v2', 'true');
-        loadStateIntoUI();
-    } else if (savedState) {
-        try {
-            cvState = JSON.parse(savedState);
-            // Ensure website field is migrated if missing
-            if (cvState.personal && cvState.personal.name === "Asil Doğukan Samay" && cvState.personal.website === undefined) {
-                cvState.personal.website = "asildogukansamay.com";
-                saveToLocalStorage();
-            }
-            loadStateIntoUI();
-        } catch (e) {
-            console.error("Local storage parse error:", e);
-            saveToLocalStorage();
-        }
-    } else {
-        saveToLocalStorage();
-    }
-
-    // Setup inputs event listeners for real-time updating
-    setupInputListeners();
-    
-    // Initial Render
-    renderAll();
-    
-    // Apply initial language
-    applyLanguage();
-    
-    // Apply initial theme from local storage
-    if (cvState.settings && cvState.settings.theme === 'dark') {
-        document.body.classList.add('editor-dark-mode');
-        const sun = document.getElementById('theme-icon-sun');
-        const moon = document.getElementById('theme-icon-moon');
-        if (sun) sun.style.display = 'block';
-        if (moon) moon.style.display = 'none';
-    }
-    
-    // Setup horizontal scroll helper on editor tabs
-    const tabsContainer = document.querySelector('.editor-tabs');
-    if (tabsContainer) {
-        tabsContainer.addEventListener('wheel', (e) => {
-            if (e.deltaY !== 0) {
-                tabsContainer.scrollLeft += e.deltaY * 0.8;
-                e.preventDefault();
-            }
-        });
-    }
-
-    // Setup Ctrl + Scroll Zoom on preview canvas
-    const previewCanvas = document.querySelector('.preview-canvas');
-    if (previewCanvas) {
-        previewCanvas.addEventListener('wheel', (e) => {
-            if (e.ctrlKey) {
-                e.preventDefault();
-                if (e.deltaY < 0) {
-                    adjustZoom(0.05); // zoom in
-                } else {
-                    adjustZoom(-0.05); // zoom out
-                }
-            }
-        }, { passive: false });
-    }
-    
-    // Sync initial stepper progress
-    updateStepper(1);
-    
-    // Set initial Zoom
-    applyZoom();
-    
-    // Monitor sidebar inputs for page fit calculations & auto-save
-    const sidebar = document.querySelector('.editor-sidebar');
-    if (sidebar) {
-        sidebar.addEventListener('input', () => {
-            saveToLocalStorage();
-            checkPageFit();
-        });
-    }
-    
-    // Initial page fit check
-    checkPageFit();
-});
+    );
 
 // Load state values into DOM inputs & preview text
 function loadStateIntoUI() {
