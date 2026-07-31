@@ -3431,12 +3431,7 @@ const tourSteps = [
     }
 ];
 
-function startInteractiveTour() {
-    currentTourStep = 0;
-    showTourStep(currentTourStep);
-    const modal = document.getElementById('interactive-tour-modal');
-    if (modal) modal.style.display = 'flex';
-}
+
 
 function showTourStep(index) {
     if (index < 0 || index >= tourSteps.length) return;
@@ -3453,45 +3448,22 @@ function showTourStep(index) {
     if (stepCounterEl) stepCounterEl.textContent = `${index + 1} / ${tourSteps.length}`;
 }
 
-function nextTourStep() {
-    if (currentTourStep < tourSteps.length - 1) {
-        currentTourStep++;
-        showTourStep(currentTourStep);
-    } else {
+ else {
         closeTour();
     }
 }
 
-function prevTourStep() {
-    if (currentTourStep > 0) {
-        currentTourStep--;
-        showTourStep(currentTourStep);
-    }
-}
 
-function closeTour() {
-    const modal = document.getElementById('interactive-tour-modal');
-    if (modal) modal.style.display = 'none';
 }
 
 
 
-function openVideoPlayerModal() {
-    const modal = document.getElementById('video-player-modal');
-    if (modal) {
-        modal.style.display = 'flex';
-        const video = document.getElementById('demo-video-element');
-        if (video) video.play();
-    }
+
+
+
 }
 
-function closeVideoPlayerModal() {
-    const modal = document.getElementById('video-player-modal');
-    if (modal) {
-        modal.style.display = 'none';
-        const video = document.getElementById('demo-video-element');
-        if (video) video.pause();
-    }
+
 }
 
 
@@ -3506,30 +3478,13 @@ function seekVideo(seconds) {
 
 
 
-function openYouTubeShowcase() {
-    const modal = document.getElementById('youtube-showcase-modal');
-    if (modal) {
-        modal.style.display = 'flex';
-        const video = document.getElementById('yt-video-player');
-        if (video) video.play();
-    }
+
 }
 
-function closeYouTubeShowcase() {
-    const modal = document.getElementById('youtube-showcase-modal');
-    if (modal) {
-        modal.style.display = 'none';
-        const video = document.getElementById('yt-video-player');
-        if (video) video.pause();
-    }
+
 }
 
-function seekYTVideo(seconds) {
-    const video = document.getElementById('yt-video-player');
-    if (video) {
-        video.currentTime = seconds;
-        video.play();
-    }
+
 }
 
 
@@ -3538,17 +3493,7 @@ function seekYTVideo(seconds) {
 // AUTOMATED IN-BROWSER 60FPS SCREEN STUDIO VIDEO ENGINE
 // -------------------------------------------------------------
 
-async function generateScreenStudioVideo() {
-    console.log("SCREEN_STUDIO: Launching 60FPS In-Browser Screen Studio Engine...");
-    
-    // Create status banner
-    let statusDiv = document.getElementById('screen-studio-banner');
-    if (!statusDiv) {
-        statusDiv = document.createElement('div');
-        statusDiv.id = 'screen-studio-banner';
-        statusDiv.style.cssText = "position: fixed; top: 15px; left: 50%; transform: translateX(-50%); background: #1a73e8; color: #fff; padding: 12px 24px; border-radius: 30px; font-weight: 700; font-size: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 999999; font-family: sans-serif; display: flex; align-items: center; gap: 10px;";
-        document.body.appendChild(statusDiv);
-    }
+async 
     statusDiv.innerHTML = '🎥 <strong>Screen Studio 60FPS Video Çekiliyor...</strong> <span id="ss-step-name">Başlatılıyor</span>';
     
     // Ensure clean state
@@ -3622,6 +3567,8 @@ function getLeadershipArray() {
 function renderEditorProjects() {
     const container = document.getElementById('projects-list');
     if (!container) return;
+    const container = document.getElementById('projects-list');
+    if (!container) return;
     container.innerHTML = '';
     const lang = (cvState.settings && cvState.settings.uiLang) ? cvState.settings.uiLang : 'tr';
     
@@ -3656,6 +3603,8 @@ function renderEditorProjects() {
 }
 
 function renderCVProjects() {
+    const projectsSpan = document.getElementById('cv-projects-list');
+    if (!projectsSpan) return;
     const projectsSpan = document.getElementById('cv-projects-list');
     if (!projectsSpan) return;
     const projects = cvState.projects || [];

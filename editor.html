@@ -231,6 +231,18 @@
 
                 <!-- Skills & Interests Tab -->
                 <div id="tab-skills" class="tab-pane">
+
+                        <div class="input-group" style="margin-top: 16px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                <label style="font-weight: 700;">Projeler (Açık Kaynak / Proje Çalışmaları)</label>
+                                <button class="btn btn-secondary btn-sm" onclick="addProject()">+ Yeni Proje Ekle</button>
+                            </div>
+                            <div id="projects-list"></div>
+                        </div>
+                        <div class="input-group" style="margin-top: 16px; display: none;">
+                            <input type="text" id="input-skills-certs" oninput="updateSkillField('certs', this.value)">
+                        </div>
+
                     <div class="input-group">
                         <label for="input-skills-technical" data-i18n="tech_skills">Teknik Yetenekler</label>
                         <input type="text" id="input-skills-technical" value="" oninput="updateSkillField('technical', this.value)">
