@@ -1,4 +1,15 @@
 
+// FORCE FRESH CACHE MIGRATION (V3)
+(function forceFreshCacheMigration() {
+    const FRESH_KEY = 'harvard_cv_state_v3_fresh';
+    const isAlreadyMigrated = localStorage.getItem('v3_fresh_loaded');
+    if (!isAlreadyMigrated) {
+        localStorage.clear();
+        localStorage.setItem('v3_fresh_loaded', 'true');
+    }
+})();
+
+
 // -------------------------------------------------------------
 // USER SESSION & AUTHENTICATION HANDLERS
 // -------------------------------------------------------------
