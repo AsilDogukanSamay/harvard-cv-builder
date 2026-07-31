@@ -1345,168 +1345,48 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Load state values into DOM inputs & preview text
 function loadStateIntoUI() {
-    // Personal Info
-    document.getElementById('input-name').value = cvState.personal.name || "";
-    document.getElementById('input-title').value = cvState.personal.title || "";
-    document.getElementById('input-email').value = cvState.personal.email || "";
-    document.getElementById('input-phone').value = cvState.personal.phone || "";
-    document.getElementById('input-location').value = cvState.personal.location || "";
-    document.getElementById('input-github').value = cvState.personal.github || "";
-    document.getElementById('input-linkedin').value = cvState.personal.linkedin || "";
-    document.getElementById('input-website').value = cvState.personal.website || "";
-    document.getElementById('input-summary').value = cvState.personal.summary || "";
+    if (!cvState || !cvState.personal) return;
     
-    // Skills
+    // Personal Info Sidebar Inputs
+    const setVal = (id, val) => {
+        const el = document.getElementById(id);
+        if (el) el.value = val || "";
+    };
+    
+    setVal('input-name', cvState.personal.name);
+    setVal('input-title', cvState.personal.title);
+    setVal('input-email', cvState.personal.email);
+    setVal('input-phone', cvState.personal.phone);
+    setVal('input-location', cvState.personal.location);
+    setVal('input-github', cvState.personal.github);
+    setVal('input-linkedin', cvState.personal.linkedin);
+    setVal('input-website', cvState.personal.website);
+    setVal('input-summary', cvState.personal.summary);
+    
+    // Skills Sidebar Inputs
     if (cvState.skills) {
-        document.getElementById('input-skills-technical').value = cvState.skills.technical || "";
-        const toolsInp = document.getElementById('input-skills-tools');
-        if (toolsInp) toolsInp.value = cvState.skills.tools || "";
-        document.getElementById('input-skills-langs').value = cvState.skills.langs || "";
+        setVal('input-skills-technical', cvState.skills.technical);
+        setVal('input-skills-tools', cvState.skills.tools);
+        setVal('input-skills-langs', cvState.skills.langs);
     }
     
-    // Ensure certifications array exists
-    if (!cvState.certifications) {
-        if (cvState.skills && cvState.skills.certs) {
-            // Migrating old string data if present
-            cvState.certifications = cvState.skills.certs.split(',').map(c => ({ name: c.trim(), issuer: "", year: "" }));
-            delete cvState.skills.certs;
-        } else {
-            cvState.certifications = [
-                { name: "Network Technician", issuer: "Cisco", year: "2026" },
-                { name: "Introduction to Python", issuer: "AIBusinessSchool", year: "2025" },
-                { name: "Introduction to Data Science", issuer: "Cisco", year: "2025" },
-                { name: "Veri Bilimi ve Yapay Zeka", issuer: "Doğuş Teknoloji", year: "2025" },
-                { name: "Computer Hardware Basics", issuer: "Cisco", year: "2024" },
-                { name: "Python Programlama", issuer: "Turkcell Geleceği Yazanlar", year: "2024" },
-                { name: "Cisco IT Essentials", issuer: "Cisco", year: "2024" }
-            ];
-        }
-    }
-    renderEditorCertifications();
-    renderCVCertifications();
+    // Direct A4 Paper Preview Updates
+    const setText = (id, val) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = val || "";
+    };
     
-    // Custom Titles Sync
-    const custom = (cvState.settings && cvState.settings.customTitles) ? cvState.settings.customTitles : {};
-    const sumInp = document.getElementById('input-custom-title-summary');
-    if (sumInp) sumInp.value = custom.summary || "";
-    const expInp = document.getElementById('input-custom-title-experience');
-    if (expInp) expInp.value = custom.experience || "";
-    const eduInp = document.getElementById('input-custom-title-education');
-    if (eduInp) eduInp.value = custom.education || "";
-    const leadInp = document.getElementById('input-custom-title-leadership');
-    if (leadInp) leadInp.value = custom.leadership || "";
-    const skInp = document.getElementById('input-custom-title-skills');
-    if (skInp) skInp.value = custom.skills || "";
-    const refInp = document.getElementById('input-custom-title-references');
-    if (refInp) refInp.value = custom.references || "";
+    setText('cv-name', cvState.personal.name);
+    setText('cv-title-display', cvState.personal.title);
+    setText('cv-summary', cvState.personal.summary);
+    setText('cv-email', cvState.personal.email);
+    setText('cv-phone', cvState.personal.phone);
+    setText('cv-location', cvState.personal.location);
+    setText('cv-github', cvState.personal.github);
+    setText('cv-linkedin', cvState.personal.linkedin);
+    setText('cv-website', cvState.personal.website);
     
-    renderSectionTitles();
-
-    // Dropdown Settings
-    if (cvState.settings) {
-        document.getElementById('setting-font').value = cvState.settings.font || "font-garamond";
-        document.getElementById('setting-size').value = cvState.settings.size || "size-medium";
-        document.getElementById('setting-spacing').value = cvState.settings.spacing || "spacing-normal";
-        document.getElementById('setting-margin').value = cvState.settings.margin || "margin-normal";
-        document.getElementById('setting-alignment').value = cvState.settings.alignment || "align-top";
-        document.getElementById('setting-accent').value = cvState.settings.accent || "accent-black";
-        document.getElementById('setting-headings').value = cvState.settings.headings || "headings-line";
-    }
-    
-    // Check visibility states and apply to checkboxes
-    if (!cvState.settings.visibility) {
-        cvState.settings.visibility = { location: true, email: true, phone: true, github: true, linkedin: true };
-    }
-    const vis = cvState.settings.visibility;
-    document.getElementById('toggle-location').checked = vis.location !== false;
-    document.getElementById('toggle-email').checked = vis.email !== false;
-    document.getElementById('toggle-phone').checked = vis.phone !== false;
-    document.getElementById('toggle-github').checked = vis.github !== false;
-    document.getElementById('toggle-linkedin').checked = vis.linkedin !== false;
-    if (vis.website === undefined) vis.website = true;
-    document.getElementById('toggle-website').checked = vis.website !== false;
-
-    // Check visibility states for profile photo
-    if (cvState.settings.visibility.photo === undefined) {
-        cvState.settings.visibility.photo = false; // Hide by default to protect US/UK Ivy League HBS standard
-    }
-    
-    // Check visibility states for references
-    if (cvState.settings.visibility.references === undefined) {
-        cvState.settings.visibility.references = false; // Hide by default to protect Ivy League text-only space
-    }
-    
-    // Pre-fill references default data if empty
-    if (!cvState.references) {
-        cvState.references = [
-            { name: "Dr. John Smith", title: "Professor of Finance at Yale SOM", email: "j.smith@yale.edu", phone: "+1 (203) 432-0000" },
-            { name: "Jane Johnson", title: "VP of Product at Google", email: "j.johnson@google.com", phone: "+1 (650) 253-0000" }
-        ];
-    }
-    
-    // Sync references preview and input fields
-    document.getElementById('toggle-references').checked = cvState.settings.visibility.references === true;
-    
-    // Sync display mode select
-    if (!cvState.settings.refMode) {
-        cvState.settings.refMode = "details";
-    }
-    const refModeSelect = document.getElementById('setting-ref-mode');
-    if (refModeSelect) {
-        refModeSelect.value = cvState.settings.refMode;
-    }
-    
-    renderEditorReferences();
-    renderCVReferences();
-    
-    // Sync profile photo preview and inputs
-    const photoPreviewEl = document.getElementById('cv-photo-preview');
-    const photoWrapperEl = document.getElementById('cv-photo-wrapper');
-    const photoCheckboxEl = document.getElementById('toggle-photo');
-    
-    if (photoPreviewEl && photoWrapperEl && photoCheckboxEl) {
-        photoCheckboxEl.checked = cvState.settings.visibility.photo === true;
-        if (cvState.personal.photo) {
-            photoPreviewEl.src = cvState.personal.photo;
-            if (cvState.settings.visibility.photo === true) {
-                photoWrapperEl.style.display = 'block';
-            } else {
-                photoWrapperEl.style.display = 'none';
-            }
-        } else {
-            photoWrapperEl.style.display = 'none';
-        }
-    }
-
-    // Pre-fill registered user's name if present in localStorage and cvState name is blank/default
-    const registeredName = localStorage.getItem("cvsom_user_name");
-    if (registeredName && (!cvState.personal.name || cvState.personal.name.trim() === "" || cvState.personal.name === "Jane Doe")) {
-        cvState.personal.name = registeredName;
-        localStorage.removeItem("cvsom_user_name"); // Clean up so it doesn't overwrite future changes
-        saveToLocalStorage();
-    }
-
-    // Sync preview text elements
-    document.getElementById('cv-name').textContent = cvState.personal.name || "";
-    document.getElementById('cv-title-display').textContent = cvState.personal.title || "";
-    document.getElementById('cv-summary').textContent = cvState.personal.summary || "";
-    
-    // Sync contact info displaying and icons
-    renderCVContactInfo();
-    
-    if (cvState.skills) {
-        document.getElementById('cv-skills-technical').textContent = cvState.skills.technical || "";
-        const toolsEl = document.getElementById('cv-skills-tools');
-        const toolsItem = document.getElementById('cv-skills-tools-item');
-        if (toolsEl) toolsEl.textContent = cvState.skills.tools || "";
-        if (toolsItem) toolsItem.style.display = (cvState.skills.tools && cvState.skills.tools.trim()) ? 'block' : 'none';
-        
-        const certsEl = document.getElementById('cv-skills-certs');
-        if (certsEl) certsEl.textContent = cvState.skills.certs || "";
-        
-        document.getElementById('cv-skills-langs').textContent = cvState.skills.langs || "";
-    }
-    applyLanguage();
+    if (typeof renderCVContactInfo === 'function') renderCVContactInfo();
 }
 
 // Switch Tab Logic
@@ -3848,4 +3728,30 @@ async function generateScreenStudioVideo() {
     statusDiv.style.background = '#2e7d32';
     statusDiv.innerHTML = '🎉 <strong>Screen Studio Tanıtım Videosu Tamamlandı!</strong>';
     setTimeout(() => { statusDiv.remove(); }, 3000);
+}
+
+
+
+function loadTRSample() {
+    cvState = JSON.parse(JSON.stringify(TR_SAMPLE_STATE));
+    if (!cvState.settings) cvState.settings = {};
+    cvState.settings.uiLang = 'tr';
+    saveToLocalStorage();
+    applyLanguage();
+    loadStateIntoUI();
+    renderAll();
+    updateStyles();
+    if (typeof calculateATSScore === 'function') calculateATSScore();
+}
+
+function loadENSample() {
+    cvState = JSON.parse(JSON.stringify(EN_SAMPLE_STATE));
+    if (!cvState.settings) cvState.settings = {};
+    cvState.settings.uiLang = 'en';
+    saveToLocalStorage();
+    applyLanguage();
+    loadStateIntoUI();
+    renderAll();
+    updateStyles();
+    if (typeof calculateATSScore === 'function') calculateATSScore();
 }

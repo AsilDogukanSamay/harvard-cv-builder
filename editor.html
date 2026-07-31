@@ -290,6 +290,23 @@
 
                 <!-- Settings & Customization Tab -->
                 <div id="tab-settings" class="tab-pane">
+        <!-- Sample Template Loader Section -->
+        <div class="input-group" style="background: rgba(37, 99, 235, 0.05); border: 1px solid rgba(37, 99, 235, 0.2); border-radius: 8px; padding: 12px; margin-bottom: 16px;">
+            <label style="font-weight: 700; color: #1e293b; font-size: 13px; display: block; margin-bottom: 4px;">
+                Hazır Örnek Şablonlar / Sample Templates
+            </label>
+            <p style="font-size: 11px; color: #64748b; margin-bottom: 10px;">
+                Tek bir tıkla tüm alanları dolu 1. Sınıf Harvard CV şablonlarını yükleyebilirsiniz.
+            </p>
+            <div style="display: flex; gap: 8px;">
+                <button class="btn btn-sm" onclick="loadTRSample()" style="flex: 1; background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; font-weight: 700; padding: 8px; border-radius: 6px;">
+                    🇹🇷 Türkçe Örnek Şablon Yükle
+                </button>
+                <button class="btn btn-sm" onclick="loadENSample()" style="flex: 1; background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; font-weight: 700; padding: 8px; border-radius: 6px;">
+                    🇬🇧 Load English Sample Template
+                </button>
+            </div>
+        </div>
                     <div class="input-group">
                         <label for="setting-ui-lang" data-i18n="language">Uygulama Dili / Language</label>
                         <select id="setting-ui-lang" onchange="changeUILanguage(this.value)">
