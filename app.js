@@ -1062,6 +1062,7 @@ let currentZoom = 0.85; // Default slightly zoomed out to fit desktop view nicel
 
 // Document Elements
 document.addEventListener("DOMContentLoaded", () => {
+    setupInputListeners();
     applyLanguage();
     validateAndRepairCVState();
     loadStateIntoUI();
@@ -1363,6 +1364,25 @@ function setupInputListeners() {
 function updatePersonalField(field, value) {
     if (!cvState.personal) cvState.personal = {};
     cvState.personal[field] = value;
+    
+    // Direct sync DOM preview target
+    const targetMap = {
+        'name': 'cv-name',
+        'title': 'cv-title-display',
+        'summary': 'cv-summary',
+        'email': 'cv-email',
+        'phone': 'cv-phone',
+        'location': 'cv-location',
+        'github': 'cv-github',
+        'linkedin': 'cv-linkedin',
+        'website': 'cv-website'
+    };
+    
+    if (targetMap[field]) {
+        const targetEl = document.getElementById(targetMap[field]);
+        if (targetEl) targetEl.textContent = value || '';
+    }
+    
     if (typeof renderCVContactInfo === 'function') {
         renderCVContactInfo();
     }
