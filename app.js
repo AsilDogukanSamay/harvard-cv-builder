@@ -1044,8 +1044,13 @@ let currentZoom = 0.85; // Default slightly zoomed out to fit desktop view nicel
 
 // Document Elements
 document.addEventListener("DOMContentLoaded", () => {
-    );
-
+    applyLanguage();
+    validateAndRepairCVState();
+    loadStateIntoUI();
+    renderAll();
+    updateStyles();
+    if (typeof calculateATSScore === 'function') calculateATSScore();
+});
 // Load state values into DOM inputs & preview text
 function loadStateIntoUI() {
     // Personal Info
