@@ -15,7 +15,8 @@ function handleLogout() {
         cvState = (lang === 'en') ? JSON.parse(JSON.stringify(EN_SAMPLE_STATE)) : JSON.parse(JSON.stringify(TR_SAMPLE_STATE));
         saveToLocalStorage();
         applyLanguage();
-        loadStateIntoUI();
+        validateAndRepairCVState();
+    loadStateIntoUI();
         renderAll();
         updateStyles();
         alert(lang === 'en' ? "Session ended safely." : "Oturumunuz güvenle kapatıldı.");
@@ -58,40 +59,39 @@ function escapeHTML(value) {
         .replace(/'/g, '&#039;');
 }
 
+
 function validateAndRepairCVState() {
-    const fallback = (cvState?.settings?.uiLang === 'en') ? EN_SAMPLE_STATE : TR_SAMPLE_STATE;
-    if (!cvState || typeof cvState !== 'object' || Array.isArray(cvState)) {
-        cvState = JSON.parse(JSON.stringify(fallback));
+    const defaultState = (cvState && cvState.settings && cvState.settings.uiLang === 'en') ? EN_SAMPLE_STATE : TR_SAMPLE_STATE;
+    
+    if (!cvState || !cvState.personal || !cvState.personal.name || cvState.personal.name === "Jane Doe") {
+        cvState = JSON.parse(JSON.stringify(defaultState));
+        saveToLocalStorage();
+        return;
     }
-
-    const objectSections = ['personal', 'skills', 'settings'];
-    objectSections.forEach(section => {
-        if (!cvState[section] || typeof cvState[section] !== 'object' || Array.isArray(cvState[section])) {
-            cvState[section] = JSON.parse(JSON.stringify(fallback[section] || {}));
-        }
-    });
-
-    const arraySections = ['experiences', 'educations', 'leadership', 'certifications', 'references', 'projects'];
-    arraySections.forEach(section => {
-        if (!Array.isArray(cvState[section])) cvState[section] = [];
-    });
-
-    cvState.experiences = cvState.experiences.filter(item => item && typeof item === 'object').map(item => ({
-        company: String(item.company || ''), role: String(item.role || ''), location: String(item.location || ''),
-        dates: String(item.dates || ''), bullets: Array.isArray(item.bullets) ? item.bullets.map(b => String(b || '')) : []
-    }));
-    cvState.educations = cvState.educations.filter(item => item && typeof item === 'object').map(item => ({
-        university: String(item.university || ''), degree: String(item.degree || ''), location: String(item.location || ''),
-        dates: String(item.dates || ''), gpa: String(item.gpa || ''), details: String(item.details || '')
-    }));
-    cvState.leadership = cvState.leadership.filter(item => item && typeof item === 'object').map(item => ({
-        organization: String(item.organization || ''), role: String(item.role || ''), dates: String(item.dates || ''),
-        bullets: Array.isArray(item.bullets) ? item.bullets.map(b => String(b || '')) : []
-    }));
-    cvState.certifications = cvState.certifications.filter(item => item && typeof item === 'object');
-    cvState.references = cvState.references.filter(item => item && typeof item === 'object');
-    cvState.projects = cvState.projects.filter(item => item && typeof item === 'object');
+    
+    if (!cvState.experiences || cvState.experiences.length === 0) {
+        cvState.experiences = JSON.parse(JSON.stringify(defaultState.experiences));
+    }
+    if (!cvState.educations || cvState.educations.length === 0) {
+        cvState.educations = JSON.parse(JSON.stringify(defaultState.educations));
+    }
+    if (!cvState.leadership && !cvState.leaderships) {
+        cvState.leadership = JSON.parse(JSON.stringify(defaultState.leadership));
+    } else if (cvState.leadership && cvState.leadership.length === 0) {
+        cvState.leadership = JSON.parse(JSON.stringify(defaultState.leadership));
+    }
+    if (!cvState.projects || cvState.projects.length === 0) {
+        cvState.projects = JSON.parse(JSON.stringify(defaultState.projects));
+    }
+    if (!cvState.certifications || cvState.certifications.length === 0) {
+        cvState.certifications = JSON.parse(JSON.stringify(defaultState.certifications));
+    }
+    if (!cvState.references || cvState.references.length === 0) {
+        cvState.references = JSON.parse(JSON.stringify(defaultState.references));
+    }
+    saveToLocalStorage();
 }
+
 
 const EN_SAMPLE_STATE = {
     "personal": {
@@ -1048,7 +1048,8 @@ async function autoTranslateCV(targetLang) {
         // Persist, reload UI and re-render
         saveToLocalStorage();
         applyLanguage();
-        loadStateIntoUI();
+        validateAndRepairCVState();
+    loadStateIntoUI();
         renderAll();
         
         setTimeout(() => {
@@ -1074,7 +1075,8 @@ function undoTranslation() {
             localStorage.removeItem('cvState_before_translate');
             saveToLocalStorage();
             applyLanguage();
-            loadStateIntoUI();
+            validateAndRepairCVState();
+    loadStateIntoUI();
             renderAll();
             checkUndoState();
             closeTranslateModal();
@@ -1093,6 +1095,7 @@ let currentZoom = 0.85; // Default slightly zoomed out to fit desktop view nicel
 document.addEventListener("DOMContentLoaded", () => {
     setupInputListeners();
     applyLanguage();
+    validateAndRepairCVState();
     validateAndRepairCVState();
     loadStateIntoUI();
     renderAll();
@@ -1724,7 +1727,8 @@ function resetData() {
         cvState = (lang === 'en') ? JSON.parse(JSON.stringify(EN_SAMPLE_STATE)) : JSON.parse(JSON.stringify(TR_SAMPLE_STATE));
         saveToLocalStorage();
         applyLanguage();
-        loadStateIntoUI();
+        validateAndRepairCVState();
+    loadStateIntoUI();
         renderAll();
         updateStyles();
         alert(lang === 'en' ? "CV data successfully reset!" : "CV verileriniz başarıyla sıfırlandı!");
@@ -1814,6 +1818,7 @@ function loadPresetTemplate(val) {
     }
     saveToLocalStorage();
     applyLanguage();
+    validateAndRepairCVState();
     validateAndRepairCVState();
     loadStateIntoUI();
     renderAll();
@@ -2682,7 +2687,8 @@ function autoFitToPage() {
         if (!isOverflowing) {
             cvState.settings.dynamicScale = scale.toFixed(2);
             saveToLocalStorage();
-            loadStateIntoUI();
+            validateAndRepairCVState();
+    loadStateIntoUI();
             updateStyles();
             checkPageFit();
             
@@ -2701,6 +2707,7 @@ function autoFitToPage() {
     doc.style.setProperty('--dynamic-scale', '0.65');
     cvState.settings.dynamicScale = '0.65';
     saveToLocalStorage();
+    validateAndRepairCVState();
     loadStateIntoUI();
     updateStyles();
     checkPageFit();
@@ -2797,7 +2804,8 @@ async function _legacy_processPDFImport1_disabled(file) {
         validateAndRepairCVState();
         saveToLocalStorage();
         applyLanguage();
-        loadStateIntoUI();
+        validateAndRepairCVState();
+    loadStateIntoUI();
         renderAll();
         updateStyles();
         
@@ -2830,7 +2838,8 @@ function _legacy_importJSON_disabled(event) {
                 validateAndRepairCVState();
                 saveToLocalStorage();
                 applyLanguage();
-                loadStateIntoUI();
+                validateAndRepairCVState();
+    loadStateIntoUI();
                 renderAll();
                 updateStyles();
                 alert("🎉 Özgeçmiş yedek dosyanız başarıyla yüklendi!");
@@ -2871,7 +2880,8 @@ function _legacy_processPDFImport_disabled(file, lang, event) {
             cvState = parsedState;
             saveToLocalStorage();
             applyLanguage();
-            loadStateIntoUI();
+            validateAndRepairCVState();
+    loadStateIntoUI();
             renderAll();
             updateStyles();
             
@@ -3364,7 +3374,8 @@ async function processPDFImport(file) {
         cvState = parsedState;
         saveToLocalStorage();
         applyLanguage();
-        loadStateIntoUI();
+        validateAndRepairCVState();
+    loadStateIntoUI();
         renderAll();
         updateStyles();
         
@@ -3396,7 +3407,8 @@ function importJSON(event) {
                 cvState = data;
                 saveToLocalStorage();
                 applyLanguage();
-                loadStateIntoUI();
+                validateAndRepairCVState();
+    loadStateIntoUI();
                 renderAll();
                 updateStyles();
                 alert("🎉 Özgeçmiş dosyanız başarıyla yüklendi!");
@@ -3558,7 +3570,8 @@ function loadTRSample() {
         cvState.settings.uiLang = 'tr';
         saveToLocalStorage();
         applyLanguage();
-        loadStateIntoUI();
+        validateAndRepairCVState();
+    loadStateIntoUI();
         renderAll();
         updateStyles();
         if (typeof calculateATSScore === 'function') calculateATSScore();
@@ -3574,7 +3587,8 @@ function loadENSample() {
         cvState.settings.uiLang = 'en';
         saveToLocalStorage();
         applyLanguage();
-        loadStateIntoUI();
+        validateAndRepairCVState();
+    loadStateIntoUI();
         renderAll();
         updateStyles();
         if (typeof calculateATSScore === 'function') calculateATSScore();
