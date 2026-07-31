@@ -1204,16 +1204,23 @@ function undoTranslation() {
 let currentZoom = 0.85; // Default slightly zoomed out to fit desktop view nicely
 
 // Document Elements
-document.addEventListener("DOMContentLoaded", () => {
-    setupInputListeners();
+
+function initAppImmediately() {
+    validateAndRepairCVState();
     applyLanguage();
-    validateAndRepairCVState();
-    validateAndRepairCVState();
     loadStateIntoUI();
     renderAll();
     updateStyles();
+    if (typeof setupInputListeners === 'function') setupInputListeners();
     if (typeof calculateATSScore === 'function') calculateATSScore();
-});
+}
+
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    initAppImmediately();
+} else {
+    document.addEventListener("DOMContentLoaded", initAppImmediately);
+}
+
 // Load state values into DOM inputs & preview text
 function loadStateIntoUI() {
     if (!cvState || !cvState.personal) return;
@@ -3582,3 +3589,6 @@ function loadENSample() {
     updateStyles();
     if (typeof calculateATSScore === 'function') calculateATSScore();
 }
+
+// FORCE INSTANT INITIALIZATION ON SCRIPT LOAD
+initAppImmediately();
