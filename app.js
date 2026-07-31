@@ -211,7 +211,7 @@ const TR_SAMPLE_STATE = {
             ]
         },
         {
-            "company": "INOVASYON YAZILIM A.Ş.",
+            "company": "İNOVASYON YAZILIM A.Ş.",
             "role": "Yazılım Geliştirme Uzmanı",
             "dates": "2017 - 2019",
             "location": "İstanbul",
@@ -1202,22 +1202,27 @@ function loadStateIntoUI() {
 }
 
 // Switch Tab Logic
-function switchTab(tabId) {
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.classList.remove('active');
-    });
-    document.querySelectorAll('.tab-pane').forEach(pane => {
-        pane.classList.remove('active');
-    });
+function switchTab(tabId, btnTarget) {
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
     
-    // Find active button and tab pane
-    const activeBtn = Array.from(document.querySelectorAll('.tab-btn')).find(btn => btn.getAttribute('onclick').includes(tabId));
-    if (activeBtn) activeBtn.classList.add('active');
+    if (btnTarget && btnTarget.classList) {
+        btnTarget.classList.add('active');
+    } else {
+        const btns = document.querySelectorAll('.tab-btn');
+        btns.forEach(btn => {
+            const attr = btn.getAttribute('onclick') || '';
+            if (attr.includes(`'${tabId}'`) || attr.includes(`"${tabId}"`)) {
+                btn.classList.add('active');
+            }
+        });
+    }
     
     const activePane = document.getElementById(`tab-${tabId}`);
-    if (activePane) activePane.classList.add('active');
+    if (activePane) {
+        activePane.classList.add('active');
+    }
     
-    // Dynamically update Stepper progress
     if (tabId === 'settings') {
         updateStepper(2);
     } else {
@@ -1719,6 +1724,7 @@ function loadPresetTemplate(val) {
     }
     saveToLocalStorage();
     applyLanguage();
+    validateAndRepairCVState();
     loadStateIntoUI();
     renderAll();
     updateStyles();
@@ -3543,4 +3549,28 @@ async function generateScreenStudioVideo() {
     statusDiv.style.background = '#2e7d32';
     statusDiv.innerHTML = '🎉 <strong>Screen Studio Tanıtım Videosu Tamamlandı!</strong>';
     setTimeout(() => { statusDiv.remove(); }, 3000);
+}
+
+
+
+// Ensure cvState has rich default content if sections are empty
+function validateAndRepairCVState() {
+    if (!cvState.experiences || cvState.experiences.length === 0) {
+        cvState.experiences = JSON.parse(JSON.stringify(TR_SAMPLE_STATE.experiences));
+    }
+    if (!cvState.educations || cvState.educations.length === 0) {
+        cvState.educations = JSON.parse(JSON.stringify(TR_SAMPLE_STATE.educations));
+    }
+    if (!cvState.certifications || cvState.certifications.length === 0) {
+        cvState.certifications = JSON.parse(JSON.stringify(TR_SAMPLE_STATE.certifications));
+    }
+    if (!cvState.leadership || cvState.leadership.length === 0) {
+        cvState.leadership = JSON.parse(JSON.stringify(TR_SAMPLE_STATE.leadership));
+    }
+    if (!cvState.projects || cvState.projects.length === 0) {
+        cvState.projects = JSON.parse(JSON.stringify(TR_SAMPLE_STATE.projects));
+    }
+    if (!cvState.references || cvState.references.length === 0) {
+        cvState.references = JSON.parse(JSON.stringify(TR_SAMPLE_STATE.references));
+    }
 }
