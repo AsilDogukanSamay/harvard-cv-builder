@@ -759,10 +759,26 @@ function applyLanguage() {
 }
 
 function changeUILanguage(newLang) {
+    if (!cvState) cvState = {};
     if (!cvState.settings) cvState.settings = {};
     cvState.settings.uiLang = newLang;
+    
+    // If switching between the two default sample profiles, swap the entire profile content
+    if (newLang === 'en' && cvState.personal && (cvState.personal.name === "Ahmet Yılmaz" || !cvState.personal.name)) {
+        cvState = JSON.parse(JSON.stringify(EN_SAMPLE_STATE));
+    } else if (newLang === 'tr' && cvState.personal && (cvState.personal.name === "Sarah Jenkins" || !cvState.personal.name)) {
+        cvState = JSON.parse(JSON.stringify(TR_SAMPLE_STATE));
+    } else if (typeof autoTranslateCV === 'function') {
+        autoTranslateCV(newLang);
+        return;
+    }
+    
     saveToLocalStorage();
     applyLanguage();
+    loadStateIntoUI();
+    renderAll();
+    updateStyles();
+    if (typeof calculateATSScore === 'function') calculateATSScore();
 }
 
 // -------------------------------------------------------------
@@ -1282,6 +1298,10 @@ document.addEventListener("DOMContentLoaded", () => {
 // Load state values into DOM inputs & preview text
 function loadStateIntoUI() {
     if (!cvState || !cvState.personal) return;
+    
+    const lang = (cvState.settings && cvState.settings.uiLang) ? cvState.settings.uiLang : "tr";
+    const langSelect = document.getElementById('setting-ui-lang');
+    if (langSelect) langSelect.value = lang;
     
     // Personal Info Sidebar Inputs
     const setVal = (id, val) => {
