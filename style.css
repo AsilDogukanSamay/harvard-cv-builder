@@ -1257,3 +1257,54 @@ input[type="checkbox"] {
     line-height: 1.5 !important;
     border-radius: 0 4px 4px 0 !important;
 }
+
+/* Mobile Responsive Design System (max-width: 768px) */
+.mobile-preview-toggle-btn {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    body {
+        overflow-y: auto !important;
+        height: auto !important;
+    }
+    .app-container {
+        height: auto !important;
+        overflow-y: auto !important;
+    }
+    .main-workspace {
+        flex-direction: column !important;
+        height: auto !important;
+        overflow: visible !important;
+    }
+    .editor-sidebar {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+        border-right: none !important;
+        border-bottom: 1px solid var(--border-dark);
+    }
+    .mobile-preview-toggle-btn {
+        display: block !important;
+        width: 100%;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        padding: 10px 14px;
+        background: linear-gradient(135deg, #1a73e8, #1557b0);
+        color: #ffffff;
+        border: none;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(26, 115, 232, 0.25);
+    }
+    .preview-canvas {
+        width: 100% !important;
+        height: auto !important;
+        display: none;
+    }
+    .preview-canvas.mobile-show {
+        display: block !important;
+    }
+}

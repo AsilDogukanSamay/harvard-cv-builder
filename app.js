@@ -43,7 +43,7 @@ function closeGuideModal(event) {
 
 
 // Initial CV data state
-let cvState = {
+var cvState = {
     "personal": {
         "name": "Asil Doğukan Samay",
         "title": "Yönetim Bilişim Sistemleri Uzmanı",
@@ -525,6 +525,348 @@ const TR_SAMPLE_STATE = {
     }
 };
 
+const SOFTWARE_SAMPLE_STATE_TR = {
+    personal: {
+        name: "Ahmet Yılmaz",
+        title: "Kıdemli Yazılım Mühendisi & Bulut Mimarı",
+        email: "ahmet.yilmaz@email.com",
+        phone: "+90 532 555 0192",
+        location: "İstanbul, Türkiye",
+        github: "github.com/ahmetyilmaz-dev",
+        linkedin: "linkedin.com/in/ahmetyilmaz-dev",
+        website: "ahmetyilmaz.dev",
+        summary: "Ölçeklenebilir mikroservis mimarileri, CI/CD süreçleri ve yüksek performanslı bulut sistemleri tasarlama konusunda 5+ yıl deneyimli Kıdemli Yazılım Mühendisi. Veritabanı sorgu performanslarını %40 iyileştirme ve aylık 500k+ aktif kullanıcıya hizmet veren sistemleri canlıya alma konusunda kanıtlanmış başarı."
+    },
+    experiences: [
+        {
+            company: "TechCorp Software Solutions",
+            role: "Kıdemli Yazılım Mühendisi",
+            dates: "2023 - Günümüz",
+            bullets: [
+                "Node.js, Go ve PostgreSQL kullanarak dağıtık mikroservis altyapısını tasarladı; sistem kullanılabilirlik (uptime) oranını %99.99 seviyesine çıkardı.",
+                "AWS EKS üzerinde otomatik CI/CD dağıtım süreçlerini kurarak yazılım sürüm yayınlama sürelerini %45 kısalttı.",
+                "8 kişilik yazılım ekibinde kod incelemelerine liderlik etti ve mikroservis kod kalitesini %35 artırdı."
+            ]
+        },
+        {
+            company: "CloudSystems Technology",
+            role: "Full-Stack Yazılım Geliştirici",
+            dates: "2021 - 2023",
+            bullets: [
+                "React ve TypeScript kullanarak modern ön yüz bileşenleri geliştirdi, ilk sayfa yüklenme sürelerini %35 hızlandırdı.",
+                "RESTful API endpoints mimarisini Redis önbellekleme ile optimize ederek ortalama sunucu yanıt süresini 120ms'den 45ms'ye düşürdü."
+            ]
+        }
+    ],
+    educations: [
+        {
+            university: "İstanbul Teknik Üniversitesi",
+            degree: "Lisans, Bilgisayar Mühendisliği",
+            location: "İstanbul, Türkiye",
+            dates: "2017 - 2021",
+            gpa: "3.85 / 4.00",
+            details: "Yüksek Onur Derecesi | Yazılım Kulübü Başkan Yardımcısı"
+        }
+    ],
+    skills: {
+        technical: "JavaScript, TypeScript, Python, Go, React, Node.js, PostgreSQL, Redis, Docker, AWS, Kubernetes, Git",
+        tools: "VS Code, Postman, JIRA, GitHub Actions, Datadog",
+        certs: "AWS Certified Solutions Architect (2024), Certified Kubernetes Administrator - CKA (2023)",
+        langs: "Türkçe (Ana Dil), İngilizce (İleri Düzey - C1)"
+    },
+    leaderships: [],
+    certifications: [
+        { name: "AWS Certified Solutions Architect", issuer: "Amazon Web Services", year: "2024" },
+        { name: "Certified Kubernetes Administrator (CKA)", issuer: "CNCF", year: "2023" }
+    ],
+    references: [],
+    settings: { font: "font-garamond", size: "size-medium", spacing: "spacing-normal", margin: "margin-normal", alignment: "align-justify", accent: "accent-black", headings: "headings-line", refMode: "request", uiLang: "tr" }
+};
+
+const SOFTWARE_SAMPLE_STATE_EN = {
+    personal: {
+        name: "Alex Taylor",
+        title: "Senior Software Engineer & Cloud Architect",
+        email: "alex.taylor@email.com",
+        phone: "+1 (555) 019-2834",
+        location: "San Francisco, CA",
+        github: "github.com/alextaylor-dev",
+        linkedin: "linkedin.com/in/alextaylor-dev",
+        website: "alextaylor.dev",
+        summary: "Versatile Senior Software Engineer with 5+ years of experience designing scalable microservices, automated CI/CD pipelines, and high-performance cloud architectures. Proven track record of optimizing database query performance by 40% and deploying robust systems serving 500k+ monthly active users."
+    },
+    experiences: [
+        {
+            company: "TechCorp Software Solutions",
+            role: "Senior Software Engineer",
+            dates: "2023 - Present",
+            bullets: [
+                "Architected distributed microservices infrastructure using Node.js, Go, and PostgreSQL, raising system availability uptime to 99.99%.",
+                "Automated CI/CD deployment pipelines on AWS EKS, reducing release deployment cycles by 45%.",
+                "Spearheaded technical code reviews for an engineering team of 8, boosting code test coverage by 35%."
+            ]
+        },
+        {
+            company: "CloudSystems Technology",
+            role: "Full-Stack Software Developer",
+            dates: "2021 - 2023",
+            bullets: [
+                "Engineered responsive React/TypeScript frontend architectures, improving page load speeds by 35% across core web applications.",
+                "Optimized RESTful API endpoints with Redis caching layer, decreasing server latency from 120ms to 45ms."
+            ]
+        }
+    ],
+    educations: [
+        {
+            university: "Stanford University",
+            degree: "B.S. in Computer Science",
+            location: "Stanford, CA",
+            dates: "2017 - 2021",
+            gpa: "3.85 / 4.00",
+            details: "Departmental Honors | CS Student Association Vice President"
+        }
+    ],
+    skills: {
+        technical: "JavaScript, TypeScript, Python, Go, React, Node.js, PostgreSQL, Redis, Docker, AWS, Kubernetes, Git",
+        tools: "VS Code, Postman, JIRA, GitHub Actions, Datadog",
+        certs: "AWS Certified Solutions Architect (2024), Certified Kubernetes Administrator - CKA (2023)",
+        langs: "English (Native), Spanish (Conversational)"
+    },
+    leaderships: [],
+    certifications: [
+        { name: "AWS Certified Solutions Architect", issuer: "Amazon Web Services", year: "2024" },
+        { name: "Certified Kubernetes Administrator (CKA)", issuer: "CNCF", year: "2023" }
+    ],
+    references: [],
+    settings: { font: "font-garamond", size: "size-medium", spacing: "spacing-normal", margin: "margin-normal", alignment: "align-justify", accent: "accent-black", headings: "headings-line", refMode: "request", uiLang: "en" }
+};
+
+const CONSULTING_SAMPLE_STATE_TR = {
+    personal: {
+        name: "Merve Kaya",
+        title: "Yönetim Danışmanı & Strateji Uzmanı",
+        email: "merve.kaya@email.com",
+        phone: "+90 533 444 0122",
+        location: "İstanbul, Türkiye",
+        github: "",
+        linkedin: "linkedin.com/in/mervekaya-consulting",
+        website: "",
+        summary: "Kurumsal strateji, dijital dönüşüm ve operasyonel süreç optimizasyonu konularında uzmanlaşmış Yönetim Danışmanı. Finans, Perakende ve Sağlık sektörlerinde cross-functional danışmanlık projelerini yöneterek yıllık 4.5 Milyon $ maliyet tasarrufu sağladı."
+    },
+    experiences: [
+        {
+            company: "Apex Strategy Partners",
+            role: "Kıdemli Yönetim Danışmanı",
+            dates: "2022 - Günümüz",
+            bullets: [
+                "Bölgenin önde gelen özel bankası için dijital dönüşüm stratejisini tasarladı; operasyonel süreçlerde yıllık 3.2 Milyon $ tasarruf fırsatı belirledi.",
+                "Yeni Fintech ürünü için pazara giriş (Go-to-Market) stratejisini kurgulayarak 12 ay içinde %15 pazar payı elde edilmesini sağladı.",
+                "15 kişilik danışman ekibine liderlik ederek müşteri yönetimi ve C-Level sunum süreçlerini yürüttü."
+            ]
+        },
+        {
+            company: "Global Advisory Group",
+            role: "İş Analisti & Danışman",
+            dates: "2020 - 2022",
+            bullets: [
+                "Fortune 500 perakende müşterisinin tedarik zinciri süreçlerini analiz etti, satın alma tedarik sürelerini (lead time) %28 kısalttı."
+            ]
+        }
+    ],
+    educations: [
+        {
+            university: "Yale School of Management",
+            degree: "MBA - İşletme Yüksek Lisansı",
+            location: "New Haven, CT",
+            dates: "2018 - 2020",
+            gpa: "3.90 / 4.00",
+            details: "Yale SOM Dean's List | Danışmanlık Kulübü Başkanı"
+        }
+    ],
+    skills: {
+        technical: "Finansal Model Oluşturma, Pazar Araştırması, Süreç Optimizasyonu, Veri Analitiği, SQL, Tableau, Excel (VBA)",
+        tools: "PowerBI, Tableau, MS Excel, PowerPoint, JIRA",
+        certs: "PMP - Project Management Professional (2023), Lean Six Sigma Green Belt (2022)",
+        langs: "Türkçe (Ana Dil), İngilizce (İleri Düzey - C2)"
+    },
+    leaderships: [],
+    certifications: [
+        { name: "PMP - Project Management Professional", issuer: "PMI", year: "2023" },
+        { name: "Lean Six Sigma Green Belt", issuer: "IISE", year: "2022" }
+    ],
+    references: [],
+    settings: { font: "font-garamond", size: "size-medium", spacing: "spacing-normal", margin: "margin-normal", alignment: "align-justify", accent: "accent-black", headings: "headings-line", refMode: "request", uiLang: "tr" }
+};
+
+const CONSULTING_SAMPLE_STATE_EN = {
+    personal: {
+        name: "Morgan Vance",
+        title: "Management Consultant & Strategy Specialist",
+        email: "morgan.vance@email.com",
+        phone: "+1 (555) 019-8821",
+        location: "New York, NY",
+        github: "",
+        linkedin: "linkedin.com/in/morganvance-strategy",
+        website: "",
+        summary: "Results-driven Management Consultant specializing in corporate strategy, digital transformation, and process optimization. Led cross-functional advisory engagements across Financial Services, Retail, and Healthcare, delivering over $4.5M in annual cost efficiencies."
+    },
+    experiences: [
+        {
+            company: "Apex Strategy Partners",
+            role: "Senior Management Consultant",
+            dates: "2022 - Present",
+            bullets: [
+                "Spearheaded digital transformation strategy for a Tier-1 retail bank, identifying $3.2M in annual operational expenditure savings.",
+                "Formulated Go-to-Market (GTM) strategy for new Fintech division, capturing 15% market share within 12 months of launch.",
+                "Managed cross-functional consultant teams of 15 members, presenting strategic roadmaps directly to C-Suite executives."
+            ]
+        },
+        {
+            company: "Global Advisory Group",
+            role: "Business Analyst & Consultant",
+            dates: "2020 - 2022",
+            bullets: [
+                "Analyzed supply chain workflows for Fortune 500 retail client, reducing procurement lead times by 28%."
+            ]
+        }
+    ],
+    educations: [
+        {
+            university: "Yale School of Management",
+            degree: "Master of Business Administration (MBA)",
+            location: "New Haven, CT",
+            dates: "2018 - 2020",
+            gpa: "3.90 / 4.00",
+            details: "Yale SOM Dean's List | Consulting Club President"
+        }
+    ],
+    skills: {
+        technical: "Financial Modeling, Market Research, Process Optimization, Data Analytics, SQL, Tableau, Advanced Excel",
+        tools: "PowerBI, Tableau, MS Excel, PowerPoint, JIRA",
+        certs: "PMP - Project Management Professional (2023), Lean Six Sigma Green Belt (2022)",
+        langs: "English (Native), French (Fluent)"
+    },
+    leaderships: [],
+    certifications: [
+        { name: "PMP - Project Management Professional", issuer: "PMI", year: "2023" },
+        { name: "Lean Six Sigma Green Belt", issuer: "IISE", year: "2022" }
+    ],
+    references: [],
+    settings: { font: "font-garamond", size: "size-medium", spacing: "spacing-normal", margin: "margin-normal", alignment: "align-justify", accent: "accent-black", headings: "headings-line", refMode: "request", uiLang: "en" }
+};
+
+const ACADEMIC_SAMPLE_STATE_TR = {
+    personal: {
+        name: "Dr. Canan Demir",
+        title: "Doktora Sonrası Araştırmacı & Yapay Zeka Uzmanı",
+        email: "canan.demir@email.com",
+        phone: "+90 532 999 0144",
+        location: "Ankara / İstanbul, Türkiye",
+        github: "github.com/cdemir-ai",
+        linkedin: "linkedin.com/in/canandemir-phd",
+        website: "scholar.google.com/citations?user=cdemir",
+        summary: "Doğal Dil İşleme (NLP), Transformer Mimarları ve Sorumlu Yapay Zeka konularında uzmanlaşmış Araştırmacı. Uluslararası hakemli dergi ve konferanslarda (NeurIPS, ACL) yayınlanmış 6 akademik makalenin yazarı. Ulusal TÜBİTAK ve AB Horizon araştırma projelerinde araştırmacı yürütücü."
+    },
+    experiences: [
+        {
+            company: "Harvard AI Institute",
+            role: "Doktora Sonrası Araştırmacı (Postdoc)",
+            dates: "2024 - Günümüz",
+            bullets: [
+                "Büyük Dil Modellerinde (LLM) bellek kullanımını doğruk kaybı olmadan %30 azaltan yeni bir dikkat seyreltme (attention-pruning) algoritması geliştirdi.",
+                "5 lisansüstü öğrenciye tez danışmanlığı yaptı ve 3 yüksek etkili bildiri yayınladı."
+            ]
+        },
+        {
+            company: "Orta Doğu Teknik Üniversitesi - Yapay Zeka Lab",
+            role: "Araştırma Görevlisi",
+            dates: "2019 - 2024",
+            bullets: [
+                "Çok dilli NLP değerlendirmeleri için ölçeklenebilir veri kümeleri tasarladı; akademik literatürde 250+'den fazla atıf aldı."
+            ]
+        }
+    ],
+    educations: [
+        {
+            university: "Orta Doğu Teknik Üniversitesi",
+            degree: "Doktora (Ph.D.), Bilgisayar Mühendisliği",
+            location: "Ankara, Türkiye",
+            dates: "2019 - 2024",
+            gpa: "3.95 / 4.00",
+            details: "TÜBİTAK 2211 Doktora Bursiyeri | En İyi Tez Ödülü"
+        }
+    ],
+    skills: {
+        technical: "PyTorch, TensorFlow, Python, CUDA, LaTeX, NLP, Distributed Training, Statistical Modeling",
+        tools: "LaTeX, Jupyter, Git, Slurm, WandB",
+        certs: "Deep Learning Specialization (Coursera), TÜBİTAK 2211 PhD Fellowship (2019)",
+        langs: "Türkçe (Ana Dil), İngilizce (İleri Düzey - C2), Almanca (B1)"
+    },
+    leaderships: [],
+    certifications: [
+        { name: "Deep Learning Specialization", issuer: "DeepLearning.AI", year: "2023" },
+        { name: "TÜBİTAK 2211 National PhD Fellowship", issuer: "TÜBİTAK", year: "2019" }
+    ],
+    references: [],
+    settings: { font: "font-garamond", size: "size-medium", spacing: "spacing-normal", margin: "margin-normal", alignment: "align-justify", accent: "accent-black", headings: "headings-line", refMode: "request", uiLang: "tr" }
+};
+
+const ACADEMIC_SAMPLE_STATE_EN = {
+    personal: {
+        name: "Dr. Jordan Lee",
+        title: "Postdoctoral Research Fellow & AI Researcher",
+        email: "jordan.lee@email.com",
+        phone: "+1 (555) 019-9944",
+        location: "Cambridge, MA",
+        github: "github.com/jlee-ai",
+        linkedin: "linkedin.com/in/jordanlee-phd",
+        website: "scholar.google.com/citations?user=jlee",
+        summary: "Dedicated Artificial Intelligence researcher specializing in Natural Language Processing, Transformer Architectures, and Responsible AI. Author of 6 peer-reviewed papers in top-tier venues (NeurIPS, ACL). Recipient of National Science Foundation Graduate Research Fellowship."
+    },
+    experiences: [
+        {
+            company: "Harvard AI Institute",
+            role: "Postdoctoral Research Fellow",
+            dates: "2024 - Present",
+            bullets: [
+                "Pioneered novel attention-pruning algorithms for LLMs, achieving 30% reduction in GPU memory footprint without loss of accuracy.",
+                "Mentored 5 graduate students and co-authored 3 high-impact manuscripts in computer vision & NLP."
+            ]
+        },
+        {
+            company: "Stanford AI Laboratory",
+            role: "Graduate Research Assistant",
+            dates: "2019 - 2024",
+            bullets: [
+                "Designed benchmark datasets for cross-lingual NLP evaluation, receiving 250+ citations in academic literature."
+            ]
+        }
+    ],
+    educations: [
+        {
+            university: "Stanford University",
+            degree: "Ph.D. in Computer Science",
+            location: "Stanford, CA",
+            dates: "2019 - 2024",
+            gpa: "3.95 / 4.00",
+            details: "NSF Graduate Research Fellow | Outstanding Dissertation Award"
+        }
+    ],
+    skills: {
+        technical: "PyTorch, TensorFlow, Python, CUDA, LaTeX, NLP, Distributed Training, Statistical Modeling",
+        tools: "LaTeX, Jupyter, Git, Slurm, WandB",
+        certs: "Deep Learning Specialization (Coursera), NSF Graduate Research Fellowship (2019)",
+        langs: "English (Native), German (Intermediate)"
+    },
+    leaderships: [],
+    certifications: [
+        { name: "Deep Learning Specialization", issuer: "DeepLearning.AI", year: "2023" },
+        { name: "NSF Graduate Research Fellowship", issuer: "NSF", year: "2019" }
+    ],
+    references: [],
+    settings: { font: "font-garamond", size: "size-medium", spacing: "spacing-normal", margin: "margin-normal", alignment: "align-justify", accent: "accent-black", headings: "headings-line", refMode: "request", uiLang: "en" }
+};
+
 const UI_TRANSLATIONS = {
     tr: {
         personal: "Kişisel",
@@ -647,9 +989,21 @@ const UI_TRANSLATIONS = {
         trans_starting: "Çeviri başlatılıyor...",
         trans_success: "CV içeriği başarıyla çevrildi!",
         trans_error: "Çeviri sırasında bir hata oluştu.",
-        undo_success: "Çeviri geri alındı ve önceki bilgiler yüklendi."
+        trans_service_unavailable: "Çeviri şu an yapılamıyor, lütfen tekrar deneyin.",
+        undo_success: "Çeviri geri alındı ve önceki bilgiler yüklendi.",
+        save_status_saved: "Kaydedildi ✓",
+        ai_disclaimer_note: "Şu anki öneriler önceden hazırlanmış şablonlardır.",
+        ai_disclaimer_gotit: "Anladım",
+        preset_software: "Yazılım Mühendisliği (Full-Stack)",
+        preset_consulting: "İş & Yönetim Danışmanlığı",
+        preset_academic: "Akademik & Araştırma",
+        mobile_preview_toggle: "👁️ Önizlemeyi Göster / Gizle"
     },
     en: {
+        save_status_saved: "Saved ✓",
+        trans_service_unavailable: "Translation service is currently unavailable, please try again.",
+        ai_disclaimer_note: "Current suggestions are pre-written templates.",
+        ai_disclaimer_gotit: "Got it",
         personal: "Personal",
         experience: "Experience",
         education: "Education",
@@ -959,30 +1313,48 @@ function restoreTextItem(translatedText, placeholders, targetLang) {
     return res;
 }
 
+/**
+ * ARCHITECTURE NOTE / PROXY MIGRATION:
+ * This function currently calls Google Translate's unofficial endpoint (translate.googleapis.com/translate_a/single)
+ * and falls back to MyMemory API directly from the browser.
+ * FUTURE IMPROVEMENT: To eliminate client-side CORS issues and rate limits, this translation service
+ * should be migrated to a dedicated backend proxy (e.g. Vercel Serverless Function + official Google Cloud Translation API).
+ */
 async function fetchGoogleTranslate(text, sl, tl) {
     if (!text || !text.trim()) return text;
+
+    // Primary: Google Translate GTX Endpoint
     try {
         const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${sl}&tl=${tl}&dt=t&q=${encodeURIComponent(text)}`;
         const res = await fetch(url);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
         if (data && data[0]) {
-            return data[0].map(s => s[0] || '').join('');
+            const result = data[0].map(s => s[0] || '').join('');
+            if (result && result.trim()) return result;
         }
     } catch (err) {
         console.warn("Google translate fetch warning, trying MyMemory fallback...", err);
-        try {
-            const url2 = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${sl}|${tl}`;
-            const res2 = await fetch(url2);
-            const data2 = await res2.json();
-            if (data2 && data2.responseData && data2.responseData.translatedText) {
-                return data2.responseData.translatedText;
-            }
-        } catch (err2) {
-            console.error("Fallback translate error:", err2);
-        }
     }
-    return text;
+
+    // Secondary Fallback: MyMemory API
+    try {
+        const url2 = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${sl}|${tl}`;
+        const res2 = await fetch(url2);
+        if (!res2.ok) throw new Error(`HTTP ${res2.status}`);
+        const data2 = await res2.json();
+        if (data2 && data2.responseData && data2.responseData.translatedText) {
+            const result2 = data2.responseData.translatedText;
+            if (result2 && result2.trim() && !result2.toUpperCase().includes("MYMEMORY WARNING")) {
+                return result2;
+            }
+        }
+    } catch (err2) {
+        console.warn("MyMemory translate fallback error:", err2);
+    }
+
+    // Tertiary Fallback: If all translation providers fail, throw explicit error instead of silent original text return
+    throw new Error("TRANSLATION_SERVICE_UNAVAILABLE");
 }
 
 async function translateBatchTexts(textList, targetLang, customBrands = []) {
@@ -1224,7 +1596,11 @@ async function autoTranslateCV(targetLang) {
         console.error("Auto translate error:", err);
         const progressBox = document.getElementById('translate-progress-box');
         if (progressBox) progressBox.style.display = 'none';
-        alert("Çeviri sırasında bir hata oluştu. Lütfen tekrar deneyin.");
+        const lang = (cvState && cvState.settings && cvState.settings.uiLang) ? cvState.settings.uiLang : 'tr';
+        const errorMsg = (UI_TRANSLATIONS[lang] && UI_TRANSLATIONS[lang].trans_service_unavailable)
+            ? UI_TRANSLATIONS[lang].trans_service_unavailable
+            : "Çeviri şu an yapılamıyor, lütfen tekrar deneyin.";
+        alert(errorMsg);
     }
 }
 
@@ -1635,7 +2011,7 @@ function updatePersonalField(field, value) {
     if (typeof renderCVContactInfo === 'function') {
         renderCVContactInfo();
     }
-    saveToLocalStorage();
+    debouncedSave();
 }
 
 
@@ -1674,69 +2050,104 @@ function renderCVContactInfo() {
     }
 }
 
-
-
 // -------------------------------------------------------------
 // ATS SCORE CALCULATOR & LIVE AI ASSISTANT ENGINE
 // -------------------------------------------------------------
 
 function calculateATSScore() {
-    let score = 0;
-    const maxScore = 100;
     const feedback = [];
+    const lang = (cvState && cvState.settings && cvState.settings.uiLang) ? cvState.settings.uiLang : 'tr';
     
     const personal = cvState.personal || {};
     const experiences = cvState.experiences || [];
     const educations = cvState.educations || [];
     const skills = cvState.skills || {};
     const certifications = cvState.certifications || [];
+
+    // 1. Contact (max 20)
+    let contactScore = 0;
+    if (personal.name && personal.name.trim()) contactScore += 5;
+    else feedback.push(lang === 'en' ? "Add full name to contact info." : "Ad soyad bilgisi ekleyin.");
     
-    // 1. Personal & Contact Info (20 pts)
-    if (personal.name && personal.name.trim()) score += 5;
-    if (personal.email && personal.email.trim()) score += 5;
-    if (personal.phone && personal.phone.trim()) score += 5;
-    if (personal.linkedin || personal.github || personal.location) score += 5;
-    
-    // 2. Summary & Overview (15 pts)
+    if (personal.email && personal.email.trim()) contactScore += 5;
+    else feedback.push(lang === 'en' ? "Add email address." : "E-posta adresi ekleyin.");
+
+    if (personal.phone && personal.phone.trim()) contactScore += 5;
+    else feedback.push(lang === 'en' ? "Add phone number." : "Telefon numarası ekleyin.");
+
+    if (personal.linkedin || personal.github || personal.location) contactScore += 5;
+    else feedback.push(lang === 'en' ? "Add location or profile links (LinkedIn/GitHub)." : "Konum veya profil bağlantısı (LinkedIn/GitHub) ekleyin.");
+
+    // 2. Summary (max 15)
+    let summaryScore = 0;
     if (personal.summary && personal.summary.length > 50) {
-        score += 15;
+        summaryScore += 15;
     } else {
-        feedback.push("Özgeçmiş özeti en az 50 karakter olmalı.");
+        feedback.push(lang === 'en' ? "Summary should be at least 50 characters long." : "Özgeçmiş özeti en az 50 karakter olmalı.");
     }
-    
-    // 3. Experience & Bullet Point Quality (30 pts)
+
+    // 3. Experience & Bullet Quality (max 30)
+    let expScore = 0;
     if (experiences.length > 0) {
-        score += 10;
+        expScore += 10;
         let hasMetrics = false;
         let actionVerbCount = 0;
         
         experiences.forEach(exp => {
             (exp.bullets || []).forEach(b => {
-                if (/[0-9]+%|[0-9]+\+|(kazandı|yönetti|geliştirdi|tasarladı|artırdı|azalttı|won|managed|designed|developed|increased|reduced)/i.test(b)) {
+                if (/[0-9]+%|[0-9]+\+|\b(kazandı|yönetti|geliştirdi|tasarladı|artırdı|azalttı|won|managed|designed|developed|increased|reduced)\b/i.test(b)) {
                     hasMetrics = true;
                     actionVerbCount++;
                 }
             });
         });
         
-        if (hasMetrics) score += 10;
-        if (actionVerbCount >= 3) score += 10;
+        if (hasMetrics) expScore += 10;
+        else feedback.push(lang === 'en' ? "Add measurable metrics (%, numbers) to experience bullets." : "Deneyim maddelerinize ölçülebilir metrikler (%, rakamlar) ekleyin.");
+
+        if (actionVerbCount >= 3) expScore += 10;
+        else feedback.push(lang === 'en' ? "Use at least 3 strong action verbs in bullet points." : "Maddelerinizde en az 3 etken fiil (Action Verb) kullanın.");
     } else {
-        feedback.push("En az 1 deneyim eklemelisiniz.");
+        feedback.push(lang === 'en' ? "Add at least 1 work experience entry." : "En az 1 deneyim eklemelisiniz.");
     }
-    
-    // 4. Education & GPA (15 pts)
+
+    // 4. Education & GPA (max 15)
+    let eduScore = 0;
     if (educations.length > 0) {
-        score += 10;
-        if (educations[0].gpa && educations[0].gpa.trim()) score += 5;
+        eduScore += 10;
+        if (educations[0].gpa && educations[0].gpa.trim()) {
+            eduScore += 5;
+        } else {
+            feedback.push(lang === 'en' ? "Consider adding GPA / academic degree details." : "GANO / Not ortalaması bilgisi eklemeyi değerlendirin.");
+        }
     } else {
-        feedback.push("Eğitim bilgisi eklemelisiniz.");
+        feedback.push(lang === 'en' ? "Add at least 1 education entry." : "Eğitim bilgisi eklemelisiniz.");
     }
-    
-    // 5. Skills & Certifications (20 pts)
-    if (skills.technical && skills.technical.trim()) score += 10;
-    if (certifications.length > 0 || (skills.certs && skills.certs.trim())) score += 10;
-    
+
+    // 5. Skills & Certifications (max 20)
+    let skillScore = 0;
+    if (skills.technical && skills.technical.trim()) {
+        skillScore += 10;
+    } else {
+        feedback.push(lang === 'en' ? "Add key technical skills & programming languages." : "Teknik yetenekler ve programlama dillerinizi ekleyin.");
+    }
+
+    if (certifications.length > 0 || (skills.certs && skills.certs.trim())) {
+        skillScore += 10;
+    } else {
+        feedback.push(lang === 'en' ? "Add certifications or language proficiency details." : "Sertifikalar veya dil yeterlilik bilgisi ekleyin.");
+    }
+
+    const score = contactScore + summaryScore + expScore + eduScore + skillScore;
+
+    const breakdown = {
+        contact: { score: contactScore, max: 20 },
+        summary: { score: summaryScore, max: 15 },
+        experience: { score: expScore, max: 30 },
+        education: { score: eduScore, max: 15 },
+        skills: { score: skillScore, max: 20 }
+    };
+
     // Update Badge UI
     const badge = document.getElementById('ats-score-badge');
     if (badge) {
@@ -1755,18 +2166,68 @@ function calculateATSScore() {
             badge.style.color = '#fff';
         }
     }
-    
-    return { score, feedback };
+
+    return { score, breakdown, feedback };
 }
 
 function openATSModal() {
     const modal = document.getElementById('ats-modal');
-    if (modal) {
-        const { score, feedback } = calculateATSScore();
-        const scoreEl = document.getElementById('ats-modal-score-val');
-        if (scoreEl) scoreEl.textContent = `%${score}`;
-        modal.style.display = 'flex';
+    if (!modal) return;
+    
+    const { score, breakdown, feedback } = calculateATSScore();
+    const scoreEl = document.getElementById('ats-modal-score-val');
+    if (scoreEl) scoreEl.textContent = `%${score}`;
+    
+    const lang = (cvState && cvState.settings && cvState.settings.uiLang) ? cvState.settings.uiLang : 'tr';
+    const breakdownBox = document.getElementById('ats-modal-breakdown');
+    
+    if (breakdownBox) {
+        const catLabels = {
+            contact: lang === 'en' ? "Contact Details (20p)" : "İletişim Bilgileri (20p)",
+            summary: lang === 'en' ? "Professional Summary (15p)" : "Profesyonel Özet (15p)",
+            experience: lang === 'en' ? "Work Experience & Metrics (30p)" : "İş Deneyimi & Metrikler (30p)",
+            education: lang === 'en' ? "Education & GPA (15p)" : "Eğitim & GANO (15p)",
+            skills: lang === 'en' ? "Skills & Certifications (20p)" : "Yetenekler & Sertifikalar (20p)"
+        };
+        
+        let html = '<div style="margin: 14px 0; display: flex; flex-direction: column; gap: 8px;">';
+        Object.keys(breakdown).forEach(k => {
+            const item = breakdown[k];
+            const pct = Math.round((item.score / item.max) * 100);
+            const isFull = item.score === item.max;
+            const statusText = isFull 
+                ? (lang === 'en' ? '✓ Completed' : '✓ Tamamlandı')
+                : (lang === 'en' ? `⚠️ Action Needed (${item.score}/${item.max}p)` : `⚠️ Eksik (${item.score}/${item.max}p)`);
+            const barColor = isFull ? '#22c55e' : (pct >= 50 ? '#f59e0b' : '#ef4444');
+            
+            html += `
+                <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 8px 12px; border-radius: 8px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; font-size: 12px; font-weight: 600;">
+                        <span>${catLabels[k]}</span>
+                        <span style="color: ${barColor}; font-weight: 700; font-size: 11px;">${statusText}</span>
+                    </div>
+                    <div style="width: 100%; height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden;">
+                        <div style="width: ${pct}%; height: 100%; background: ${barColor}; transition: width 0.4s ease;"></div>
+                    </div>
+                </div>
+            `;
+        });
+        
+        if (feedback && feedback.length > 0) {
+            html += `<div style="margin-top: 10px; padding: 10px 12px; background: #fffbeeb0; border: 1px solid #fde68a; border-radius: 8px; font-size: 12px; color: #92400e;">`;
+            html += `<strong style="display:block; margin-bottom:4px;">💡 ${lang === 'en' ? 'Actionable Recommendations:' : 'Geliştirme Önerileri:'}</strong>`;
+            html += `<ul style="padding-left: 18px; margin: 0;">`;
+            feedback.forEach(item => {
+                html += `<li style="margin-bottom: 3px;">${item}</li>`;
+            });
+            html += `</ul></div>`;
+        }
+        
+        html += '</div>';
+        breakdownBox.innerHTML = html;
     }
+    
+    modal.style.display = 'flex';
 }
 
 function closeATSModal() {
@@ -1776,12 +2237,41 @@ function closeATSModal() {
 
 function openAIAssistant() {
     const drawer = document.getElementById('ai-assistant-drawer');
-    if (drawer) drawer.style.display = 'flex';
+    if (drawer) {
+        drawer.style.display = 'flex';
+        checkAIDisclaimerState();
+    }
+}
+
+function checkAIDisclaimerState() {
+    const isDismissed = localStorage.getItem('ai_template_disclaimer_dismissed') === 'true';
+    const disc = document.getElementById('ai-assistant-disclaimer');
+    if (disc) {
+        disc.style.display = isDismissed ? 'none' : 'flex';
+    }
+}
+
+function dismissAIDisclaimer() {
+    localStorage.setItem('ai_template_disclaimer_dismissed', 'true');
+    const disc = document.getElementById('ai-assistant-disclaimer');
+    if (disc) {
+        disc.style.display = 'none';
+    }
 }
 
 function closeAIAssistant() {
     const drawer = document.getElementById('ai-assistant-drawer');
     if (drawer) drawer.style.display = 'none';
+}
+
+function toggleMobilePreview() {
+    const canvas = document.querySelector('.preview-canvas');
+    if (canvas) {
+        canvas.classList.toggle('mobile-show');
+        if (canvas.classList.contains('mobile-show')) {
+            canvas.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
 }
 
 function applyPresetTheme(themeName) {
@@ -2013,14 +2503,26 @@ function updateContactVisibility() {
 
 function loadPresetTemplate(val) {
     const lang = (cvState.settings && cvState.settings.uiLang) ? cvState.settings.uiLang : "tr";
-    if (val === 'tr_standard' || val === 'tr_ats') {
+    if (val === 'tr' || val === 'tr_standard' || val === 'tr_ats') {
         cvState = JSON.parse(JSON.stringify(TR_SAMPLE_STATE));
         if (!cvState.settings) cvState.settings = {};
         cvState.settings.uiLang = 'tr';
-    } else if (val === 'en_standard' || val === 'en_ats') {
+    } else if (val === 'en' || val === 'en_standard' || val === 'en_ats') {
         cvState = JSON.parse(JSON.stringify(EN_SAMPLE_STATE));
         if (!cvState.settings) cvState.settings = {};
         cvState.settings.uiLang = 'en';
+    } else if (val === 'software') {
+        cvState = JSON.parse(JSON.stringify(lang === 'en' ? SOFTWARE_SAMPLE_STATE_EN : SOFTWARE_SAMPLE_STATE_TR));
+        if (!cvState.settings) cvState.settings = {};
+        cvState.settings.uiLang = lang;
+    } else if (val === 'consulting') {
+        cvState = JSON.parse(JSON.stringify(lang === 'en' ? CONSULTING_SAMPLE_STATE_EN : CONSULTING_SAMPLE_STATE_TR));
+        if (!cvState.settings) cvState.settings = {};
+        cvState.settings.uiLang = lang;
+    } else if (val === 'academic') {
+        cvState = JSON.parse(JSON.stringify(lang === 'en' ? ACADEMIC_SAMPLE_STATE_EN : ACADEMIC_SAMPLE_STATE_TR));
+        if (!cvState.settings) cvState.settings = {};
+        cvState.settings.uiLang = lang;
     }
     saveToLocalStorage();
     applyLanguage();
@@ -2629,11 +3131,13 @@ function updateExpField(idx, field, value) {
     if (cardTitle && field === 'company') {
         cardTitle.textContent = `Deneyim #${idx + 1}: ${value || 'Yeni Şirket'}`;
     }
+    debouncedSave();
 }
 
 function updateExpBullet(idx, bulletIdx, value) {
     cvState.experiences[idx].bullets[bulletIdx] = value;
     renderCVExperiences();
+    debouncedSave();
 }
 
 function addExpBullet(idx) {
@@ -2692,6 +3196,7 @@ function updateEduField(idx, field, value) {
     if (cardTitle && field === 'university') {
         cardTitle.textContent = `Eğitim #${idx + 1}: ${value || 'Yeni Üniversite'}`;
     }
+    debouncedSave();
 }
 
 function deleteEducation(idx) {
@@ -2723,11 +3228,13 @@ function updateLeadField(idx, field, value) {
     if (cardTitle && field === 'organization') {
         cardTitle.textContent = `Faaliyet #${idx + 1}: ${value || 'Yeni Organizasyon'}`;
     }
+    debouncedSave();
 }
 
 function updateLeadBullet(idx, bulletIdx, value) {
     cvState.leaderships[idx].bullets[bulletIdx] = value;
     renderCVLeadership();
+    debouncedSave();
 }
 
 function addLeadBullet(idx) {
@@ -2956,9 +3463,47 @@ function toggleTheme() {
 // DATA STORAGE AND IMPORT/EXPORT PORTABLE UTILITIES
 // -------------------------------------------------------------
 
+let saveTimeout = null;
+
 function saveToLocalStorage() {
+    if (saveTimeout) {
+        clearTimeout(saveTimeout);
+        saveTimeout = null;
+    }
     localStorage.setItem('harvard_cv_state', JSON.stringify(cvState));
+    showSaveStatusIndicator();
 }
+
+function debouncedSave(delay = 1500) {
+    if (saveTimeout) {
+        clearTimeout(saveTimeout);
+    }
+    saveTimeout = setTimeout(() => {
+        saveToLocalStorage();
+    }, delay);
+}
+
+function showSaveStatusIndicator() {
+    const badge = document.getElementById('save-status-badge');
+    if (!badge) return;
+    const lang = (cvState && cvState.settings && cvState.settings.uiLang) ? cvState.settings.uiLang : 'tr';
+    const text = (UI_TRANSLATIONS[lang] && UI_TRANSLATIONS[lang].save_status_saved) ? UI_TRANSLATIONS[lang].save_status_saved : "Kaydedildi ✓";
+    badge.textContent = text;
+    badge.style.opacity = '1';
+    
+    if (window._saveBadgeTimeout) clearTimeout(window._saveBadgeTimeout);
+    window._saveBadgeTimeout = setTimeout(() => {
+        badge.style.opacity = '0';
+    }, 1800);
+}
+
+window.addEventListener('beforeunload', () => {
+    if (saveTimeout) {
+        clearTimeout(saveTimeout);
+        saveTimeout = null;
+    }
+    localStorage.setItem('harvard_cv_state', JSON.stringify(cvState));
+});
 
 function exportJSON() {
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(cvState, null, 4));
