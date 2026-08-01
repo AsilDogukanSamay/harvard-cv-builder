@@ -4,13 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CVsom - Yale SOM ve Küresel Şirket Standartlarında CV</title>
+    <!-- SEO & OpenGraph Meta Tags -->
+    <meta name="description" content="Aday Takip Sistemleri (ATS) dostu, Yale SOM ve lider küresel şirket İK ekiplerinin onayladığı resmi formatlarda CV'nizi saniyeler içinde oluşturun.">
+    <meta property="og:title" content="CVsom - Yale SOM ve Küresel Şirket Standartlarında CV">
+    <meta property="og:description" content="ATS dostu, Harvard ve Yale SOM standartlarında resmi formatlarda özgeçmiş oluşturun.">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="landing.css?v=2">
-    <!-- Spline 3D Viewer Kütüphanesi -->
-    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.54/build/spline-viewer.js"></script>
 </head>
 <body>
 
@@ -171,6 +175,43 @@
         </div>
     </header>
 
+    <!-- INTERACTIVE ATS ACTION VERBS CHECKER SECTION -->
+    <section class="ats-checker-section reveal">
+        <div class="container">
+            <div class="ats-checker-card">
+                <div class="ats-checker-header">
+                    <div class="ats-badge">
+                        <span class="ats-badge-dot"></span>
+                        <span data-i18n="ats-widget-badge">Canlı Yale SOM ATS Skor Testi</span>
+                    </div>
+                    <h3 data-i18n="ats-widget-title">CV Cümlenizin ATS Gücünü Anında Test Edin</h3>
+                    <p data-i18n="ats-widget-desc">Aşağıdaki kutuya deneyimlerinizi anlatan bir kurşun kalem (bullet point) cümlesi yazın. Yale SOM standartlarında eylem kelimeleri (Action Verbs) ve etki puanlamasını canlı görün.</p>
+                </div>
+                <div class="ats-checker-body">
+                    <div class="ats-input-group">
+                        <input type="text" id="atsInputSentence" class="ats-input" placeholder="Örn: 5 kişilik ekibe liderlik ederek eski yazılımı bulut mimarisine taşıdım ve verimliliği %40 artırdım." data-i18n-ph="ats-widget-ph">
+                        <button id="atsCheckBtn" class="btn btn-primary" data-i18n="ats-widget-btn">Skoru Hesapla ✨</button>
+                    </div>
+                    <div id="atsResultBox" class="ats-result-box" style="display: none;">
+                        <div class="ats-score-display">
+                            <div class="ats-score-circle">
+                                <span id="atsScoreValue">0</span>
+                                <small>/100</small>
+                            </div>
+                            <div class="ats-score-meta">
+                                <h4 id="atsScoreStatus">Mükemmel Etki!</h4>
+                                <p id="atsScoreFeedback">Güçlü eylem kelimesi ve ölçülebilir etki ifadesi içeriyor.</p>
+                            </div>
+                        </div>
+                        <div class="ats-progress-bar-bg">
+                            <div id="atsProgressBar" class="ats-progress-bar-fill" style="width: 0%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- HOW IT WORKS SECTION -->
     <section class="how-it-works">
         <div class="container">
@@ -326,7 +367,12 @@
                     "feat3-title": "Gizlilik Öncelikli",
                     "feat3-desc": "Bilgileriniz hiçbir uzak sunucuya aktarılmaz. Tamamen tarayıcınızın belleğinde çalışır ve güvendedir.",
                     "footer-copy": "&copy; 2026 CVsom. Tüm Hakları Saklıdır.",
-                    "footer-disclaimer": "CVsom, bağımsız bir açık kaynaklı projedir ve Yale Üniversitesi ile resmi bir bağı bulunmamaktadır."
+                    "footer-disclaimer": "CVsom, bağımsız bir açık kaynaklı projedir ve Yale Üniversitesi ile resmi bir bağı bulunmamaktadır.",
+                    "ats-widget-badge": "Canlı Yale SOM ATS Skor Testi",
+                    "ats-widget-title": "CV Cümlenizin ATS Gücünü Anında Test Edin",
+                    "ats-widget-desc": "Aşağıdaki kutuya deneyimlerinizi anlatan bir kurşun kalem (bullet point) cümlesi yazın. Yale SOM standartlarında eylem kelimeleri (Action Verbs) ve etki puanlamasını canlı görün.",
+                    "ats-widget-ph": "Örn: 5 kişilik ekibe liderlik ederek eski yazılımı bulut mimarisine taşıdım ve verimliliği %40 artırdım.",
+                    "ats-widget-btn": "Skoru Hesapla ✨"
                 },
                 en: {
                     "logo-text": "CVSOM",
@@ -364,7 +410,12 @@
                     "feat3-title": "Privacy First",
                     "feat3-desc": "Your details are never stored on remote servers. Everything runs secure in your browser memory.",
                     "footer-copy": "&copy; 2026 CVsom. All Rights Reserved.",
-                    "footer-disclaimer": "CVsom is an independent open-source project and has no official affiliation with Yale University."
+                    "footer-disclaimer": "CVsom is an independent open-source project and has no official affiliation with Yale University.",
+                    "ats-widget-badge": "Live Yale SOM ATS Score Test",
+                    "ats-widget-title": "Instantly Test Your CV Bullet Point ATS Score",
+                    "ats-widget-desc": "Type a bullet point sentence describing your experience below. Get instant feedback on Yale SOM action verbs and impact scoring.",
+                    "ats-widget-ph": "e.g., Led a team of 5 to migrate legacy software to cloud architecture, boosting efficiency by 40%.",
+                    "ats-widget-btn": "Calculate Score ✨"
                 }
             };
 
@@ -374,6 +425,13 @@
                     const key = element.getAttribute("data-i18n");
                     if (translations[lang][key]) {
                         element.innerHTML = translations[lang][key];
+                    }
+                });
+
+                document.querySelectorAll("[data-i18n-ph]").forEach(element => {
+                    const key = element.getAttribute("data-i18n-ph");
+                    if (translations[lang][key]) {
+                        element.placeholder = translations[lang][key];
                     }
                 });
                 
@@ -390,6 +448,75 @@
                     } else {
                         btn.classList.remove("active");
                     }
+                });
+            }
+
+            // --- ATS Sentence Evaluator Logic ---
+            const atsInput = document.getElementById('atsInputSentence');
+            const atsCheckBtn = document.getElementById('atsCheckBtn');
+            const atsResultBox = document.getElementById('atsResultBox');
+            const atsScoreValue = document.getElementById('atsScoreValue');
+            const atsScoreStatus = document.getElementById('atsScoreStatus');
+            const atsScoreFeedback = document.getElementById('atsScoreFeedback');
+            const atsProgressBar = document.getElementById('atsProgressBar');
+
+            const strongActionVerbs = [
+                'liderlik', 'yönettim', 'geliştirdim', 'tasarladım', 'yönlendirdim', 'taşıdım', 'artırdım', 'azalttım',
+                'optimize', 'kurulum', 'başlattım', 'koordine', 'entegre', 'otomatize', 'kurguladım', 'gerçekleştirdim',
+                'led', 'managed', 'developed', 'designed', 'spearheaded', 'orchestrated', 'increased', 'reduced',
+                'optimized', 'built', 'initiated', 'coordinated', 'integrated', 'automated', 'implemented', 'scaled'
+            ];
+
+            function evaluateSentence() {
+                const text = (atsInput ? atsInput.value : '').trim().toLowerCase();
+                if (!text) return;
+
+                let score = 40;
+                let hasVerb = false;
+                let hasMetric = false;
+
+                for (let verb of strongActionVerbs) {
+                    if (text.includes(verb)) {
+                        hasVerb = true;
+                        score += 35;
+                        break;
+                    }
+                }
+
+                if (/\d+/.test(text) || text.includes('%') || text.includes('yüzde')) {
+                    hasMetric = true;
+                    score += 25;
+                }
+
+                score = Math.min(100, Math.max(30, score));
+
+                if (atsResultBox) atsResultBox.style.display = 'block';
+                if (atsScoreValue) atsScoreValue.innerText = score;
+                if (atsProgressBar) atsProgressBar.style.width = score + '%';
+
+                const isTr = (localStorage.getItem("preferredLanguage") || "tr") === "tr";
+
+                if (score >= 85) {
+                    if (atsScoreStatus) atsScoreStatus.innerText = isTr ? "🌟 Mükemmel Yale SOM Standardı!" : "🌟 Excellent Yale SOM Standard!";
+                    if (atsScoreFeedback) atsScoreFeedback.innerText = isTr ? "Harika! Güçlü eylem kelimesi ve sayısal etki/başarı ölçütü içeriyor." : "Great! Contains strong action verbs and quantifiable impact.";
+                    if (atsProgressBar) atsProgressBar.style.backgroundColor = "#10b981";
+                } else if (score >= 60) {
+                    if (atsScoreStatus) atsScoreStatus.innerText = isTr ? "👍 İyi Cümle Yapısı" : "👍 Good Sentence Structure";
+                    if (atsScoreFeedback) atsScoreFeedback.innerText = isTr ? "İyi bir cümle! Sayısal bir veri (% veya miktar) ekleyerek skoru 90+ üzerine çıkarabilirsiniz." : "Good sentence! Adding a metric (% or amount) can push it above 90+.";
+                    if (atsProgressBar) atsProgressBar.style.backgroundColor = "#3b82f6";
+                } else {
+                    if (atsScoreStatus) atsScoreStatus.innerText = isTr ? "⚠️ Geliştirilebilir Cümle" : "⚠️ Needs Improvement";
+                    if (atsScoreFeedback) atsScoreFeedback.innerText = isTr ? "Yale SOM rehberine göre 'Yönettim, Geliştirdim, Taşıdım' gibi güçlü bir eylem fiili ile başlayın." : "According to Yale SOM guide, start with a strong action verb like 'Led, Developed, Migrated'.";
+                    if (atsProgressBar) atsProgressBar.style.backgroundColor = "#f59e0b";
+                }
+            }
+
+            if (atsCheckBtn) {
+                atsCheckBtn.addEventListener('click', evaluateSentence);
+            }
+            if (atsInput) {
+                atsInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') evaluateSentence();
                 });
             }
 

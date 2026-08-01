@@ -1308,3 +1308,41 @@ input[type="checkbox"] {
         display: block !important;
     }
 }
+
+/* High Contrast & Dark Mode Safeguard for Paper Preview */
+.cv-page, .cv-page-inner, #cv-document {
+    background-color: #ffffff !important;
+    color: #111111 !important;
+    color-scheme: light !important;
+}
+.cv-page *, .cv-page-inner * {
+    color-scheme: light !important;
+}
+.cv-page .entry-title, .cv-page .section-title, .cv-page h1, .cv-page h2, .cv-page h3 {
+    color: #000000 !important;
+}
+.cv-page .entry-degree, .cv-page .entry-subheader, .cv-page p, .cv-page li, .cv-page span {
+    color: #222222 !important;
+}
+.cv-page a {
+    color: #111111 !important;
+}
+
+/* Dark Mode UI Fixes for Editor Controls */
+[data-theme="dark"] .editor-sidebar {
+    background-color: #1e1e2d !important;
+    color: #f1f5f9 !important;
+}
+[data-theme="dark"] .form-control, [data-theme="dark"] input[type="text"], [data-theme="dark"] textarea, [data-theme="dark"] select {
+    background-color: #2b2b40 !important;
+    color: #ffffff !important;
+    border-color: #444466 !important;
+}
+[data-theme="dark"] label {
+    color: #cbd5e1 !important;
+}
+[data-theme="dark"] .dynamic-item-card {
+    background-color: #252538 !important;
+    border-color: #3b3b54 !important;
+}
+

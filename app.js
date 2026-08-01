@@ -42,6 +42,79 @@ function closeGuideModal(event) {
 }
 
 
+// -------------------------------------------------------------
+// JSON IMPORT / EXPORT & SAMPLE PRESETS HANDLERS
+// -------------------------------------------------------------
+
+function exportCVJSON() {
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(cvState, null, 2));
+    const downloadAnchor = document.createElement('a');
+    downloadAnchor.setAttribute("href", dataStr);
+    downloadAnchor.setAttribute("download", `CVSOM_${(cvState.personal && cvState.personal.name ? cvState.personal.name : "Resume").replace(/\s+/g, '_')}_Data.json`);
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    downloadAnchor.remove();
+}
+
+function triggerJSONImport() {
+    const input = document.getElementById('json-import-input');
+    if (input) input.click();
+}
+
+function importCVJSON(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const importedData = JSON.parse(e.target.result);
+            if (importedData && importedData.personal) {
+                cvState = importedData;
+                saveToLocalStorage();
+                loadStateIntoUI();
+                renderAll();
+                updateStyles();
+                alert((cvState.settings && cvState.settings.uiLang === 'en') 
+                    ? "CV Data imported successfully!" 
+                    : "CV Verileri başarıyla yüklendi!");
+            } else {
+                alert("Geçersiz JSON formatı! Lütfen geçerli bir CVSOM verisi yükleyin.");
+            }
+        } catch(err) {
+            alert("JSON okunurken hata oluştu: " + err.message);
+        }
+    };
+    reader.readAsText(file);
+}
+
+function loadSampleCV(presetType) {
+    if (!presetType) return;
+    
+    if (presetType === 'tr') {
+        cvState = JSON.parse(JSON.stringify(TR_SAMPLE_STATE));
+        if (cvState.settings) cvState.settings.uiLang = "tr";
+    } else if (presetType === 'en') {
+        cvState = JSON.parse(JSON.stringify(EN_SAMPLE_STATE));
+        if (cvState.settings) cvState.settings.uiLang = "en";
+    }
+    
+    saveToLocalStorage();
+    applyLanguage();
+    loadStateIntoUI();
+    renderAll();
+    updateStyles();
+    
+    const msg = (presetType === 'tr') 
+        ? "Türkçe Örnek CV (Kıdemli Yazılım Mimarı & MIS) başarıyla yüklendi!" 
+        : "English Sample CV (Senior Product Manager) loaded successfully!";
+    
+    const selector = document.getElementById('preset-selector');
+    if (selector) selector.value = "";
+    
+    alert(msg);
+}
+
+
 // Initial CV data state
 var cvState = {
     "personal": {
@@ -915,8 +988,16 @@ const UI_TRANSLATIONS = {
         templates_title: "Örnek Şablonlar",
         load_preset: "Hazır Örnek Yükle",
         preset_placeholder: "Bir örnek seçin...",
-        preset_tr: "Türkçe Örnek (MIS Öğrencisi)",
-        preset_en: "English Example (Software Engineering)",
+        preset_group_tr: "🇹🇷 Türkçe Şablonlar",
+        preset_group_en: "🇬🇧 English Templates",
+        preset_tr: "Yönetim Bilişim Sistemleri (MIS Öğrencisi)",
+        preset_software_tr: "Yazılım Mühendisliği (Full-Stack)",
+        preset_consulting_tr: "İş & Yönetim Danışmanlığı",
+        preset_academic_tr: "Akademik & Araştırma",
+        preset_en: "Yazılım Mühendisliği (İngilizce Standart)",
+        preset_software_en: "Yazılım Mühendisliği (İngilizce Full-Stack)",
+        preset_consulting_en: "Yönetim Danışmanlığı (İngilizce)",
+        preset_academic_en: "Akademik & Araştırma (İngilizce)",
         
         data_title: "Veri Yönetimi",
         export_btn: "Yedek İndir",
@@ -1050,8 +1131,16 @@ const UI_TRANSLATIONS = {
         templates_title: "Sample Templates",
         load_preset: "Load Sample Template",
         preset_placeholder: "Choose a sample...",
-        preset_tr: "Turkish Sample (MIS Student)",
-        preset_en: "English Sample (Software Engineering)",
+        preset_group_tr: "🇹🇷 Turkish Templates",
+        preset_group_en: "🇬🇧 English Templates",
+        preset_tr: "Management Information Systems (TR)",
+        preset_software_tr: "Software Engineering (TR Full-Stack)",
+        preset_consulting_tr: "Management Consulting (TR)",
+        preset_academic_tr: "Academic & Research (TR)",
+        preset_en: "Software Engineering (Standard)",
+        preset_software_en: "Software Engineering (Full-Stack)",
+        preset_consulting_en: "Management Consulting",
+        preset_academic_en: "Academic & Research",
         
         data_title: "Data Management",
         export_btn: "Export Backup",
@@ -2167,14 +2256,16 @@ function calculateATSScore() {
         }
     }
 
+    // Live update modal if open
+    const modal = document.getElementById('ats-modal');
+    if (modal && modal.style.display === 'flex') {
+        renderATSBreakdownUI(score, breakdown, feedback);
+    }
+
     return { score, breakdown, feedback };
 }
 
-function openATSModal() {
-    const modal = document.getElementById('ats-modal');
-    if (!modal) return;
-    
-    const { score, breakdown, feedback } = calculateATSScore();
+function renderATSBreakdownUI(score, breakdown, feedback) {
     const scoreEl = document.getElementById('ats-modal-score-val');
     if (scoreEl) scoreEl.textContent = `%${score}`;
     
@@ -2226,7 +2317,14 @@ function openATSModal() {
         html += '</div>';
         breakdownBox.innerHTML = html;
     }
+}
+
+function openATSModal() {
+    const modal = document.getElementById('ats-modal');
+    if (!modal) return;
     
+    const { score, breakdown, feedback } = calculateATSScore();
+    renderATSBreakdownUI(score, breakdown, feedback);
     modal.style.display = 'flex';
 }
 
@@ -2326,6 +2424,10 @@ function renderAll() {
     renderEditorLeadership();
     renderEditorCertifications();
     renderEditorReferences();
+
+    if (typeof calculateATSScore === 'function') {
+        calculateATSScore();
+    }
 }
 
 // Helper to format bullets with bold text before colons (Harvard style)
@@ -2502,7 +2604,9 @@ function updateContactVisibility() {
 }
 
 function loadPresetTemplate(val) {
-    const lang = (cvState.settings && cvState.settings.uiLang) ? cvState.settings.uiLang : "tr";
+    if (!val) return;
+    const currentLang = (cvState.settings && cvState.settings.uiLang) ? cvState.settings.uiLang : "tr";
+    
     if (val === 'tr' || val === 'tr_standard' || val === 'tr_ats') {
         cvState = JSON.parse(JSON.stringify(TR_SAMPLE_STATE));
         if (!cvState.settings) cvState.settings = {};
@@ -2511,24 +2615,37 @@ function loadPresetTemplate(val) {
         cvState = JSON.parse(JSON.stringify(EN_SAMPLE_STATE));
         if (!cvState.settings) cvState.settings = {};
         cvState.settings.uiLang = 'en';
-    } else if (val === 'software') {
-        cvState = JSON.parse(JSON.stringify(lang === 'en' ? SOFTWARE_SAMPLE_STATE_EN : SOFTWARE_SAMPLE_STATE_TR));
+    } else if (val === 'software_tr' || (val === 'software' && currentLang === 'tr')) {
+        cvState = JSON.parse(JSON.stringify(SOFTWARE_SAMPLE_STATE_TR));
         if (!cvState.settings) cvState.settings = {};
-        cvState.settings.uiLang = lang;
-    } else if (val === 'consulting') {
-        cvState = JSON.parse(JSON.stringify(lang === 'en' ? CONSULTING_SAMPLE_STATE_EN : CONSULTING_SAMPLE_STATE_TR));
+        cvState.settings.uiLang = 'tr';
+    } else if (val === 'software_en' || (val === 'software' && currentLang === 'en')) {
+        cvState = JSON.parse(JSON.stringify(SOFTWARE_SAMPLE_STATE_EN));
         if (!cvState.settings) cvState.settings = {};
-        cvState.settings.uiLang = lang;
-    } else if (val === 'academic') {
-        cvState = JSON.parse(JSON.stringify(lang === 'en' ? ACADEMIC_SAMPLE_STATE_EN : ACADEMIC_SAMPLE_STATE_TR));
+        cvState.settings.uiLang = 'en';
+    } else if (val === 'consulting_tr' || (val === 'consulting' && currentLang === 'tr')) {
+        cvState = JSON.parse(JSON.stringify(CONSULTING_SAMPLE_STATE_TR));
         if (!cvState.settings) cvState.settings = {};
-        cvState.settings.uiLang = lang;
+        cvState.settings.uiLang = 'tr';
+    } else if (val === 'consulting_en' || (val === 'consulting' && currentLang === 'en')) {
+        cvState = JSON.parse(JSON.stringify(CONSULTING_SAMPLE_STATE_EN));
+        if (!cvState.settings) cvState.settings = {};
+        cvState.settings.uiLang = 'en';
+    } else if (val === 'academic_tr' || (val === 'academic' && currentLang === 'tr')) {
+        cvState = JSON.parse(JSON.stringify(ACADEMIC_SAMPLE_STATE_TR));
+        if (!cvState.settings) cvState.settings = {};
+        cvState.settings.uiLang = 'tr';
+    } else if (val === 'academic_en' || (val === 'academic' && currentLang === 'en')) {
+        cvState = JSON.parse(JSON.stringify(ACADEMIC_SAMPLE_STATE_EN));
+        if (!cvState.settings) cvState.settings = {};
+        cvState.settings.uiLang = 'en';
     }
     saveToLocalStorage();
     applyLanguage();
     loadStateIntoUI();
     renderAll();
     updateStyles();
+    calculateATSScore();
 }
 
 function renderCVCertifications() {
@@ -3472,6 +3589,9 @@ function saveToLocalStorage() {
     }
     localStorage.setItem('harvard_cv_state', JSON.stringify(cvState));
     showSaveStatusIndicator();
+    if (typeof calculateATSScore === 'function') {
+        calculateATSScore();
+    }
 }
 
 function debouncedSave(delay = 1500) {

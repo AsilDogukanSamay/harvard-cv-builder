@@ -9,46 +9,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Gelasio:ital,wght@0,400;0,700&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-
-<style id="dark-mode-contrast-safeguard">
-    /* High Contrast & Dark Mode Safeguard for Paper Preview */
-    .cv-page, .cv-page-inner, #cv-document {
-        background-color: #ffffff !important;
-        color: #111111 !important;
-        color-scheme: light !important;
-    }
-    .cv-page *, .cv-page-inner * {
-        color-scheme: light !important;
-    }
-    .cv-page .entry-title, .cv-page .section-title, .cv-page h1, .cv-page h2, .cv-page h3 {
-        color: #000000 !important;
-    }
-    .cv-page .entry-degree, .cv-page .entry-subheader, .cv-page p, .cv-page li, .cv-page span {
-        color: #222222 !important;
-    }
-    .cv-page a {
-        color: #111111 !important;
-    }
-
-    /* Dark Mode UI Fixes for Editor Controls */
-    [data-theme="dark"] .editor-sidebar {
-        background-color: #1e1e2d !important;
-        color: #f1f5f9 !important;
-    }
-    [data-theme="dark"] .form-control, [data-theme="dark"] input[type="text"], [data-theme="dark"] textarea, [data-theme="dark"] select {
-        background-color: #2b2b40 !important;
-        color: #ffffff !important;
-        border-color: #444466 !important;
-    }
-    [data-theme="dark"] label {
-        color: #cbd5e1 !important;
-    }
-    [data-theme="dark"] .dynamic-item-card {
-        background-color: #252538 !important;
-        border-color: #3b3b54 !important;
-    }
-</style>
-
 </head>
 <body>
     <div class="app-container">
@@ -93,6 +53,24 @@
                 </div>
             </div>
             <div class="header-actions">
+                <!-- Örnek Şablon Seçici (Preset Selector) -->
+                <div class="sample-preset-dropdown" style="margin-right: 8px;">
+                    <select id="preset-selector" onchange="loadSampleCV(this.value)" style="padding: 7px 10px; border-radius: 8px; background-color: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); color: #3b82f6; font-size: 12px; font-weight: 600; cursor: pointer; outline: none;">
+                        <option value="" disabled selected>✨ Örnek CV Yükle (Presets)</option>
+                        <option value="tr">🇹🇷 Türkçe Örnek CV (Kıdemli Yazılım Mimarı)</option>
+                        <option value="en">🇬🇧 English Sample CV (Senior Product Manager)</option>
+                    </select>
+                </div>
+                <!-- JSON Export / Import Buttons -->
+                <button class="btn-guide" onclick="exportCVJSON()" title="CV Verilerini JSON İndir" style="margin-right: 8px; padding: 7px 10px; background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.3); color: #10b981;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    <span style="font-size: 12px; font-weight: 600;">JSON İndir</span>
+                </button>
+                <button class="btn-guide" onclick="triggerJSONImport()" title="JSON Yükle" style="margin-right: 8px; padding: 7px 10px; background: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.3); color: #3b82f6;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                    <span style="font-size: 12px; font-weight: 600;">JSON Yükle</span>
+                </button>
+                <input type="file" id="json-import-input" accept=".json" style="display: none;" onchange="importCVJSON(event)">
                 <!-- Auto-Translate Button -->
                 <button class="btn-guide btn-translate" onclick="openTranslateModal()" title="CV İçeriğini Otomatik Çevir / Auto Translate" style="margin-right: 8px; padding: 7px 12px; background: linear-gradient(135deg, rgba(59,130,246,0.12), rgba(168,85,247,0.12)); border: 1px solid rgba(168,85,247,0.3); color: var(--accent-gold, #b89665); display: flex; align-items: center; gap: 6px;">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10z"></path></svg>
@@ -417,11 +395,18 @@
                         <label for="setting-template" data-i18n="load_preset">Hazır Örnek Yükle</label>
                         <select id="setting-template" onchange="loadPresetTemplate(this.value)">
                             <option value="" disabled selected data-i18n="preset_placeholder">Bir örnek seçin...</option>
-                            <option value="tr" data-i18n="preset_tr">Türkçe Örnek (MIS Öğrencisi)</option>
-                            <option value="en" data-i18n="preset_en">English Example (Software Engineering)</option>
-                            <option value="software" data-i18n="preset_software">Yazılım Mühendisliği (Full-Stack)</option>
-                            <option value="consulting" data-i18n="preset_consulting">İş & Yönetim Danışmanlığı</option>
-                            <option value="academic" data-i18n="preset_academic">Akademik & Araştırma</option>
+                            <optgroup label="🇹🇷 Türkçe Şablonlar" data-i18n="preset_group_tr">
+                                <option value="tr" data-i18n="preset_tr">Yönetim Bilişim Sistemleri (MIS Öğrencisi)</option>
+                                <option value="software_tr" data-i18n="preset_software_tr">Yazılım Mühendisliği (Full-Stack)</option>
+                                <option value="consulting_tr" data-i18n="preset_consulting_tr">İş & Yönetim Danışmanlığı</option>
+                                <option value="academic_tr" data-i18n="preset_academic_tr">Akademik & Araştırma</option>
+                            </optgroup>
+                            <optgroup label="🇬🇧 English Templates" data-i18n="preset_group_en">
+                                <option value="en" data-i18n="preset_en">Software Engineering (Standard)</option>
+                                <option value="software_en" data-i18n="preset_software_en">Software Engineering (Full-Stack)</option>
+                                <option value="consulting_en" data-i18n="preset_consulting_en">Management Consulting</option>
+                                <option value="academic_en" data-i18n="preset_academic_en">Academic & Research</option>
+                            </optgroup>
                         </select>
                     </div>
 
