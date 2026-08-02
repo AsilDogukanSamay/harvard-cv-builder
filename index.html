@@ -325,6 +325,109 @@
         </div>
     </section>
 
+    <!-- COVER LETTER GENERATOR SECTION -->
+    <section class="cl-generator-section reveal">
+        <div class="container">
+            <div class="ats-checker-card">
+                <div class="ats-checker-header">
+                    <div class="ats-badge">
+                        <span class="ats-badge-dot" style="background-color: #c084fc;"></span>
+                        <span data-i18n="cl-widget-badge">Yale SOM / HBS Executive Format</span>
+                    </div>
+                    <h3 data-i18n="cl-widget-title">Kişiselleştirilmiş Ön Yazı (Cover Letter) Üreticisi</h3>
+                    <p data-i18n="cl-widget-desc">Temel deneyimlerinizi ve hedef şirketinizi girin. Yale SOM & HBS standartlarında, basma kalıp olmayan, ikna edici bir ön yazı taslağı anında oluşsun.</p>
+                </div>
+
+                <div>
+                    <div class="cl-inputs-grid">
+                        <div>
+                            <label class="cl-field-label" data-i18n="cl-field-name">Adınız Soyadınız</label>
+                            <input type="text" id="clInputName" class="cl-input" placeholder="Asil Doğukan Samay" data-i18n-ph="cl-ph-name">
+                        </div>
+                        <div>
+                            <label class="cl-field-label" data-i18n="cl-field-company">Hedef Şirket & Pozisyon</label>
+                            <input type="text" id="clInputTarget" class="cl-input" placeholder="Ör: McKinsey & Company — Business Analyst" data-i18n-ph="cl-ph-target">
+                        </div>
+                        <div>
+                            <label class="cl-field-label" data-i18n="cl-field-strength">En Güçlü 1-2 Deneyiminiz</label>
+                            <input type="text" id="clInputStrength" class="cl-input" placeholder="Ör: 3 yıl proje yönetimi, Python otomasyon" data-i18n-ph="cl-ph-strength">
+                        </div>
+                        <div>
+                            <label class="cl-field-label" data-i18n="cl-field-why">Neden Bu Şirket?</label>
+                            <input type="text" id="clInputWhy" class="cl-input" placeholder="Ör: Sürdürülebilirlik odaklı stratejisi" data-i18n-ph="cl-ph-why">
+                        </div>
+                    </div>
+                    <button id="clGenerateBtn" class="btn btn-primary" style="width: 100%; justify-content: center; margin-bottom: 4px;" data-i18n="cl-generate-btn">Yale SOM Formatında Ön Yazı Oluştur ✍️</button>
+
+                    <div id="clOutputBox" class="cl-output-box" style="display: none;">
+                        <h5>
+                            <span data-i18n="cl-output-label">✉️ Ön Yazı Taslağı — Yale SOM Executive Format</span>
+                        </h5>
+                        <p id="clLetterText" class="cl-letter-text"></p>
+                        <div class="cl-actions">
+                            <button class="cl-action-btn" id="clCopyBtn" data-i18n="cl-copy-btn">Tamamını Kopyala 📋</button>
+                            <a href="editor.html" class="cl-action-btn" data-i18n="cl-editor-btn">Editörde Düzenle ➔</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CAREER GAP ADVISOR SECTION -->
+    <section class="gap-advisor-section reveal">
+        <div class="container">
+            <div class="ats-checker-card">
+                <div class="ats-checker-header">
+                    <div class="ats-badge">
+                        <span class="ats-badge-dot" style="background-color: var(--accent-amber);"></span>
+                        <span data-i18n="gap-widget-badge">Kariyer Geliştirme Danışmanı</span>
+                    </div>
+                    <h3 data-i18n="gap-widget-title">Üst Pozisyon Boşluk Analizi & Kariyer Danışmanı</h3>
+                    <p data-i18n="gap-widget-desc">Şu anki rol ve hedef pozisyonunuzu girin. Eksik sertifikalar, geliştirilmesi gereken yetkinlikler ve sektörel jargonlar için kişisel yol haritanız çıkarılsın.</p>
+                </div>
+
+                <div>
+                    <div class="cl-inputs-grid">
+                        <div>
+                            <label class="cl-field-label" data-i18n="gap-field-current">Şu Anki Rolünüz / Seviyeniz</label>
+                            <input type="text" id="gapInputCurrent" class="cl-input" placeholder="Ör: Junior Data Analyst, 2 yıl tecrübe" data-i18n-ph="gap-ph-current">
+                        </div>
+                        <div>
+                            <label class="cl-field-label" data-i18n="gap-field-target">Hedeflediğiniz Pozisyon</label>
+                            <input type="text" id="gapInputTarget" class="cl-input" placeholder="Ör: Senior Product Manager, McKinsey" data-i18n-ph="gap-ph-target">
+                        </div>
+                    </div>
+                    <button id="gapAnalyzeBtn" class="btn btn-primary" style="width: 100%; justify-content: center; margin-bottom: 4px; background: linear-gradient(135deg, #d97706, #92400e);" data-i18n="gap-analyze-btn">Boşluk Analizi & Yol Haritasını Oluştur 🗺️</button>
+
+                    <div id="gapResultsBox" style="display: none; margin-top: 20px; animation: fadeIn 0.4s ease-out;">
+                        <div class="gap-advisor-grid">
+                            <!-- Certifications Card -->
+                            <div class="gap-card">
+                                <div class="gap-card-icon">🎓</div>
+                                <h5 data-i18n="gap-certs-title">Eksik Sertifikalar</h5>
+                                <div id="gapCertsList" class="gap-items-list"></div>
+                            </div>
+                            <!-- Skills Card -->
+                            <div class="gap-card">
+                                <div class="gap-card-icon">🛠️</div>
+                                <h5 data-i18n="gap-skills-title">Geliştirilmesi Gereken Yetkinlikler</h5>
+                                <div id="gapSkillsList" class="gap-items-list"></div>
+                            </div>
+                            <!-- Jargon Card -->
+                            <div class="gap-card">
+                                <div class="gap-card-icon">🗣️</div>
+                                <h5 data-i18n="gap-jargon-title">Sektörel Jargon & Anahtar Kelimeler</h5>
+                                <div id="gapJargonList" class="gap-items-list"></div>
+                            </div>
+                        </div>
+                        <p class="gap-advisor-disclaimer" data-i18n="gap-disclaimer">Bu öneriler genel kariyer eğilimleri ve Yale SOM / HBS program müfredatı baz alınarak oluşturulmuştur.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- HOW IT WORKS SECTION -->
     <section class="how-it-works">
         <div class="container">
@@ -520,7 +623,34 @@
                     "jd-analyze-btn": "İlan Uyumluluğunu & Anahtar Kelimeleri Analiz Et 🎯",
                     "jd-found-kw-title": "✓ CV'nizde Tespit Edilen Kelimeler",
                     "jd-missing-kw-title": "⚠️ İlanda İstenen Ama Eksik Kelimeler",
-                    "jd-guidance-title": "💡 Yale SOM & HBS Doğal Kelime Yedirme İpucu"
+                    "jd-guidance-title": "💡 Yale SOM & HBS Doğal Kelime Yedirme İpucu",
+                    "cl-widget-badge": "Yale SOM / HBS Executive Format",
+                    "cl-widget-title": "Kişiselleştirilmiş Ön Yazı (Cover Letter) Üreticisi",
+                    "cl-widget-desc": "Temel deneyimlerinizi ve hedef şirketinizi girin. Yale SOM & HBS standartlarında, basma kalıp olmayan, ikna edici bir ön yazı taslağı anında oluşsun.",
+                    "cl-field-name": "Adınız Soyadınız",
+                    "cl-field-company": "Hedef Şirket & Pozisyon",
+                    "cl-field-strength": "En Güçlü 1-2 Deneyiminiz",
+                    "cl-field-why": "Neden Bu Şirket?",
+                    "cl-ph-name": "Ör: Asil Doğukan Samay",
+                    "cl-ph-target": "Ör: McKinsey & Company — Business Analyst",
+                    "cl-ph-strength": "Ör: 3 yıl proje yönetimi, Python otomasyon",
+                    "cl-ph-why": "Ör: Sürdürülebilirlik odaklı stratejisi",
+                    "cl-generate-btn": "Yale SOM Formatında Ön Yazı Oluştur ✍️",
+                    "cl-output-label": "✉️ Ön Yazı Taslağı — Yale SOM Executive Format",
+                    "cl-copy-btn": "Tamamını Kopyala 📋",
+                    "cl-editor-btn": "Editörde Düzenle ➔",
+                    "gap-widget-badge": "Kariyer Geliştirme Danışmanı",
+                    "gap-widget-title": "Üst Pozisyon Boşluk Analizi & Kariyer Danışmanı",
+                    "gap-widget-desc": "Şu anki rol ve hedef pozisyonunuzu girin. Eksik sertifikalar, geliştirilmesi gereken yetkinlikler ve sektörel jargonlar için kişisel yol haritanız çıkarılsın.",
+                    "gap-field-current": "Şu Anki Rolünüz / Seviyeniz",
+                    "gap-field-target": "Hedeflediğiniz Pozisyon",
+                    "gap-ph-current": "Ör: Junior Data Analyst, 2 yıl tecrübe",
+                    "gap-ph-target": "Ör: Senior Product Manager, McKinsey",
+                    "gap-analyze-btn": "Boşluk Analizi & Yol Haritasını Oluştur 🗺️",
+                    "gap-certs-title": "Eksik Sertifikalar",
+                    "gap-skills-title": "Geliştirilmesi Gereken Yetkinlikler",
+                    "gap-jargon-title": "Sektörel Jargon & Anahtar Kelimeler",
+                    "gap-disclaimer": "Bu öneriler genel kariyer eğilimleri ve Yale SOM / HBS program müfredatı baz alınarak oluşturulmuştur."
                 },
                 en: {
                     "logo-text": "CVSOM",
@@ -582,7 +712,34 @@
                     "jd-analyze-btn": "Analyze Job Match & Keywords 🎯",
                     "jd-found-kw-title": "✓ Keywords Found in Your CV",
                     "jd-missing-kw-title": "⚠️ Required But Missing Keywords",
-                    "jd-guidance-title": "💡 Yale SOM & HBS Natural Integration Tip"
+                    "jd-guidance-title": "💡 Yale SOM & HBS Natural Integration Tip",
+                    "cl-widget-badge": "Yale SOM / HBS Executive Format",
+                    "cl-widget-title": "Personalized Cover Letter Generator",
+                    "cl-widget-desc": "Enter your core experience and target company. Get a compelling, non-generic Yale SOM & HBS executive-standard cover letter draft instantly.",
+                    "cl-field-name": "Your Full Name",
+                    "cl-field-company": "Target Company & Role",
+                    "cl-field-strength": "Your Top 1-2 Experiences",
+                    "cl-field-why": "Why This Company?",
+                    "cl-ph-name": "e.g., Alex Johnson",
+                    "cl-ph-target": "e.g., McKinsey & Company — Business Analyst",
+                    "cl-ph-strength": "e.g., 3 yrs project management, Python automation",
+                    "cl-ph-why": "e.g., sustainability-driven strategy",
+                    "cl-generate-btn": "Generate Yale SOM Cover Letter ✍️",
+                    "cl-output-label": "✉️ Cover Letter Draft — Yale SOM Executive Format",
+                    "cl-copy-btn": "Copy Full Letter 📋",
+                    "cl-editor-btn": "Edit in Editor ➔",
+                    "gap-widget-badge": "Career Development Advisor",
+                    "gap-widget-title": "Senior Role Gap Analysis & Career Advisor",
+                    "gap-widget-desc": "Enter your current role and target position. Get your personal roadmap: missing certifications, competencies to develop, and sector-specific jargon to use.",
+                    "gap-field-current": "Your Current Role / Level",
+                    "gap-field-target": "Your Target Position",
+                    "gap-ph-current": "e.g., Junior Data Analyst, 2 years experience",
+                    "gap-ph-target": "e.g., Senior Product Manager, McKinsey",
+                    "gap-analyze-btn": "Generate Gap Analysis & Roadmap 🗺️",
+                    "gap-certs-title": "Missing Certifications",
+                    "gap-skills-title": "Competencies to Develop",
+                    "gap-jargon-title": "Sector Jargon & Keywords",
+                    "gap-disclaimer": "Recommendations are based on general career trends and the Yale SOM / HBS program curriculum."
                 }
             };
 
@@ -997,6 +1154,190 @@
 
             if (jdAnalyzeBtn) {
                 jdAnalyzeBtn.addEventListener('click', handleJdAnalysis);
+            }
+
+            // -----------------------------------------------------------------
+            // 6. COVER LETTER GENERATOR ENGINE (Yale SOM / HBS Executive Format)
+            // -----------------------------------------------------------------
+            const clGenerateBtn = document.getElementById('clGenerateBtn');
+            const clOutputBox = document.getElementById('clOutputBox');
+            const clLetterText = document.getElementById('clLetterText');
+            const clCopyBtn = document.getElementById('clCopyBtn');
+
+            function generateCoverLetter() {
+                const lang = localStorage.getItem("preferredLanguage") || "tr";
+                const isTr = lang === 'tr';
+                const name = (document.getElementById('clInputName')?.value || '').trim() || (isTr ? 'Başvuran' : 'Applicant');
+                const target = (document.getElementById('clInputTarget')?.value || '').trim() || (isTr ? 'Hedef Pozisyon' : 'Target Role');
+                const strength = (document.getElementById('clInputStrength')?.value || '').trim() || (isTr ? 'güçlü deneyimlerim' : 'strong cross-functional expertise');
+                const why = (document.getElementById('clInputWhy')?.value || '').trim() || (isTr ? 'etki odaklı yaklaşımı' : 'impact-driven culture');
+
+                const today = new Date().toLocaleDateString(isTr ? 'tr-TR' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+                const [company, role] = target.includes('—') ? target.split('—').map(s => s.trim()) : target.includes('-') ? target.split('-').map(s => s.trim()) : [target, ''];
+
+                let letter = '';
+                if (isTr) {
+                    letter = `${today}
+
+${company || target} İnsan Kaynakları Ekibine,
+
+Sayın Yetkili,
+
+${company || target} bünyesindeki ${role || 'bu pozisyon'} rolü için başvurumumu sunmaktan büyük bir heyecan duyuyorum. Kurumunuzun ${why} ve sektördeki öncü konumu, profesyonel hedeflerimle tam anlamıyla örtüşmektedir.
+
+Kariyerimde ${strength} alanında edindiğim deneyim, ölçülebilir sonuçlar odaklı bir yaklaşımla derinleşmiştir. Yale SOM ve HBS standartlarında ele aldığımda, bu deneyimler doğrudan ${company || 'şirketinizin'} stratejik hedeflerine katkı sağlayacak niteliktedir.
+
+${company || 'Şirketinizi'} tercih etmemin temel nedeni, kurumun ${why} vizyonunun yalnızca bir hedef değil, çalışanlarına somut bir misyon sunduğunun farkında olmam ve bu misyonun parçası olmak istememdir. Bu değerleri paylaşan, sonuç odaklı ve liderlik yetkinlikleriyle donanmış bir profesyonel olarak katkılarımın kurumunuza değer katacağına inanıyorum.
+
+Başvurumu ve özgeçmişimi değerlendirmenizi dilerim. Görüşme sürecinde deneyimlerimi daha ayrıntılı paylaşma fırsatı bulabilmek umuduyla,
+
+Saygılarımla,
+${name}`;
+                } else {
+                    letter = `${today}
+
+${company || target} Hiring Team,
+
+Dear Hiring Manager,
+
+I am writing to express my genuine enthusiasm for the ${role || 'open role'} position at ${company || target}. Your organization's commitment to ${why} and its distinguished position within the industry closely aligns with my professional mission and long-term aspirations.
+
+Throughout my career, I have built substantive expertise in ${strength}, consistently translating efforts into measurable, high-impact outcomes. Framed through the Yale SOM and HBS lens of Context-Action-Result, these accomplishments position me to make immediate and sustainable contributions to ${company || "your organization"}'s strategic objectives.
+
+My decision to pursue this opportunity at ${company || 'your organization'} is driven by a deep recognition that the company's focus on ${why} transcends mission statements — it reflects how ${company || 'the team'} operates day-to-day. I am eager to bring a leadership-oriented, results-driven approach to your team.
+
+I welcome the opportunity to discuss how my background aligns with your needs. Thank you for your time and consideration.
+
+Respectfully,
+${name}`;
+                }
+
+                if (clLetterText) clLetterText.innerText = letter;
+                if (clOutputBox) clOutputBox.style.display = 'block';
+            }
+
+            if (clGenerateBtn) {
+                clGenerateBtn.addEventListener('click', generateCoverLetter);
+            }
+
+            if (clCopyBtn) {
+                clCopyBtn.addEventListener('click', () => {
+                    const lang = localStorage.getItem("preferredLanguage") || "tr";
+                    const isTr = lang === 'tr';
+                    if (!clLetterText?.innerText) return;
+                    navigator.clipboard.writeText(clLetterText.innerText).then(() => {
+                        const orig = clCopyBtn.innerText;
+                        clCopyBtn.innerText = isTr ? "Kopyalandı! ✓" : "Copied! ✓";
+                        clCopyBtn.style.background = "#10b981";
+                        clCopyBtn.style.color = "#fff";
+                        setTimeout(() => { clCopyBtn.innerText = orig; clCopyBtn.style.background = ""; clCopyBtn.style.color = ""; }, 1800);
+                    });
+                });
+            }
+
+            // -----------------------------------------------------------------
+            // 7. CAREER GAP ADVISOR ENGINE (Certifications / Skills / Jargon)
+            // -----------------------------------------------------------------
+            const gapAnalyzeBtn = document.getElementById('gapAnalyzeBtn');
+            const gapResultsBox = document.getElementById('gapResultsBox');
+            const gapCertsList = document.getElementById('gapCertsList');
+            const gapSkillsList = document.getElementById('gapSkillsList');
+            const gapJargonList = document.getElementById('gapJargonList');
+
+            const CAREER_KNOWLEDGE_BASE = {
+                product: {
+                    tr: {
+                        certs: ['Certified Product Manager (CPM)', 'AWS Cloud Practitioner', 'Google Proje Yönetimi Sertifikası', 'Agile / Scrum Master (PSM I)', 'SQL for Data Science (Coursera)'],
+                        skills: ['Ürün yol haritası (roadmap) oluşturma', 'OKR & KPI çerçevesi kurma', 'Kullanıcı araştırması & persona analizi', 'A/B test tasarımı ve yorumlama', 'Cross-functional ekip liderliği'],
+                        jargon: ['Go-to-market stratejisi', 'Product-market fit', 'North Star Metric', 'Sprint retro & backlog grooming', 'Stakeholder alignment']
+                    },
+                    en: {
+                        certs: ['Certified Product Manager (CPM)', 'AWS Cloud Practitioner', 'Google Project Management Certificate', 'Agile / Scrum Master (PSM I)', 'SQL for Data Science (Coursera)'],
+                        skills: ['Product roadmap construction', 'OKR & KPI framework design', 'User research & persona mapping', 'A/B test design & interpretation', 'Cross-functional team leadership'],
+                        jargon: ['Go-to-market strategy', 'Product-market fit', 'North Star Metric', 'Sprint retro & backlog grooming', 'Stakeholder alignment']
+                    }
+                },
+                data: {
+                    tr: {
+                        certs: ['Google Data Analytics Sertifikası', 'IBM Data Science Professional Certificate', 'Microsoft Power BI Data Analyst', 'AWS Certified Data Analytics', 'CFA Level I (finansal analiz için)'],
+                        skills: ['İleri düzey SQL ve Python (Pandas, NumPy)', 'Makine öğrenmesi modeli kurma', 'Tableau / Power BI dashboard tasarımı', 'İstatistiksel hipotez testi', 'Veri görselleştirme & hikaye anlatımı'],
+                        jargon: ['Data-driven decision making', 'ETL pipeline', 'Feature engineering', 'Predictive modeling', 'Business intelligence (BI)']
+                    },
+                    en: {
+                        certs: ['Google Data Analytics Certificate', 'IBM Data Science Professional Certificate', 'Microsoft Power BI Data Analyst', 'AWS Certified Data Analytics', 'CFA Level I (for financial analytics)'],
+                        skills: ['Advanced SQL & Python (Pandas, NumPy)', 'Machine learning model building', 'Tableau / Power BI dashboard design', 'Statistical hypothesis testing', 'Data storytelling & visualization'],
+                        jargon: ['Data-driven decision making', 'ETL pipeline', 'Feature engineering', 'Predictive modeling', 'Business intelligence (BI)']
+                    }
+                },
+                consulting: {
+                    tr: {
+                        certs: ['PMP (Project Management Professional)', 'Six Sigma Green Belt', 'Google Business Intelligence Sertifikası', 'CFA Level I', 'McKinsey Forward Program'],
+                        skills: ['Yapılandırılmış problem çözme (MECE)', 'Durum analizi sunumu (yönetim kurulu düzeyi)', 'Finansal modelleme & senaryo analizi', 'Müşteri yönetimi & ilişki kurma', 'Kıyaslama & rekabet analizi'],
+                        jargon: ['Value proposition', 'MECE framework', 'Top-down iletişim', 'Issue tree analizi', 'Deliverable ve stakeholder yönetimi']
+                    },
+                    en: {
+                        certs: ['PMP (Project Management Professional)', 'Six Sigma Green Belt', 'Google Business Intelligence Certificate', 'CFA Level I', 'McKinsey Forward Program'],
+                        skills: ['Structured problem solving (MECE)', 'Board-level presentation & communication', 'Financial modeling & scenario analysis', 'Client management & relationship building', 'Benchmarking & competitive analysis'],
+                        jargon: ['Value proposition', 'MECE framework', 'Top-down communication', 'Issue tree analysis', 'Deliverable & stakeholder management']
+                    }
+                },
+                software: {
+                    tr: {
+                        certs: ['AWS Solutions Architect - Associate', 'Google Cloud Professional Data Engineer', 'Kubernetes Application Developer (CKAD)', 'Certified Scrum Product Owner (CSPO)', 'Meta Back-End Developer (Coursera)'],
+                        skills: ['Sistem mimarisi tasarımı (microservices, event-driven)', 'CI/CD pipeline kurulumu (GitHub Actions, Jenkins)', 'Performans optimizasyonu & yük testleri', 'Teknik liderlik & code review süreçleri', 'API tasarımı & RESTful standartları'],
+                        jargon: ['Infrastructure as Code (IaC)', 'Observability & monitoring', 'SLO / SLA / SLI', 'Zero-downtime deployment', 'Technical debt yönetimi']
+                    },
+                    en: {
+                        certs: ['AWS Solutions Architect - Associate', 'Google Cloud Professional Data Engineer', 'Kubernetes Application Developer (CKAD)', 'Certified Scrum Product Owner (CSPO)', 'Meta Back-End Developer (Coursera)'],
+                        skills: ['System architecture design (microservices, event-driven)', 'CI/CD pipeline setup (GitHub Actions, Jenkins)', 'Performance optimization & load testing', 'Technical leadership & code review processes', 'API design & RESTful standards'],
+                        jargon: ['Infrastructure as Code (IaC)', 'Observability & monitoring', 'SLO / SLA / SLI', 'Zero-downtime deployment', 'Technical debt management']
+                    }
+                },
+                default: {
+                    tr: {
+                        certs: ['PMP Sertifikası', 'Google Proje Yönetimi', 'LinkedIn Learning Liderlik Programı', 'Coursera Business Foundations', 'Dale Carnegie İletişim Sertifikası'],
+                        skills: ['Stratejik planlama & yürütme', 'Veri okur-yazarlığı & raporlama', 'Cross-functional işbirliği', 'Sunum & ikna becerileri', 'Proje yönetimi metodolojileri'],
+                        jargon: ['KPI & OKR izleme', 'Stakeholder yönetimi', 'ROI analizi', 'Risk değerlendirmesi', 'Sürekli iyileştirme (Kaizen)']
+                    },
+                    en: {
+                        certs: ['PMP Certification', 'Google Project Management', 'LinkedIn Learning Leadership Program', 'Coursera Business Foundations', 'Dale Carnegie Communication Certificate'],
+                        skills: ['Strategic planning & execution', 'Data literacy & reporting', 'Cross-functional collaboration', 'Presentation & persuasion skills', 'Project management methodologies'],
+                        jargon: ['KPI & OKR tracking', 'Stakeholder management', 'ROI analysis', 'Risk assessment', 'Continuous improvement (Kaizen)']
+                    }
+                }
+            };
+
+            function detectCareerDomain(text) {
+                const t = (text || '').toLowerCase();
+                if (/product manager|pm|ürün|product owner|po/.test(t)) return 'product';
+                if (/data|analiz|analyst|sql|python|makine öğren|machine learn|bi|intelligence/.test(t)) return 'data';
+                if (/consult|danışman|mckinsey|bcg|bain|stratej|strategy|mba/.test(t)) return 'consulting';
+                if (/software|yazılım|developer|engineer|backend|frontend|fullstack|devops|cloud/.test(t)) return 'software';
+                return 'default';
+            }
+
+            function handleGapAnalysis() {
+                const lang = localStorage.getItem("preferredLanguage") || "tr";
+                const current = document.getElementById('gapInputCurrent')?.value || '';
+                const target = document.getElementById('gapInputTarget')?.value || '';
+                const combined = current + ' ' + target;
+                const domain = detectCareerDomain(combined);
+                const kb = CAREER_KNOWLEDGE_BASE[domain][lang];
+
+                const renderItems = (container, items) => {
+                    if (!container) return;
+                    container.innerHTML = items.map(item => `<div class="gap-item">→ ${item}</div>`).join('');
+                };
+
+                renderItems(gapCertsList, kb.certs);
+                renderItems(gapSkillsList, kb.skills);
+                renderItems(gapJargonList, kb.jargon);
+
+                if (gapResultsBox) gapResultsBox.style.display = 'block';
+            }
+
+            if (gapAnalyzeBtn) {
+                gapAnalyzeBtn.addEventListener('click', handleGapAnalysis);
             }
 
             // Bind language toggle buttons
