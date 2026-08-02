@@ -1,0 +1,56 @@
+{
+  "name": "cvsom-cv-builder",
+  "version": "1.0.0",
+  "description": "Yale SOM & Harvard Elite Standard ATS-Optimized CV Builder",
+  "main": "app.js",
+  "scripts": {
+    "start": "python -m http.server 3000",
+    "test": "jest --testPathPattern=tests/ --verbose",
+    "test:ats": "jest tests/ats.test.js --verbose",
+    "test:gap": "jest tests/career-gap.test.js --verbose",
+    "test:cover": "jest tests/cover-letter.test.js --verbose",
+    "test:i18n": "jest tests/i18n.test.js --verbose",
+    "test:legacy": "node tests/run_tests.js",
+    "test:coverage": "jest --testPathPattern=tests/ --coverage",
+    "test:watch": "jest --testPathPattern=tests/ --watch"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/tests/**/*.test.js"
+    ],
+    "verbose": true,
+    "collectCoverageFrom": [
+      "app.js"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "statements": 60,
+        "branches": 50,
+        "functions": 60,
+        "lines": 60
+      }
+    }
+  },
+  "keywords": [
+    "resume",
+    "cv",
+    "ats",
+    "yale-som",
+    "harvard",
+    "hbs",
+    "career",
+    "job-search",
+    "cover-letter",
+    "bullet-rewriter"
+  ],
+  "author": "Asil Doğukan Samay <asil.samay@example.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AsilDogukanSamay/harvard-cv-builder.git"
+  }
+}
