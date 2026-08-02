@@ -1335,9 +1335,11 @@ ${name}`;
 
             function detectCareerDomain(text) {
                 const t = (text || '').toLowerCase();
-                if (/product manager|pm|ürün|product owner|po/.test(t)) return 'product';
-                if (/data|analiz|analyst|sql|python|makine öğren|machine learn|bi|intelligence/.test(t)) return 'data';
+                // Consulting checked BEFORE data: "McKinsey Business Analyst" has "analyst"
+                // which would otherwise match the data domain regex (Systematic Debugging Fix)
                 if (/consult|danışman|mckinsey|bcg|bain|stratej|strategy|mba/.test(t)) return 'consulting';
+                if (/product manager|pm|ürün|product owner|po/.test(t)) return 'product';
+                if (/\bdata\b|analiz|sql|python|makine öğren|machine learn|\bbi\b|intelligence/.test(t)) return 'data';
                 if (/software|yazılım|developer|engineer|backend|frontend|fullstack|devops|cloud/.test(t)) return 'software';
                 return 'default';
             }
