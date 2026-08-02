@@ -1370,6 +1370,8 @@ body {
     color: var(--text-primary);
     line-height: 1.75;
     white-space: pre-wrap;
+    word-break: break-word;       /* Systematic Debugging Fix #3: mobile overflow */
+    overflow-wrap: break-word;
 }
 
 .cl-actions {

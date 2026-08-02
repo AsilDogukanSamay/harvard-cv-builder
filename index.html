@@ -745,10 +745,26 @@
 
             function setLanguage(lang) {
                 localStorage.setItem("preferredLanguage", lang);
+
+                // Security Fix #4: Use innerHTML only for keys that include intentional HTML markup.
+                // All other translations use textContent to prevent XSS.
+                const HTML_KEYS = new Set([
+                    "hero-title", "hero-desc", "hero-btn", "hero-badge",
+                    "ats-widget-reference", "rewriter-methodology-note",
+                    "rewriter-opt1-note", "rewriter-opt2-note", "rewriter-opt3-note",
+                    "footer-copy", "footer-disclaimer",
+                    "cl-output-label", "gap-disclaimer"
+                ]);
+
                 document.querySelectorAll("[data-i18n]").forEach(element => {
                     const key = element.getAttribute("data-i18n");
-                    if (translations[lang][key]) {
-                        element.innerHTML = translations[lang][key];
+                    const value = translations[lang][key];
+                    if (value !== undefined) {
+                        if (HTML_KEYS.has(key)) {
+                            element.innerHTML = value;
+                        } else {
+                            element.textContent = value;
+                        }
                     }
                 });
 
@@ -759,7 +775,7 @@
                     }
                 });
                 
-                // Keep Hero Button text correct (preserving the inline arrow)
+                // Keep Hero Button text correct (preserving the inline arrow — allowed HTML key)
                 const heroBtn = document.querySelector('.hero-content .btn-primary');
                 if (heroBtn && translations[lang]["hero-btn"]) {
                     heroBtn.innerHTML = translations[lang]["hero-btn"];
@@ -789,6 +805,16 @@
             // -----------------------------------------------------------------
             const atsInput = document.getElementById('atsInputSentence');
             const atsCheckBtn = document.getElementById('atsCheckBtn');
+
+            // Systematic Debugging Fix #2: Enter key support on ATS input
+            if (atsInput) {
+                atsInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        if (typeof evaluateSentence === 'function') evaluateSentence();
+                    }
+                });
+            }
             const atsResultBox = document.getElementById('atsResultBox');
             const atsScoreValue = document.getElementById('atsScoreValue');
             const atsScoreStatus = document.getElementById('atsScoreStatus');
@@ -1345,8 +1371,15 @@ ${name}`;
                 btn.addEventListener("click", () => {
                     const lang = btn.getAttribute("data-lang-btn");
                     setLanguage(lang);
+                    // Re-render active modules on language switch (Systematic Debugging Fix #1)
                     if (rewriterResultsBox && rewriterResultsBox.style.display !== 'none') {
                         handleBulletRewriting();
+                    }
+                    if (clOutputBox && clOutputBox.style.display !== 'none') {
+                        generateCoverLetter();
+                    }
+                    if (gapResultsBox && gapResultsBox.style.display !== 'none') {
+                        handleGapAnalysis();
                     }
                 });
             });
@@ -1354,6 +1387,14 @@ ${name}`;
             // Load initial language (default to TR or retrieve from localStorage)
             const initialLang = localStorage.getItem("preferredLanguage") || "tr";
             setLanguage(initialLang);
+
+            // Performance Fix #5: passive scroll listener (improves scroll perf)
+            window.addEventListener('scroll', () => {
+                const navbar = document.querySelector('.navbar');
+                if (navbar) {
+                    navbar.classList.toggle('scrolled', window.scrollY > 20);
+                }
+            }, { passive: true });
 
             // Scroll Reveal Observer
             const reveals = document.querySelectorAll('.reveal');
