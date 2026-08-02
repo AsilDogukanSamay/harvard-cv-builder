@@ -265,6 +265,62 @@
                         </div>
                     </div>
                 </div>
+    </section>
+
+    <!-- JOB DESCRIPTION ATS MATCHER SECTION -->
+    <section class="jd-matcher-section reveal">
+        <div class="container">
+            <div class="ats-checker-card">
+                <div class="ats-checker-header">
+                    <div class="ats-badge">
+                        <span class="ats-badge-dot" style="background-color: var(--accent-green);"></span>
+                        <span data-i18n="jd-widget-badge">Greenhouse & Lever ATS Simülatörü</span>
+                    </div>
+                    <h3 data-i18n="jd-widget-title">İş İlanı (JD) Uyumluluk & Anahtar Kelime Analizi</h3>
+                    <p data-i18n="jd-widget-desc">Başvuracağınız hedef iş ilanının metnini aşağıya yapıştırın. Sistem, Greenhouse ve Lever botlarının tarama mantığıyla en kritik 10 yetkinliği ayıklayıp CV'nizle eşleştirsin.</p>
+                </div>
+
+                <div class="jd-matcher-body">
+                    <div class="jd-input-container">
+                        <textarea id="jdTextInput" class="ats-input" style="height: 110px; resize: vertical;" placeholder="Hedef iş ilanının açıklamasını / nitelikler metnini buraya yapıştırın..." data-i18n-ph="jd-input-ph"></textarea>
+                        <button id="jdAnalyzeBtn" class="btn btn-primary" style="margin-top: 12px; width: 100%; justify-content: center;" data-i18n="jd-analyze-btn">İlan Uyumluluğunu & Anahtar Kelimeleri Analiz Et 🎯</button>
+                    </div>
+
+                    <div id="jdResultBox" class="jd-result-box" style="display: none; margin-top: 24px; animation: fadeIn 0.4s ease-out;">
+                        <!-- Match Score Display Header -->
+                        <div class="jd-score-header">
+                            <div class="jd-score-circle">
+                                <span id="jdMatchScoreValue">0</span>
+                                <small>% Match</small>
+                            </div>
+                            <div class="jd-score-info">
+                                <h4 id="jdMatchScoreStatus">İlan Eşleşme Düzeyi</h4>
+                                <p id="jdMatchScoreFeedback">Analiz sonuçları aşağıda listelenmiştir.</p>
+                            </div>
+                        </div>
+
+                        <!-- Keywords Breakdown Grid -->
+                        <div class="jd-keywords-grid">
+                            <!-- Found Keywords -->
+                            <div class="jd-kw-card found">
+                                <h5 data-i18n="jd-found-kw-title">✓ CV'nizde Tespit Edilen Kelimeler</h5>
+                                <div id="jdFoundKwList" class="jd-tags-list"></div>
+                            </div>
+
+                            <!-- Missing Keywords -->
+                            <div class="jd-kw-card missing">
+                                <h5 data-i18n="jd-missing-kw-title">⚠️ İlanda İstenen Ama Eksik Kelimeler</h5>
+                                <div id="jdMissingKwList" class="jd-tags-list"></div>
+                            </div>
+                        </div>
+
+                        <!-- Yale/HBS Natural Integration Guidance Box -->
+                        <div class="jd-integration-guidance">
+                            <h5 data-i18n="jd-guidance-title">💡 Yale SOM & HBS Doğal Kelime Yedirme İpucu</h5>
+                            <p id="jdGuidanceText" class="jd-guidance-desc">Eksik kelimeleri CV'nize rastgele sıralamak yerine (keyword stuffing), HBS etken fiilleriyle başarı cümlenizin bağlamına dahil edin.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -456,7 +512,15 @@
                     "rewriter-opt3-badge": "🛠️ Teknik & Metodolojik Odaklı",
                     "rewriter-opt3-note": "HBS Technical: Araç, mimari ve optimizasyon detaylı.",
                     "rewriter-methodology-note": "💡 <strong>Yale SOM & HBS Metodolojisi:</strong> Tüm öneriler <i>Context (Bağlam) - Action (Eylem) - Result (Sonuç)</i> şablonunda kurgulanmış olup HBS onaylı eylem kelimeleri içerir.",
-                    "copy-btn": "Kopyala 📋"
+                    "copy-btn": "Kopyala 📋",
+                    "jd-widget-badge": "Greenhouse & Lever ATS Simülatörü",
+                    "jd-widget-title": "İş İlanı (JD) Uyumluluk & Anahtar Kelime Analizi",
+                    "jd-widget-desc": "Başvuracağınız hedef iş ilanının metnini aşağıya yapıştırın. Sistem, Greenhouse ve Lever botlarının tarama mantığıyla en kritik 10 yetkinliği ayıklayıp CV'nizle eşleştirsin.",
+                    "jd-input-ph": "Hedef iş ilanının açıklamasını / nitelikler metnini buraya yapıştırın...",
+                    "jd-analyze-btn": "İlan Uyumluluğunu & Anahtar Kelimeleri Analiz Et 🎯",
+                    "jd-found-kw-title": "✓ CV'nizde Tespit Edilen Kelimeler",
+                    "jd-missing-kw-title": "⚠️ İlanda İstenen Ama Eksik Kelimeler",
+                    "jd-guidance-title": "💡 Yale SOM & HBS Doğal Kelime Yedirme İpucu"
                 },
                 en: {
                     "logo-text": "CVSOM",
@@ -510,7 +574,15 @@
                     "rewriter-opt3-badge": "🛠️ Technical & Methodological",
                     "rewriter-opt3-note": "HBS Technical: Detailed tooling, architecture & optimization.",
                     "rewriter-methodology-note": "💡 <strong>Yale SOM & HBS Methodology:</strong> All suggestions follow the <i>Context - Action - Result (CAR)</i> framework with approved HBS action verbs.",
-                    "copy-btn": "Copy 📋"
+                    "copy-btn": "Copy 📋",
+                    "jd-widget-badge": "Greenhouse & Lever ATS Simulator",
+                    "jd-widget-title": "Job Description (JD) Match & Keyword Analysis",
+                    "jd-widget-desc": "Paste the target job description text below. The system extracts top 10 requirements and matches them against your CV like Greenhouse & Lever bots.",
+                    "jd-input-ph": "Paste target job description / qualifications text here...",
+                    "jd-analyze-btn": "Analyze Job Match & Keywords 🎯",
+                    "jd-found-kw-title": "✓ Keywords Found in Your CV",
+                    "jd-missing-kw-title": "⚠️ Required But Missing Keywords",
+                    "jd-guidance-title": "💡 Yale SOM & HBS Natural Integration Tip"
                 }
             };
 
@@ -801,6 +873,131 @@
                     }, 1800);
                 });
             };
+
+            // -----------------------------------------------------------------
+            // 5. GREENHOUSE & LEVER ATS JOB DESCRIPTION MATCHER ENGINE
+            // -----------------------------------------------------------------
+            const jdTextInput = document.getElementById('jdTextInput');
+            const jdAnalyzeBtn = document.getElementById('jdAnalyzeBtn');
+            const jdResultBox = document.getElementById('jdResultBox');
+            const jdMatchScoreValue = document.getElementById('jdMatchScoreValue');
+            const jdMatchScoreStatus = document.getElementById('jdMatchScoreStatus');
+            const jdMatchScoreFeedback = document.getElementById('jdMatchScoreFeedback');
+            const jdFoundKwList = document.getElementById('jdFoundKwList');
+            const jdMissingKwList = document.getElementById('jdMissingKwList');
+            const jdGuidanceText = document.getElementById('jdGuidanceText');
+
+            function analyzeJobDescriptionMatch(jdText, userCvText, lang) {
+                const isTr = lang === 'tr';
+                const cleanJd = (jdText || '').toLowerCase();
+                const cleanCv = (userCvText || '').toLowerCase();
+
+                // Stopwords
+                const stopwords = new Set([
+                    'and', 'the', 'for', 'with', 'you', 'that', 'this', 'have', 'from', 'are', 'will', 'our', 'work', 'your', 'about', 'team',
+                    've', 'veya', 'ile', 'için', 'bir', 'bu', 'da', 'de', 'gibi', 'olan', 'olarak', 'daha', 'çok', 'her', 'en', 'gerekli', 'aranan', 'iş', 'şirket'
+                ]);
+
+                // Tokenize & count keyword frequency
+                const words = cleanJd
+                    .replace(/[^a-zA-ZçğıöşüÇĞİÖŞÜ0-9\s]/g, ' ')
+                    .split(/\s+/)
+                    .filter(w => w.length > 3 && !stopwords.has(w));
+
+                const freq = {};
+                words.forEach(w => {
+                    freq[w] = (freq[w] || 0) + 1;
+                });
+
+                const sortedKeywords = Object.keys(freq)
+                    .sort((a, b) => freq[b] - freq[a])
+                    .slice(0, 10);
+
+                const fallbackKeywords = isTr ? 
+                    ['liderlik', 'analiz', 'yönetim', 'otomasyon', 'yazılım', 'proje', 'optimizasyon', 'strateji', 'raporlama', 'kalite'] :
+                    ['leadership', 'analysis', 'management', 'automation', 'software', 'project', 'optimization', 'strategy', 'reporting', 'quality'];
+
+                const topKeywords = sortedKeywords.length >= 3 ? sortedKeywords : fallbackKeywords;
+
+                const foundKeywords = [];
+                const missingKeywords = [];
+
+                topKeywords.forEach(kw => {
+                    if (cleanCv.includes(kw)) {
+                        foundKeywords.push(kw);
+                    } else {
+                        missingKeywords.push(kw);
+                    }
+                });
+
+                const matchScore = topKeywords.length > 0 ? 
+                    Math.round((foundKeywords.length / topKeywords.length) * 100) : 0;
+
+                let guidance = "";
+                if (missingKeywords.length > 0) {
+                    const targetKw = missingKeywords[0].toUpperCase();
+                    if (isTr) {
+                        guidance = `Yale SOM Önerisi: "${targetKw}" kelimesini CV'nize rastgele eklemek yerine şu formatta entegre edin: "HBS Eylem Fiili + ${targetKw} + % Başarı Ölçütü". Örn: "Projede ${targetKw} metodolojisini uygulayarak işlem sürelerini %35 kısalttım."`;
+                    } else {
+                        guidance = `Yale SOM Tip: Instead of keyword stuffing "${targetKw}", embed it with an HBS action verb: "HBS Action Verb + ${targetKw} + % Metric". e.g., "Deployed ${targetKw} frameworks to streamline operational cycle times by 35%."`;
+                    }
+                } else {
+                    if (isTr) {
+                        guidance = "Mükemmel Eşleşme! İlandaki tüm kritik yetkinlikler CV'nizde mevcut. Yale SOM CAR standartlarında metriklerinizi güncel tutun.";
+                    } else {
+                        guidance = "Outstanding Match! All key requirements found in your CV. Ensure your CAR metrics are updated to current standards.";
+                    }
+                }
+
+                return { matchScore, foundKeywords, missingKeywords, guidance };
+            }
+
+            function handleJdAnalysis() {
+                const lang = localStorage.getItem("preferredLanguage") || "tr";
+                const isTr = lang === 'tr';
+                const jdText = jdTextInput ? jdTextInput.value : '';
+                const userCvText = atsInput ? atsInput.value : '';
+
+                const { matchScore, foundKeywords, missingKeywords, guidance } = analyzeJobDescriptionMatch(jdText, userCvText, lang);
+
+                if (jdMatchScoreValue) jdMatchScoreValue.innerText = matchScore;
+                if (jdGuidanceText) jdGuidanceText.innerText = guidance;
+
+                if (jdMatchScoreStatus) {
+                    if (matchScore >= 80) {
+                        jdMatchScoreStatus.innerText = isTr ? "🌟 Yüksek İlan Uyumluluğu" : "🌟 High Job Compatibility";
+                    } else if (matchScore >= 50) {
+                        jdMatchScoreStatus.innerText = isTr ? "👍 Orta Düzey Eşleşme" : "👍 Moderate Match";
+                    } else {
+                        jdMatchScoreStatus.innerText = isTr ? "⚠️ Eksik Anahtar Kelimeler Var" : "⚠️ Key Missing Requirements";
+                    }
+                }
+
+                if (jdMatchScoreFeedback) {
+                    jdMatchScoreFeedback.innerText = isTr ? 
+                        `Greenhouse/Lever taramasına göre ${foundKeywords.length}/${foundKeywords.length + missingKeywords.length} kritik yetkinlik eşleşti.` :
+                        `According to Greenhouse/Lever scan, ${foundKeywords.length}/${foundKeywords.length + missingKeywords.length} key skills matched.`;
+                }
+
+                // Render Tags
+                if (jdFoundKwList) {
+                    jdFoundKwList.innerHTML = foundKeywords.length > 0 ? 
+                        foundKeywords.map(k => `<span class="jd-tag found">✓ ${k}</span>`).join('') :
+                        `<span style="font-size: 11px; color: var(--text-muted);">${isTr ? 'Henüz eşleşen kelime yok' : 'No matching keywords yet'}</span>`;
+                }
+
+                if (jdMissingKwList) {
+                    jdMissingKwList.innerHTML = missingKeywords.length > 0 ? 
+                        missingKeywords.map(k => `<span class="jd-tag missing">+ ${k}</span>`).join('') :
+                        `<span style="font-size: 11px; color: var(--text-muted);">${isTr ? 'Eksik kelime bulunamadı' : 'No missing keywords'}</span>`;
+                }
+
+                if (jdResultBox) jdResultBox.style.display = 'block';
+            }
+
+            if (jdAnalyzeBtn) {
+                jdAnalyzeBtn.addEventListener('click', handleJdAnalysis);
+            }
 
             // Bind language toggle buttons
             document.querySelectorAll("[data-lang-btn]").forEach(btn => {
