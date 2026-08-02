@@ -210,6 +210,60 @@
                             📌 Bu skor; Yale SOM CDO rehberi, HBS Eylem Fiili Standartları ve Google XYZ etki formülü esas alınarak hesaplanmaktadır.
                         </div>
                     </div>
+
+                    <!-- YALE SOM & HBS SMART BULLET REWRITER COMPONENT -->
+                    <div class="bullet-rewriter-container">
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+                            <h4 style="font-size: 15px; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 8px; margin: 0;">
+                                <span>🪄</span> <span data-i18n="rewriter-title">Yale SOM & HBS Akıllı Cümle İyileştirici</span>
+                            </h4>
+                            <button id="rewriteBtn" class="btn btn-secondary" style="font-size: 12px; padding: 6px 14px;" data-i18n="rewriter-btn">3 Farklı Format Üret ✨</button>
+                        </div>
+                        
+                        <div id="rewriterResultsBox" style="display: none; animation: fadeIn 0.4s ease-out;">
+                            <div class="rewriter-cards-grid">
+                                <!-- Option 1: Leadership -->
+                                <div class="rewriter-card">
+                                    <div class="rewriter-card-badge leadership">
+                                        <span>👑</span> <span data-i18n="rewriter-opt1-badge">Liderlik Odaklı (HBS Leadership)</span>
+                                    </div>
+                                    <p id="rewriterOpt1Text" class="rewriter-card-text"></p>
+                                    <div class="rewriter-card-footer">
+                                        <span class="rewriter-note" data-i18n="rewriter-opt1-note">Yale SOM CAR: Ekip yönetimi ve inisiyatif alma vurgusu.</span>
+                                        <button class="copy-bullet-btn" onclick="copyRewrittenText('rewriterOpt1Text', this)" data-i18n="copy-btn">Kopyala 📋</button>
+                                    </div>
+                                </div>
+
+                                <!-- Option 2: Impact & Metric -->
+                                <div class="rewriter-card">
+                                    <div class="rewriter-card-badge impact">
+                                        <span>📈</span> <span data-i18n="rewriter-opt2-badge">Etki & Metrik Odaklı (Google XYZ)</span>
+                                    </div>
+                                    <p id="rewriterOpt2Text" class="rewriter-card-text"></p>
+                                    <div class="rewriter-card-footer">
+                                        <span class="rewriter-note" data-i18n="rewriter-opt2-note">Google XYZ: Sayısal etki (measured by Y) ön planda.</span>
+                                        <button class="copy-bullet-btn" onclick="copyRewrittenText('rewriterOpt2Text', this)" data-i18n="copy-btn">Kopyala 📋</button>
+                                    </div>
+                                </div>
+
+                                <!-- Option 3: Technical / Methodological -->
+                                <div class="rewriter-card">
+                                    <div class="rewriter-card-badge technical">
+                                        <span>🛠️</span> <span data-i18n="rewriter-opt3-badge">Teknik & Metodolojik Odaklı</span>
+                                    </div>
+                                    <p id="rewriterOpt3Text" class="rewriter-card-text"></p>
+                                    <div class="rewriter-card-footer">
+                                        <span class="rewriter-note" data-i18n="rewriter-opt3-note">HBS Technical: Araç, mimari ve optimizasyon detaylı.</span>
+                                        <button class="copy-bullet-btn" onclick="copyRewrittenText('rewriterOpt3Text', this)" data-i18n="copy-btn">Kopyala 📋</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="rewriter-methodology-footer" data-i18n="rewriter-methodology-note">
+                                💡 <strong>Yale SOM & HBS Metodolojisi:</strong> Tüm öneriler <i>Context (Bağlam) - Action (Eylem) - Result (Sonuç)</i> şablonunda kurgulanmış olup HBS onaylı eylem kelimeleri içerir.
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -392,7 +446,17 @@
                     "ats-widget-desc": "Aşağıdaki kutuya deneyimlerinizi anlatan bir kurşun kalem (bullet point) cümlesi yazın. Yale SOM standartlarında eylem kelimeleri (Action Verbs) ve etki puanlamasını canlı görün.",
                     "ats-widget-ph": "Örn: 5 kişilik ekibe liderlik ederek eski yazılımı bulut mimarisine taşıdım ve verimliliği %40 artırdım.",
                     "ats-widget-btn": "Skoru Hesapla ✨",
-                    "ats-widget-reference": "📌 Bu skor; Yale SOM CDO rehberi, HBS Eylem Fiili Standartları ve Google XYZ etki formülü esas alınarak hesaplanmaktadır."
+                    "ats-widget-reference": "📌 Bu skor; Yale SOM CDO rehberi, HBS Eylem Fiili Standartları ve Google XYZ etki formülü esas alınarak hesaplanmaktadır.",
+                    "rewriter-title": "Yale SOM & HBS Akıllı Cümle İyileştirici",
+                    "rewriter-btn": "3 Farklı Format Üret ✨",
+                    "rewriter-opt1-badge": "👑 Liderlik Odaklı (HBS Leadership)",
+                    "rewriter-opt1-note": "Yale SOM CAR: Ekip yönetimi ve inisiyatif alma vurgusu.",
+                    "rewriter-opt2-badge": "📈 Etki & Metrik Odaklı (Google XYZ)",
+                    "rewriter-opt2-note": "Google XYZ: Sayısal etki (measured by Y) ön planda.",
+                    "rewriter-opt3-badge": "🛠️ Teknik & Metodolojik Odaklı",
+                    "rewriter-opt3-note": "HBS Technical: Araç, mimari ve optimizasyon detaylı.",
+                    "rewriter-methodology-note": "💡 <strong>Yale SOM & HBS Metodolojisi:</strong> Tüm öneriler <i>Context (Bağlam) - Action (Eylem) - Result (Sonuç)</i> şablonunda kurgulanmış olup HBS onaylı eylem kelimeleri içerir.",
+                    "copy-btn": "Kopyala 📋"
                 },
                 en: {
                     "logo-text": "CVSOM",
@@ -436,7 +500,17 @@
                     "ats-widget-desc": "Type a bullet point sentence describing your experience below. Get instant feedback on Yale SOM action verbs and impact scoring.",
                     "ats-widget-ph": "e.g., Led a team of 5 to migrate legacy software to cloud architecture, boosting efficiency by 40%.",
                     "ats-widget-btn": "Calculate Score ✨",
-                    "ats-widget-reference": "📌 This score is calculated based on Yale SOM CDO guidelines, HBS Action Verb Standards, and Google XYZ Impact Formula."
+                    "ats-widget-reference": "📌 This score is calculated based on Yale SOM CDO guidelines, HBS Action Verb Standards, and Google XYZ Impact Formula.",
+                    "rewriter-title": "Yale SOM & HBS Smart Bullet Point Rewriter",
+                    "rewriter-btn": "Generate 3 Formats ✨",
+                    "rewriter-opt1-badge": "👑 Leadership-Oriented (HBS Leadership)",
+                    "rewriter-opt1-note": "Yale SOM CAR: Focuses on team leadership & initiative.",
+                    "rewriter-opt2-badge": "📈 Impact & Metric-Oriented (Google XYZ)",
+                    "rewriter-opt2-note": "Google XYZ: Highlights quantifiable outcome (measured by Y).",
+                    "rewriter-opt3-badge": "🛠️ Technical & Methodological",
+                    "rewriter-opt3-note": "HBS Technical: Detailed tooling, architecture & optimization.",
+                    "rewriter-methodology-note": "💡 <strong>Yale SOM & HBS Methodology:</strong> All suggestions follow the <i>Context - Action - Result (CAR)</i> framework with approved HBS action verbs.",
+                    "copy-btn": "Copy 📋"
                 }
             };
 
@@ -621,20 +695,121 @@
                 }
             }
 
+            // -----------------------------------------------------------------
+            // 4. YALE SOM & HBS BULLET REWRITER ENGINE
+            // -----------------------------------------------------------------
+            const rewriteBtn = document.getElementById('rewriteBtn');
+            const rewriterResultsBox = document.getElementById('rewriterResultsBox');
+            const rewriterOpt1Text = document.getElementById('rewriterOpt1Text');
+            const rewriterOpt2Text = document.getElementById('rewriterOpt2Text');
+            const rewriterOpt3Text = document.getElementById('rewriterOpt3Text');
+
+            function generateYaleSOMBulletOptions(inputSentence, lang) {
+                const isTr = lang === 'tr';
+                const text = (inputSentence || '').trim();
+                const lower = text.toLowerCase();
+
+                const isSoftware = /yazılım|kod|sistem|bulut|veritabanı|api|web|mobil|yazılımı|geliştirdim|tasarladım|software|code|system|cloud|database|api|web|mobile|dev/.test(lower);
+                const isManagement = /ekip|yönetim|liderlik|proje|danışmanlık|stok|satış|müşteri|süresini|süreci|team|management|lead|project|consulting|sales|customer|process/.test(lower);
+
+                let opt1 = "";
+                let opt2 = "";
+                let opt3 = "";
+
+                if (isTr) {
+                    if (isSoftware) {
+                        opt1 = "Spearheaded & Liderlik: 5 kişilik geliştirici ekibine yön vererek mikroservis mimarisini yeniden kurguladı ve sistem kullanılabilirliğini %99.9'a çıkardı.";
+                        opt2 = "Etki & Metrik (Google XYZ): Yeni bulut ve API altyapısını canlıya alarak sunucu yanıt sürelerini %45 kısalttı ve aylık 50k+ kullanıcıya kesintisiz hizmet sağladı.";
+                        opt3 = "Teknik & Metodolojik: Docker, Kubernetes ve CI/CD otomasyon hattı kullanarak yazılım dağıtım sürelerini 2 haftadan 30 dakikaya düşürdü.";
+                    } else if (isManagement) {
+                        opt1 = "Spearheaded & Liderlik: 8 kişilik departman ekibine liderlik ederek operasyonel iş akışlarını yeniden yapılandırdı ve proje teslim sürelerini %30 hızlandırdı.";
+                        opt2 = "Etki & Metrik (Google XYZ): Müşteri ilişkileri ve tedarik süreçlerini optimize ederek yıllık 150.000 TL maliyet tasarrufu ve %25 verimlilik artışı sağladı.";
+                        opt3 = "Teknik & Metodolojik: Agile/Scrum metodolojisi ve JIRA süreç takibi kurgulayarak departman içi hata oranını %40 azalttı.";
+                    } else {
+                        opt1 = "Spearheaded & Liderlik: Proje süreçlerinde inisiyatif alarak cross-functional ekibi koordine etti ve hedeflenen çıktıları 2 hafta erken tamamladı.";
+                        opt2 = "Etki & Metrik (Google XYZ): Süreç optimizasyonu ve veri analitiği ile operasyonel verimliliği %35 artırıp zaman maliyetini düşürdü.";
+                        opt3 = "Teknik & Metodolojik: Standart operasyon prosedürlerini (SOP) dijitalleştirerek ekip içi hata ve tekrarlı iş yükünü %50 azalttı.";
+                    }
+                } else {
+                    if (isSoftware) {
+                        opt1 = "Spearheaded a developer team of 5 to re-architect microservices infrastructure, boosting system availability uptime to 99.9%.";
+                        opt2 = "Optimized cloud & API endpoints (Google XYZ), reducing average server latency by 45% for over 50k+ monthly active users.";
+                        opt3 = "Automated CI/CD pipelines using Docker and Kubernetes, reducing code deployment release cycles from 2 weeks to 30 minutes.";
+                    } else if (isManagement) {
+                        opt1 = "Spearheaded a cross-functional team of 8 to restructure operational workflows, accelerating project delivery by 30%.";
+                        opt2 = "Engineered supply chain & client relationship processes, generating $150k in annual cost savings and a 25% efficiency gain.";
+                        opt3 = "Implemented Agile/Scrum frameworks and JIRA tracking metrics, cutting cross-departmental defect rates by 40%.";
+                    } else {
+                        opt1 = "Spearheaded key project initiatives by coordinating a cross-functional team, completing targeted deliverables 2 weeks ahead of schedule.";
+                        opt2 = "Engineered process optimization and data analytics workflows, boosting operational efficiency by 35%.";
+                        opt3 = "Digitized Standard Operating Procedures (SOPs), reducing recurring manual workloads and error rates by 50%.";
+                    }
+                }
+
+                return { opt1, opt2, opt3 };
+            }
+
+            function handleBulletRewriting() {
+                const lang = localStorage.getItem("preferredLanguage") || "tr";
+                const sentence = atsInput ? atsInput.value : '';
+                const { opt1, opt2, opt3 } = generateYaleSOMBulletOptions(sentence, lang);
+
+                if (rewriterOpt1Text) rewriterOpt1Text.innerText = opt1;
+                if (rewriterOpt2Text) rewriterOpt2Text.innerText = opt2;
+                if (rewriterOpt3Text) rewriterOpt3Text.innerText = opt3;
+
+                if (rewriterResultsBox) {
+                    rewriterResultsBox.style.display = 'block';
+                }
+            }
+
+            if (rewriteBtn) {
+                rewriteBtn.addEventListener('click', handleBulletRewriting);
+            }
+
             if (atsCheckBtn) {
-                atsCheckBtn.addEventListener('click', evaluateSentence);
+                atsCheckBtn.addEventListener('click', () => {
+                    evaluateSentence();
+                    handleBulletRewriting();
+                });
             }
             if (atsInput) {
                 atsInput.addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter') evaluateSentence();
+                    if (e.key === 'Enter') {
+                        evaluateSentence();
+                        handleBulletRewriting();
+                    }
                 });
             }
+
+            // Global Copy helper
+            window.copyRewrittenText = function(elementId, btnElement) {
+                const textEl = document.getElementById(elementId);
+                if (!textEl) return;
+                const textToCopy = textEl.innerText;
+                const lang = localStorage.getItem("preferredLanguage") || "tr";
+                
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    const originalText = btnElement.innerText;
+                    btnElement.innerText = lang === 'tr' ? "Kopyalandı! ✓" : "Copied! ✓";
+                    btnElement.style.background = "#10b981";
+                    btnElement.style.color = "#ffffff";
+                    setTimeout(() => {
+                        btnElement.innerText = originalText;
+                        btnElement.style.background = "";
+                        btnElement.style.color = "";
+                    }, 1800);
+                });
+            };
 
             // Bind language toggle buttons
             document.querySelectorAll("[data-lang-btn]").forEach(btn => {
                 btn.addEventListener("click", () => {
                     const lang = btn.getAttribute("data-lang-btn");
                     setLanguage(lang);
+                    if (rewriterResultsBox && rewriterResultsBox.style.display !== 'none') {
+                        handleBulletRewriting();
+                    }
                 });
             });
 
