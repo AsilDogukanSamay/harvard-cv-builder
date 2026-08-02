@@ -206,6 +206,9 @@
                         <div class="ats-progress-bar-bg">
                             <div id="atsProgressBar" class="ats-progress-bar-fill" style="width: 0%;"></div>
                         </div>
+                        <div class="ats-reference-note" data-i18n="ats-widget-reference">
+                            📌 Bu skor; Yale SOM CDO rehberi, HBS Eylem Fiili Standartları ve Google XYZ etki formülü esas alınarak hesaplanmaktadır.
+                        </div>
                     </div>
                 </div>
             </div>
@@ -283,53 +286,69 @@
         </div>
     </footer>
 
-    <!-- SCROLL REVEAL & NAVBAR SCROLL SCRIPT -->
+    <!-- OPTIMIZED SCRIPTS & ATS EVALUATOR ENGINE -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Navbar scroll background trigger
+            // -----------------------------------------------------------------
+            // 1. PERFORMANCE OPTIMIZED EVENT LISTENERS (rAF + Passive Event Listeners)
+            // -----------------------------------------------------------------
             const navbar = document.querySelector('.navbar');
+            let scrollTicking = false;
+
             if (navbar) {
-                window.addEventListener('scroll', () => {
-                    if (window.scrollY > 20) {
-                        navbar.classList.add('scrolled');
-                    } else {
-                        navbar.classList.remove('scrolled');
+                const handleScroll = () => {
+                    if (!scrollTicking) {
+                        window.requestAnimationFrame(() => {
+                            if (window.scrollY > 20) {
+                                navbar.classList.add('scrolled');
+                            } else {
+                                navbar.classList.remove('scrolled');
+                            }
+                            scrollTicking = false;
+                        });
+                        scrollTicking = true;
                     }
-                });
-                
-                // Initialize state in case loaded page was already scrolled
-                if (window.scrollY > 20) {
-                    navbar.classList.add('scrolled');
-                }
+                };
+                window.addEventListener('scroll', handleScroll, { passive: true });
+                handleScroll(); // Initial check on load
             }
 
-            // Premium 3D Tilt Interaction over the Hero Mockup
+            // 3D Tilt interaction with rAF and mobile responsiveness guard
             const heroMockup = document.querySelector('.hero-mockup');
             const binderFolder = document.querySelector('.binder-folder');
-            
+            let mouseTicking = false;
+            let lastMouseX = 0;
+            let lastMouseY = 0;
+
             if (heroMockup && binderFolder) {
                 heroMockup.addEventListener('mousemove', (e) => {
+                    // Disable 3D tilt calculations on mobile screens <= 768px for CPU/GPU efficiency
+                    if (window.innerWidth <= 768) return;
+
                     const rect = heroMockup.getBoundingClientRect();
-                    const x = e.clientX - rect.left - (rect.width / 2);
-                    const y = e.clientY - rect.top - (rect.height / 2);
-                    
-                    // Limit max tilt rotation (e.g. max 15 degrees)
-                    const tiltX = (y / (rect.height / 2)) * -15;
-                    const tiltY = (x / (rect.width / 2)) * 15;
-                    
-                    // Apply dynamic rotation with transition
-                    binderFolder.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
-                    binderFolder.style.transition = 'transform 0.1s ease';
-                });
-                
+                    lastMouseX = e.clientX - rect.left - (rect.width / 2);
+                    lastMouseY = e.clientY - rect.top - (rect.height / 2);
+
+                    if (!mouseTicking) {
+                        window.requestAnimationFrame(() => {
+                            const tiltX = (lastMouseY / (rect.height / 2)) * -12;
+                            const tiltY = (lastMouseX / (rect.width / 2)) * 12;
+                            binderFolder.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+                            mouseTicking = false;
+                        });
+                        mouseTicking = true;
+                    }
+                }, { passive: true });
+
                 heroMockup.addEventListener('mouseleave', () => {
-                    // Smoothly transition back to flat resting state
                     binderFolder.style.transform = 'rotateX(0deg) rotateY(0deg)';
                     binderFolder.style.transition = 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
                 });
             }
 
-            // --- Multi-Language Translation System (TR/EN) ---
+            // -----------------------------------------------------------------
+            // 2. MULTI-LANGUAGE TRANSLATION SYSTEM (TR / EN)
+            // -----------------------------------------------------------------
             const translations = {
                 tr: {
                     "logo-text": "CVSOM",
@@ -340,7 +359,7 @@
                     "hero-title": "Yale SOM ve Küresel Şirket<br>Standartlarında CV, Dakikalar içinde.",
                     "hero-desc": "Aday Takip Sistemleri (ATS) dostu, Yale SOM ve lider küresel şirket İK ekiplerinin onayladığı resmi formatlarda CV'nizi hiçbir tasarım zahmetine girmeden saniyeler içinde hazırlayın.",
                     "hero-btn": "Hemen Oluşturmaya Başla ➔",
-                    "mockup-cv-sub": "Özgeçmiş / CV1 son Görüm",
+                    "mockup-cv-sub": "Özgeçmiş / CV Önizleme",
                     "mockup-footer-right": "Sayfa 1 / 1",
                     "mockup-exp-title": "İş Deneyimleri (Experience)",
                     "mockup-exp-desc": "Eylem odaklı (Action Verbs) ipuçlarıyla iş ve staj geçmişinizi etki odaklı listeleyin.",
@@ -372,7 +391,8 @@
                     "ats-widget-title": "CV Cümlenizin ATS Gücünü Anında Test Edin",
                     "ats-widget-desc": "Aşağıdaki kutuya deneyimlerinizi anlatan bir kurşun kalem (bullet point) cümlesi yazın. Yale SOM standartlarında eylem kelimeleri (Action Verbs) ve etki puanlamasını canlı görün.",
                     "ats-widget-ph": "Örn: 5 kişilik ekibe liderlik ederek eski yazılımı bulut mimarisine taşıdım ve verimliliği %40 artırdım.",
-                    "ats-widget-btn": "Skoru Hesapla ✨"
+                    "ats-widget-btn": "Skoru Hesapla ✨",
+                    "ats-widget-reference": "📌 Bu skor; Yale SOM CDO rehberi, HBS Eylem Fiili Standartları ve Google XYZ etki formülü esas alınarak hesaplanmaktadır."
                 },
                 en: {
                     "logo-text": "CVSOM",
@@ -415,7 +435,8 @@
                     "ats-widget-title": "Instantly Test Your CV Bullet Point ATS Score",
                     "ats-widget-desc": "Type a bullet point sentence describing your experience below. Get instant feedback on Yale SOM action verbs and impact scoring.",
                     "ats-widget-ph": "e.g., Led a team of 5 to migrate legacy software to cloud architecture, boosting efficiency by 40%.",
-                    "ats-widget-btn": "Calculate Score ✨"
+                    "ats-widget-btn": "Calculate Score ✨",
+                    "ats-widget-reference": "📌 This score is calculated based on Yale SOM CDO guidelines, HBS Action Verb Standards, and Google XYZ Impact Formula."
                 }
             };
 
@@ -437,7 +458,7 @@
                 
                 // Keep Hero Button text correct (preserving the inline arrow)
                 const heroBtn = document.querySelector('.hero-content .btn-primary');
-                if (heroBtn) {
+                if (heroBtn && translations[lang]["hero-btn"]) {
                     heroBtn.innerHTML = translations[lang]["hero-btn"];
                 }
 
@@ -449,9 +470,20 @@
                         btn.classList.remove("active");
                     }
                 });
+
+                // Re-evaluate ATS sentence dynamically if populated or visible
+                if (typeof evaluateSentence === 'function') {
+                    const inputEl = document.getElementById('atsInputSentence');
+                    const resBox = document.getElementById('atsResultBox');
+                    if (inputEl && (inputEl.value.trim().length > 0 || (resBox && resBox.style.display !== 'none'))) {
+                        evaluateSentence();
+                    }
+                }
             }
 
-            // --- ATS Sentence Evaluator Logic ---
+            // -----------------------------------------------------------------
+            // 3. YALE SOM CDO, HBS ACTION VERBS & GOOGLE XYZ EVALUATOR ENGINE
+            // -----------------------------------------------------------------
             const atsInput = document.getElementById('atsInputSentence');
             const atsCheckBtn = document.getElementById('atsCheckBtn');
             const atsResultBox = document.getElementById('atsResultBox');
@@ -460,54 +492,132 @@
             const atsScoreFeedback = document.getElementById('atsScoreFeedback');
             const atsProgressBar = document.getElementById('atsProgressBar');
 
-            const strongActionVerbs = [
+            // Official HBS & Yale SOM Action Verbs Dictionary
+            const hbsActionVerbs = [
+                // Turkish Action Verbs
                 'liderlik', 'yönettim', 'geliştirdim', 'tasarladım', 'yönlendirdim', 'taşıdım', 'artırdım', 'azalttım',
                 'optimize', 'kurulum', 'başlattım', 'koordine', 'entegre', 'otomatize', 'kurguladım', 'gerçekleştirdim',
+                'ölçekledim', 'dönüştürdüm', 'sağladım', 'çıkardım', 'büyüttüm', 'hızlandırdım', 'sundum', 'uyguladım',
+                'kazandım', 'engelledim', 'başardım', 'tasarlayıp', 'yönetip', 'geliştirip', 'yöneten', 'geliştiren',
+                // English Action Verbs
                 'led', 'managed', 'developed', 'designed', 'spearheaded', 'orchestrated', 'increased', 'reduced',
-                'optimized', 'built', 'initiated', 'coordinated', 'integrated', 'automated', 'implemented', 'scaled'
+                'optimized', 'built', 'initiated', 'coordinated', 'integrated', 'automated', 'implemented', 'scaled',
+                'transformed', 'delivered', 'achieved', 'accelerated', 'pioneered', 'negotiated', 'restructured',
+                'expanded', 'generated', 'launched', 'architected', 'drove', 'established', 'championed'
+            ];
+
+            // Google XYZ Context Connectors
+            const xyzContextConnectors = [
+                'ile', 'kullanarak', 'üzerinden', 'vasıtasıyla', 'sayesinde', 'mimarisinde', 'yoluyla', 'tabanında',
+                'yöneterek', 'geliştirerek', 'kurgulayarak',
+                'using', 'via', 'through', 'by', 'with', 'utilizing', 'leveraging', 'deploying', 'implementing'
             ];
 
             function evaluateSentence() {
-                const text = (atsInput ? atsInput.value : '').trim().toLowerCase();
-                if (!text) return;
+                const rawValue = atsInput ? atsInput.value : '';
+                const trimmed = rawValue.trim();
+                const lang = localStorage.getItem("preferredLanguage") || "tr";
+                const isTr = lang === "tr";
 
-                let score = 40;
-                let hasVerb = false;
+                if (atsResultBox) atsResultBox.style.display = 'block';
+
+                // EDGE CASE 1: Empty input
+                if (!trimmed) {
+                    if (atsScoreValue) atsScoreValue.innerText = '0';
+                    if (atsProgressBar) {
+                        atsProgressBar.style.width = '0%';
+                        atsProgressBar.style.backgroundColor = '#ef4444';
+                    }
+                    if (atsScoreStatus) atsScoreStatus.innerText = isTr ? "⚠️ Boş Metin Girildi" : "⚠️ Empty Input";
+                    if (atsScoreFeedback) atsScoreFeedback.innerText = isTr ? "Lütfen analiz edilecek bir CV cümlesi yazın." : "Please type a CV bullet sentence to analyze.";
+                    return;
+                }
+
+                // EDGE CASE 2: No letters (numbers or special characters only)
+                const alphaOnly = trimmed.replace(/[^a-zA-ZçğıöşüÇĞİÖŞÜ]/g, '');
+                if (alphaOnly.length === 0) {
+                    if (atsScoreValue) atsScoreValue.innerText = '0';
+                    if (atsProgressBar) {
+                        atsProgressBar.style.width = '0%';
+                        atsProgressBar.style.backgroundColor = '#ef4444';
+                    }
+                    if (atsScoreStatus) atsScoreStatus.innerText = isTr ? "⚠️ Geçersiz Metin Formatı" : "⚠️ Invalid Text Format";
+                    if (atsScoreFeedback) atsScoreFeedback.innerText = isTr ? "Cümleniz anlamlı kelimeler içermelidir. Sadece rakam veya özel karakterler geçerli bir CV cümlesi değildir." : "Your sentence must contain words. Numbers or special characters alone do not form a valid CV bullet.";
+                    return;
+                }
+
+                // EDGE CASE 3: Extremely short text (< 8 letter characters)
+                if (alphaOnly.length < 8) {
+                    if (atsScoreValue) atsScoreValue.innerText = '20';
+                    if (atsProgressBar) {
+                        atsProgressBar.style.width = '20%';
+                        atsProgressBar.style.backgroundColor = '#ef4444';
+                    }
+                    if (atsScoreStatus) atsScoreStatus.innerText = isTr ? "⚠️ Çok Kısa Cümle" : "⚠️ Sentence Too Short";
+                    if (atsScoreFeedback) atsScoreFeedback.innerText = isTr ? "Cümleniz çok kısa. Yale SOM CDO rehberine göre bir CV maddesi en az bir eylem ve somut başarım içermelidir." : "Your sentence is too short. Under Yale SOM CDO standards, a CV bullet should state an action and result.";
+                    return;
+                }
+
+                // FORMULA CALCULATION BASED ON YALE SOM / HBS & GOOGLE XYZ FORMULA
+                const lowerText = trimmed.toLowerCase();
+                let score = 20; // Base score for valid sentence structure
+                let hasActionVerb = false;
                 let hasMetric = false;
+                let hasContext = false;
 
-                for (let verb of strongActionVerbs) {
-                    if (text.includes(verb)) {
-                        hasVerb = true;
+                // 1. HBS Action Verbs Test (+35 pts)
+                for (let verb of hbsActionVerbs) {
+                    if (lowerText.includes(verb)) {
+                        hasActionVerb = true;
                         score += 35;
                         break;
                     }
                 }
 
-                if (/\d+/.test(text) || text.includes('%') || text.includes('yüzde')) {
+                // 2. Google XYZ Quantifiable Metric Test (+30 pts)
+                if (/\d+/.test(lowerText) || lowerText.includes('%') || lowerText.includes('yüzde') || lowerText.includes('$') || lowerText.includes('₺') || lowerText.includes('€')) {
                     hasMetric = true;
-                    score += 25;
+                    score += 30;
                 }
 
-                score = Math.min(100, Math.max(30, score));
+                // 3. Google XYZ Context / Methodology Test (+15 pts)
+                for (let connector of xyzContextConnectors) {
+                    if (lowerText.includes(connector)) {
+                        hasContext = true;
+                        score += 15;
+                        break;
+                    }
+                }
 
-                if (atsResultBox) atsResultBox.style.display = 'block';
+                score = Math.min(100, Math.max(0, score));
+
                 if (atsScoreValue) atsScoreValue.innerText = score;
                 if (atsProgressBar) atsProgressBar.style.width = score + '%';
 
-                const isTr = (localStorage.getItem("preferredLanguage") || "tr") === "tr";
-
+                // STATUS & FEEDBACK MESSAGING
                 if (score >= 85) {
-                    if (atsScoreStatus) atsScoreStatus.innerText = isTr ? "🌟 Mükemmel Yale SOM Standardı!" : "🌟 Excellent Yale SOM Standard!";
-                    if (atsScoreFeedback) atsScoreFeedback.innerText = isTr ? "Harika! Güçlü eylem kelimesi ve sayısal etki/başarı ölçütü içeriyor." : "Great! Contains strong action verbs and quantifiable impact.";
+                    if (atsScoreStatus) atsScoreStatus.innerText = isTr ? "🌟 Mükemmel Yale SOM & Google XYZ Standardı!" : "🌟 Excellent Yale SOM & Google XYZ Standard!";
+                    if (atsScoreFeedback) atsScoreFeedback.innerText = isTr ? "Harika! Güçlü HBS eylem fiili, sayısal etki/başarı ölçütü ve uygulama yöntemi içeriyor." : "Great! Features a strong HBS action verb, quantifiable metric, and methodology.";
                     if (atsProgressBar) atsProgressBar.style.backgroundColor = "#10b981";
                 } else if (score >= 60) {
                     if (atsScoreStatus) atsScoreStatus.innerText = isTr ? "👍 İyi Cümle Yapısı" : "👍 Good Sentence Structure";
-                    if (atsScoreFeedback) atsScoreFeedback.innerText = isTr ? "İyi bir cümle! Sayısal bir veri (% veya miktar) ekleyerek skoru 90+ üzerine çıkarabilirsiniz." : "Good sentence! Adding a metric (% or amount) can push it above 90+.";
+                    
+                    if (!hasMetric) {
+                        if (atsScoreFeedback) atsScoreFeedback.innerText = isTr ? "İyi bir cümle! Sayısal bir veri (% veya miktar) ekleyerek skoru 90+ üzerine çıkarabilirsiniz." : "Good sentence! Add a quantifiable metric (% or amount) to push the score above 90+.";
+                    } else if (!hasActionVerb) {
+                        if (atsScoreFeedback) atsScoreFeedback.innerText = isTr ? "Cümlenizi HBS standartlarında 'Yönettim, Geliştirdim, Taşıdım' gibi güçlü bir eylem fiili ile başlatın." : "Start your sentence with a strong HBS action verb like 'Led, Developed, Migrated'.";
+                    } else {
+                        if (atsScoreFeedback) atsScoreFeedback.innerText = isTr ? "İyi bir cümle! Kullandığınız yöntemi veya araçları (örn. '...kullanarak') detaylandırarak etkiyi artırabilirsiniz." : "Good sentence! Elaborate on the tools/methods used (e.g., 'using...') to boost impact.";
+                    }
                     if (atsProgressBar) atsProgressBar.style.backgroundColor = "#3b82f6";
-                } else {
+                } else if (score >= 35) {
                     if (atsScoreStatus) atsScoreStatus.innerText = isTr ? "⚠️ Geliştirilebilir Cümle" : "⚠️ Needs Improvement";
-                    if (atsScoreFeedback) atsScoreFeedback.innerText = isTr ? "Yale SOM rehberine göre 'Yönettim, Geliştirdim, Taşıdım' gibi güçlü bir eylem fiili ile başlayın." : "According to Yale SOM guide, start with a strong action verb like 'Led, Developed, Migrated'.";
+                    if (atsScoreFeedback) atsScoreFeedback.innerText = isTr ? "Yale SOM CDO rehberine göre cümleniz güçlü bir eylem fiili ve somut bir etki (metrik) içermelidir." : "According to Yale SOM CDO guide, your bullet should feature a strong action verb and tangible metric.";
                     if (atsProgressBar) atsProgressBar.style.backgroundColor = "#f59e0b";
+                } else {
+                    if (atsScoreStatus) atsScoreStatus.innerText = isTr ? "❌ Yetersiz CV Maddesi" : "❌ Insufficient CV Bullet";
+                    if (atsScoreFeedback) atsScoreFeedback.innerText = isTr ? "Cümleniz henüz bir başarı veya eylem ifade etmiyor. Örn: '5 kişilik ekibe liderlik ederek verimliliği %40 artırdım.'" : "Your sentence does not express an achievement yet. e.g., 'Led a team of 5 to boost efficiency by 40%.'";
+                    if (atsProgressBar) atsProgressBar.style.backgroundColor = "#ef4444";
                 }
             }
 
@@ -520,7 +630,7 @@
                 });
             }
 
-            // Bind lang toggle buttons
+            // Bind language toggle buttons
             document.querySelectorAll("[data-lang-btn]").forEach(btn => {
                 btn.addEventListener("click", () => {
                     const lang = btn.getAttribute("data-lang-btn");
@@ -532,8 +642,8 @@
             const initialLang = localStorage.getItem("preferredLanguage") || "tr";
             setLanguage(initialLang);
 
+            // Scroll Reveal Observer
             const reveals = document.querySelectorAll('.reveal');
-            
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {

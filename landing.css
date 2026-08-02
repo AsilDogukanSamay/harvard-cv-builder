@@ -1037,3 +1037,70 @@ body {
     }
 }
 
+/* ATS REFERENCE NOTE & MOBILE OVERFLOW CONTROLS */
+.ats-reference-note {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    text-align: center;
+    font-style: italic;
+}
+
+@media (max-width: 768px) {
+    .hero-mockup {
+        height: auto;
+        min-height: 380px;
+        transform: scale(0.9);
+    }
+    .binder-folder {
+        width: 100%;
+        max-width: 360px;
+        height: auto;
+        min-height: 420px;
+    }
+    .mockup-gold-frame.frame-1 {
+        width: 95%;
+        max-width: 380px;
+        height: 380px;
+    }
+    .mockup-gold-frame.frame-2 {
+        width: 90%;
+        max-width: 360px;
+        height: 360px;
+    }
+    .ats-checker-card {
+        padding: 24px 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 16px;
+    }
+    .hero-content h2 {
+        font-size: 28px;
+    }
+    .hero-mockup {
+        transform: scale(0.82);
+    }
+    .ats-score-display {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    .ats-score-circle {
+        width: 52px;
+        height: 52px;
+        font-size: 18px;
+    }
+    .ats-score-meta h4 {
+        font-size: 14px;
+    }
+    .ats-score-meta p {
+        font-size: 12px;
+    }
+}
+
