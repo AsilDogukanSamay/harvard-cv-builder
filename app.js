@@ -2684,33 +2684,62 @@ function renderCVReferences() {
     if (!container) return;
     container.innerHTML = '';
     
-    const mode = (cvState.settings && cvState.settings.refMode) ? cvState.settings.refMode : 'request';
-    const showRef = (cvState.settings && cvState.settings.showReferences !== undefined) ? cvState.settings.showReferences : false;
+    const showRef = (cvState.settings && cvState.settings.visibility && cvState.settings.visibility.references !== undefined)
+        ? cvState.settings.visibility.references
+        : ((cvState.settings && cvState.settings.showReferences !== undefined) ? cvState.settings.showReferences : false);
     
     if (sec) sec.style.display = showRef ? 'block' : 'none';
     if (!showRef) return;
     
+    const mode = (cvState.settings && cvState.settings.refMode) ? cvState.settings.refMode : 'details';
     const lang = (cvState.settings && cvState.settings.uiLang) ? cvState.settings.uiLang : "tr";
     
     if (mode === 'request') {
-        container.innerHTML = `<div style="grid-column: 1 / -1; font-style: italic; font-size: 13px; color: var(--text-dark-secondary, #555);">
+        container.innerHTML = `<div style="grid-column: 1 / -1; font-style: italic; font-size: 0.95em; color: #444;">
             ${lang === 'en' ? 'References available upon request.' : 'Referanslar talep halinde sunulacaktır.'}
         </div>`;
         return;
     }
     
     const refs = cvState.references || [];
+    if (refs.length === 0) {
+        if (sec) sec.style.display = 'none';
+        return;
+    }
+    
     refs.forEach(r => {
+        if (!r.name && !r.title && !r.company && !r.contact) return;
         const div = document.createElement('div');
         div.className = 'reference-item';
-        let text = `<strong>${r.name || ''}</strong>`;
-        if (r.title) text += `<br><span>${r.title}</span>`;
-        if (r.company) text += `<br><span>${r.company}</span>`;
-        if (r.contact) text += `<br><span style="font-size: 11px; color: #666;">${r.contact}</span>`;
-        div.innerHTML = text;
+        
+        let html = `<div class="ref-name">${r.name || ''}</div>`;
+        
+        let sub = '';
+        if (r.title && r.company) {
+            sub = `${r.title} – ${r.company}`;
+        } else if (r.title) {
+            sub = r.title;
+        } else if (r.company) {
+            sub = r.company;
+        }
+        
+        if (sub) {
+            html += `<div class="ref-sub">${sub}</div>`;
+        }
+        
+        if (r.contact) {
+            let contactText = r.contact.trim();
+            if (/^[0-9+\s\-()]{7,}$/.test(contactText) && !/^(tel|phone|iletişim)/i.test(contactText)) {
+                contactText = `Tel: ${contactText}`;
+            }
+            html += `<div class="ref-contact">${contactText}</div>`;
+        }
+        
+        div.innerHTML = html;
         container.appendChild(div);
     });
 }
+
 
 
 function renderCVExperiences() {
@@ -2752,31 +2781,6 @@ function renderCVExperiences() {
 }
 
 
-function renderCVReferences() {
-    const container = document.getElementById('cv-references-container');
-    if (!container) return;
-    container.innerHTML = '';
-    
-    const refs = cvState.references || [];
-    if (refs.length === 0) {
-        const sec = document.getElementById('cv-section-references');
-        if (sec) sec.style.display = 'none';
-        return;
-    }
-    const sec = document.getElementById('cv-section-references');
-    if (sec) sec.style.display = 'block';
-    
-    refs.forEach(r => {
-        const div = document.createElement('div');
-        div.className = 'entry-block';
-        let text = r.name || '';
-        if (r.title) text += `, ${r.title}`;
-        if (r.company) text += ` — ${r.company}`;
-        if (r.contact) text += ` (${r.contact})`;
-        div.innerHTML = `<div class="entry-subheader"><span class="entry-title">${text}</span></div>`;
-        container.appendChild(div);
-    });
-}
 
 
 function renderCVEducation() {
