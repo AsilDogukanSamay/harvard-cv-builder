@@ -3549,7 +3549,14 @@ function isBulletPointLine(line) {
     if (!line) return false;
     const str = line.trim();
     if (str.startsWith('•') || str.startsWith('-') || str.startsWith('*')) return true;
-    if (str.length > 70) return true;
+    
+    // Lowercase starting lines are continuations of previous sentences/bullets
+    const firstChar = str.charAt(0);
+    if (firstChar === firstChar.toLowerCase() && firstChar !== firstChar.toUpperCase()) {
+        return false;
+    }
+
+    if (str.length > 75) return true;
     
     const verbs = [
         "yönetti", "geliştirdi", "kurguladı", "hazırladı", "sağladı", "raporladı", "sundu", "kazandı", "azalttı",
@@ -3569,7 +3576,7 @@ function parseCertItem(certStr) {
     }
     
     let year = "";
-    const yearMatch = str.match(/\b(20\d{2}|19\d{2})\b/);
+    const yearMatch = str.match(/\b(20\d{2}(?:\s*[-–—]\s*20\d{2})?|19\d{2})\b/);
     if (yearMatch) {
         year = yearMatch[0];
         str = str.replace(yearMatch[0], "").replace(/,\s*$/, "").replace(/\(\s*\)/, "").trim();
@@ -3601,7 +3608,10 @@ function cleanPDFText(rawText) {
     if (!rawText) return "";
     let text = rawText;
     
-    // Explicit repairs for common PDF heading/title glyph split artifacts
+    // Explicit string fixes for glued header text
+    text = text.replace(/SamayİşGeliştirme/g, "Samay İş Geliştirme");
+    text = text.replace(/Samayİş/g, "Samay İş");
+    text = text.replace(/StajyerİşAnalisti/g, "Stajyer İş Analisti");
     const REPAIRS = {
         "DENEY İ M": "DENEYİM", "E Ğ İ T İ M": "EĞİTİM", "L İ DERL İ K": "LİDERLİK",
         "İ Ş DENEY İ M İ": "İŞ DENEYİMİ", "SERT İ F İ KALAR": "SERTİFİKALAR",
@@ -3612,6 +3622,7 @@ function cleanPDFText(rawText) {
         "Geliş tirme": "Geliştirme", "Biliş im": "Bilişim", "Görselleş tirme": "Görselleştirme",
         "Ba ş kanı": "Başkanı", "İ ş": "İş", "ş tirmesini": "ştirmesini", "İ zmir": "İzmir",
         "SamayİşGeliştirme": "Samay İş Geliştirme",
+        "Samayİş": "Samay İş",
         "StajyerİşAnalisti": "Stajyer İş Analisti",
         "LOCOMARİzmir": "LOCOMAR İzmir",
         "TEKNOLOJİAKADEMİSİ": "TEKNOLOJİ AKADEMİSİ",
@@ -3625,16 +3636,24 @@ function cleanPDFText(rawText) {
         "satışve": "satış ve",
         "İşGeliştirme": "İş Geliştirme",
         "Evvel Zamanİçinde": "Evvel Zaman İçinde",
-        "Ekran Zamanında!projesinde": "Ekran Zamanında! projesinde"
+        "Ekran Zamanında!projesinde": "Ekran Zamanında! projesinde",
+        "EĞİTİMİSTANBUL": "EĞİTİM\nİSTANBUL",
+        "EĞİTİMİ": "EĞİTİM\nİ",
+        "YETENEKLER, SERTİFİKALAR VEİLGİ ALANLARI": "YETENEKLER, SERTİFİKALAR VE İLGİ ALANLARI",
+        "YETENEKLER, SERTİFİKALAR VEİLGİ": "YETENEKLER, SERTİFİKALAR VE İLGİ"
     };
     
     for (const [bad, good] of Object.entries(REPAIRS)) {
         text = text.replaceAll(bad, good);
     }
+
+    // Force section headers onto separate lines
+    const sectionHeaderRegex = /(PROFESYONEL ÖZET|ÖZET|SUMMARY|DENEYİM|İŞ DENEYİMİ|EXPERIENCE|EĞİTİM|EDUCATION|LİDERLİK VE GÖNÜLLÜLÜK|LİDERLİK|GÖNÜLLÜLÜK|LEADERSHIP|YETENEKLER, SERTİFİKALAR VE İLGİ ALANLARI|YETENEKLER[^\n]*|SERTİFİKALAR|CERTIFICATIONS|REFERANSLAR|REFERENCES)/gu;
+    text = text.replace(sectionHeaderRegex, '\n$1\n');
     
-    // Fix smashed camelCase/Unicode boundaries with 'gu' flag
-    text = text.replace(/([a-zçğıöşü])([A-ZÇĞİÖŞÜ])/gu, '$1 $2');
-    text = text.replace(/([A-ZÇĞİÖŞÜ]{2,})([A-ZÇĞİÖŞÜ][a-zçğıöşü])/gu, '$1 $2');
+    // Fix smashed camelCase/Unicode boundaries
+    text = text.replace(/([a-zçğıöşü])([A-ZÇĞİÖŞÜ])/g, '$1 $2');
+    text = text.replace(/([A-ZÇĞİÖŞÜ]{2,})([A-ZÇĞİÖŞÜ][a-zçğıöşü])/g, '$1 $2');
     
     // Fix isolated single diacritic letters surrounded by spaces
     text = text.replace(/(\b[a-zA-ZÇĞİÖŞÜçğıöşü]{2,}[a-zA-Zçğıöşü])\s+([ğşğıiöüçİĞŞÖÜÇ])(\s+|$)/g, '$1$2$3');
@@ -3650,7 +3669,11 @@ async function extractTextFromPDF(arrayBuffer) {
     }
     
     try {
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        if (typeof require !== 'undefined') {
+            pdfjsLib.GlobalWorkerOptions.workerSrc = require.resolve('pdfjs-dist/legacy/build/pdf.worker.js');
+        } else {
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        }
     } catch (e) {
         console.warn("Worker setting warning:", e);
     }
@@ -3698,7 +3721,7 @@ async function extractTextFromPDF(arrayBuffer) {
                 }
             }
 
-            if (currentLine && !currentLine.endsWith(' ') && !str.startsWith(' ') && (needSpace || /^[a-zA-ZÇĞİÖŞÜçğıöşü0-9]/.test(str))) {
+            if (currentLine && !currentLine.endsWith(' ') && !str.startsWith(' ') && (needSpace || /^[\p{L}\p{N}]/u.test(str))) {
                 currentLine += " ";
             }
             
@@ -3775,35 +3798,35 @@ function parseCVTextToState(rawText) {
     const lines = cleanedText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
     if (lines.length === 0) return newState;
 
-    let headerLine = lines[0];
+    let headerLine = cleanPDFText(lines[0]);
     if (headerLine.toLowerCase().includes("curriculum") || headerLine.toLowerCase().includes("resume") || headerLine.toLowerCase().includes("cv")) {
-        if (lines[1]) headerLine = lines[1];
+        if (lines[1]) headerLine = cleanPDFText(lines[1]);
     }
     
     // Dissect Name vs Title if merged on first line
-    const titleKeywords = ["Uzmanı", "Analisti", "Mühendisi", "Stajyeri", "Yöneticisi", "Lideri", "Geliştirici", "Asistanı", "Specialist", "Engineer", "Manager", "Analyst", "Lead", "Developer", "Architect", "Consultant", "Director"];
+    const cleanHeader = cleanPDFText(headerLine);
+    const rawWords = cleanHeader.split(/\s+/);
+    let detectedName = cleanHeader;
     let detectedTitle = "";
-    let detectedName = headerLine;
 
-    for (const tkw of titleKeywords) {
-        const idx = headerLine.indexOf(tkw);
-        if (idx > 0) {
-            const words = headerLine.substring(0, idx).trim().split(/\s+/);
-            if (words.length >= 2) {
-                let nameWordCount = 2;
-                if (words.length >= 3 && /^[A-ZÇĞİÖŞÜ]/.test(words[2])) {
-                    if (!["İş", "Veri", "Yazılım", "Süreç", "Ürün", "Kıdemli", "Senior", "Junior", "Lead", "Full-Stack", "Product", "Data", "Business"].includes(words[2])) {
-                        nameWordCount = 3;
-                    }
-                }
-                detectedName = words.slice(0, nameWordCount).join(' ');
-                detectedTitle = headerLine.substring(detectedName.length).replace(/^[\s|–—-]+/, '').trim();
-                break;
+    if (rawWords.length >= 2) {
+        let nameCount = 2;
+        if (rawWords.length >= 3 && /^[A-ZÇĞİÖŞÜ]/.test(rawWords[2])) {
+            const w2Lower = rawWords[2].toLowerCase();
+            if (!["iş", "veri", "yazılım", "süreç", "ürün", "kıdemli", "senior", "junior", "lead", "full-stack", "product", "data", "business", "&"].includes(w2Lower)) {
+                nameCount = 3;
             }
         }
+        detectedName = rawWords.slice(0, nameCount).join(' ');
+        detectedTitle = cleanHeader.substring(cleanHeader.indexOf(detectedName) + detectedName.length).replace(/^[\s|–—-]+/, '').trim();
     }
-    newState.personal.name = detectedName;
-    if (detectedTitle) newState.personal.title = detectedTitle;
+
+    newState.personal.name = detectedName.replace(/İş.*$/gi, '').replace(/Veri.*$/gi, '').replace(/Stajyer.*$/gi, '').trim();
+    if (detectedTitle) {
+        newState.personal.title = detectedTitle.replace(/^[\s|–—&-]+/, '').trim();
+    } else if (cleanHeader.length > newState.personal.name.length) {
+        newState.personal.title = cleanHeader.substring(cleanHeader.indexOf(newState.personal.name) + newState.personal.name.length).replace(/^[\s|–—-]+/, '').trim();
+    }
 
     const SECTION_KEYS_NORM = {
         SUMMARY: ["PROFESYONELOZET", "HAKKIMDA", "OZET", "SUMMARY", "ABOUTME", "OBJECTIVE", "PROFILE"],
@@ -3815,19 +3838,53 @@ function parseCVTextToState(rawText) {
         REFS: ["REFERANSLAR", "REFERENCES"]
     };
 
+    // Pre-process lines to isolate fused Section Headers (e.g. "EĞİTİM İSTANBUL..." -> "EĞİTİM", "İSTANBUL...")
+    const processedLines = [];
+    const allHeaderKeywords = [
+        "PROFESYONEL ÖZET", "ÖZET", "SUMMARY", "ABOUT ME",
+        "DENEYİM", "İŞ DENEYİMİ", "İŞ DENEYİMLERİ", "EXPERIENCE", "WORK EXPERIENCE",
+        "EĞİTİM", "EĞİTİM BİLGİLERİ", "EDUCATION",
+        "LİDERLİK VE GÖNÜLLÜLÜK", "LİDERLİK", "GÖNÜLLÜLÜK", "LEADERSHIP", "VOLUNTEERING",
+        "YETENEKLER, SERTİFİKALAR VE İLGİ ALANLARI", "YETENEKLER VE SERTİFİKALAR", "YETENEKLER", "BECERİLER", "SKILLS", "TECHNICAL SKILLS",
+        "SERTİFİKALAR", "CERTIFICATIONS",
+        "REFERANSLAR", "REFERENCES"
+    ];
+
+    lines.forEach(l => {
+        let lineStr = l.trim();
+        let splitDone = false;
+        for (const kw of allHeaderKeywords) {
+            const normL = normalizeHeaderKey(lineStr);
+            const normKw = normalizeHeaderKey(kw);
+            if (normL !== normKw && normL.startsWith(normKw)) {
+                const matchIndex = lineStr.toUpperCase().indexOf(kw.toUpperCase());
+                if (matchIndex === 0) {
+                    const headerPart = lineStr.substring(0, kw.length).trim();
+                    const restPart = lineStr.substring(kw.length).replace(/^[:\s–—-]+/, '').trim();
+                    if (restPart) {
+                        processedLines.push(headerPart);
+                        processedLines.push(restPart);
+                        splitDone = true;
+                        break;
+                    }
+                }
+            }
+        }
+        if (!splitDone) processedLines.push(lineStr);
+    });
+
     let currentSec = null;
     const sections = { SUMMARY: [], EXPERIENCE: [], EDUCATION: [], LEADERSHIP: [], SKILLS: [], CERTS: [], REFS: [] };
 
-    for (let i = 1; i < lines.length; i++) {
-        const line = lines[i];
+    for (let i = 1; i < processedLines.length; i++) {
+        const line = processedLines[i];
         const normLine = normalizeHeaderKey(line);
         let matchedSec = null;
 
         for (const [secCode, keywords] of Object.entries(SECTION_KEYS_NORM)) {
             if (keywords.some(kw => {
                 if (normLine === kw) return true;
-                // Only match prefix if line is short (header, not a sentence) and not starting with a bullet
-                return line.length <= 40 && !line.trim().startsWith('•') && !line.trim().startsWith('-') && normLine.startsWith(kw) && (normLine.length - kw.length) <= 10;
+                return line.length <= 45 && !line.trim().startsWith('•') && !line.trim().startsWith('-') && (normLine.startsWith(kw) || normLine === kw) && (normLine.length - kw.length) <= 10;
             })) {
                 matchedSec = secCode;
                 break;
@@ -3841,7 +3898,7 @@ function parseCVTextToState(rawText) {
         } else {
             if (!newState.personal.location && (line.includes('/') || line.includes('İstanbul') || line.includes('Ankara') || line.includes('Izmir') || line.includes('Turkey') || line.includes('Türkiye') || line.includes('Çanakkale') || line.includes('Sancaktepe'))) {
                 newState.personal.location = line.replace(/^.*?\|\s*/, '').trim();
-            } else if (!newState.personal.title && !line.includes('@') && !line.includes('http')) {
+            } else if (!newState.personal.title && !line.includes('@') && !line.includes('http') && line.length < 50) {
                 newState.personal.title = line;
             }
         }
@@ -3865,7 +3922,15 @@ function parseCVTextToState(rawText) {
 
             // Guard: If line is a bullet point, append to current experience or skip
             if (isBulletPointLine(line) && newState.experiences.length > 0) {
-                newState.experiences[newState.experiences.length - 1].bullets.push(line.replace(/^[•\-\*]\s*/, ''));
+                const firstChar = line.charAt(0);
+                const isLowercase = (firstChar === firstChar.toLowerCase() && firstChar !== firstChar.toUpperCase());
+                const lastBullets = newState.experiences[newState.experiences.length - 1].bullets;
+                
+                if (isLowercase && lastBullets.length > 0) {
+                    lastBullets[lastBullets.length - 1] += ' ' + line;
+                } else {
+                    lastBullets.push(line.replace(/^[•\-\*]\s*/, ''));
+                }
                 i++;
                 continue;
             }
@@ -3886,18 +3951,32 @@ function parseCVTextToState(rawText) {
 
                 for (const city of cities) {
                     if (compLine.includes(city)) {
-                        location = compLine.includes("Türkiye") ? compLine.substring(compLine.indexOf(city)).trim() : `${city}, Türkiye`;
-                        compLine = compLine.replace(location, "").replace(city, "").replace(",", "").trim();
+                        const cityIdx = compLine.indexOf(city);
+                        const locEndIdx = compLine.indexOf("Türkiye", cityIdx);
+                        let locString = "";
+                        if (locEndIdx !== -1) {
+                            locString = compLine.substring(cityIdx, locEndIdx + 7).trim();
+                        } else {
+                            locString = `${city}, Türkiye`;
+                        }
+                        location = locString;
+                        
+                        const beforeLoc = compLine.substring(0, cityIdx).replace(/,/g, '').trim();
+                        const afterLoc = (locEndIdx !== -1) ? compLine.substring(locEndIdx + 7).replace(/,/g, '').trim() : compLine.substring(cityIdx + city.length).replace(/,/g, '').trim();
+                        
+                        if (beforeLoc) company = beforeLoc;
+                        if (afterLoc) role = afterLoc;
                         break;
                     }
                 }
-                company = compLine;
+                if (!company) company = compLine;
 
                 const match = roleLine.match(dateRegex);
                 if (match) {
                     dates = match[0].trim();
-                    role = roleLine.replace(dates, "").trim();
-                } else {
+                    const cleanRoleStr = roleLine.replace(dates, "").replace(company, "").replace(/^[-–—,\s]+|[-–—,\s]+$/g, '').trim();
+                    if (cleanRoleStr) role = cleanRoleStr;
+                } else if (!role) {
                     role = roleLine;
                 }
             } else if (hasDate) {
@@ -3908,17 +3987,37 @@ function parseCVTextToState(rawText) {
                 }
                 for (const city of cities) {
                     if (line.includes(city)) {
-                        location = line.includes("Türkiye") ? line.substring(line.indexOf(city)).trim() : `${city}, Türkiye`;
-                        line = line.replace(location, "").replace(city, "").replace(",", "").trim();
+                        const cityIdx = line.indexOf(city);
+                        const locEndIdx = line.indexOf("Türkiye", cityIdx);
+                        let locString = "";
+                        if (locEndIdx !== -1) {
+                            locString = line.substring(cityIdx, locEndIdx + 7).trim();
+                        } else {
+                            locString = `${city}, Türkiye`;
+                        }
+                        location = locString;
+                        
+                        const beforeLoc = line.substring(0, cityIdx).replace(/,/g, '').trim();
+                        const afterLoc = (locEndIdx !== -1) ? line.substring(locEndIdx + 7).replace(/,/g, '').trim() : line.substring(cityIdx + city.length).replace(/,/g, '').trim();
+                        
+                        if (beforeLoc) company = beforeLoc;
+                        if (afterLoc) role = afterLoc;
                         break;
                     }
                 }
-                company = line;
-                role = line;
+                if (!company) company = line;
+                if (!role) role = line;
                 i += 1;
             } else {
                 if (newState.experiences.length > 0) {
-                    newState.experiences[newState.experiences.length - 1].bullets.push(line.replace(/^[•\-\*]\s*/, ''));
+                    const firstChar = line.charAt(0);
+                    const isLowercase = (firstChar === firstChar.toLowerCase() && firstChar !== firstChar.toUpperCase());
+                    const lastBullets = newState.experiences[newState.experiences.length - 1].bullets;
+                    if (isLowercase && lastBullets.length > 0) {
+                        lastBullets[lastBullets.length - 1] += ' ' + line;
+                    } else {
+                        lastBullets.push(line.replace(/^[•\-\*]\s*/, ''));
+                    }
                 }
                 i += 1;
                 continue;
@@ -3936,7 +4035,13 @@ function parseCVTextToState(rawText) {
                         let bline = expLines[i].trim();
                         if (!bline) { i++; continue; }
                         if (isBulletPointLine(bline) || (!dateRegex.test(bline) && !cities.some(c => bline.includes(c)))) {
-                            lastExp.bullets.push(bline.replace(/^[•\-\*]\s*/, ''));
+                            const firstChar = bline.charAt(0);
+                            const isLowercase = (firstChar === firstChar.toLowerCase() && firstChar !== firstChar.toUpperCase());
+                            if (isLowercase && lastExp.bullets.length > 0) {
+                                lastExp.bullets[lastExp.bullets.length - 1] += ' ' + bline;
+                            } else {
+                                lastExp.bullets.push(bline.replace(/^[•\-\*]\s*/, ''));
+                            }
                             i++;
                         } else {
                             break;
@@ -3958,7 +4063,13 @@ function parseCVTextToState(rawText) {
                 let bline = expLines[i].trim();
                 if (!bline) { i++; continue; }
                 if (isBulletPointLine(bline) || (!dateRegex.test(bline) && !cities.some(c => bline.includes(c)))) {
-                    exp.bullets.push(bline.replace(/^[•\-\*]\s*/, ''));
+                    const firstChar = bline.charAt(0);
+                    const isLowercase = (firstChar === firstChar.toLowerCase() && firstChar !== firstChar.toUpperCase());
+                    if (isLowercase && exp.bullets.length > 0) {
+                        exp.bullets[exp.bullets.length - 1] += ' ' + bline;
+                    } else {
+                        exp.bullets.push(bline.replace(/^[•\-\*]\s*/, ''));
+                    }
                     i++;
                 } else {
                     break;
@@ -4042,54 +4153,55 @@ function parseCVTextToState(rawText) {
     if (sections.LEADERSHIP.length > 0) {
         const leadLines = sections.LEADERSHIP;
         let i = 0;
+        let currentLead = null;
+
         while (i < leadLines.length) {
             let line = leadLines[i].trim();
             if (!line) { i++; continue; }
 
-            let datesStr = "";
-            let orgLine = line;
+            const hasDate = dateRegex.test(line) || /\b(20\d{2}|19\d{2})\b/.test(line);
+            const hasOrgKeyword = line.includes("Akademisi") || line.includes("Kulüpleri") || line.includes("Kulübü") || line.includes("Derneği") || line.includes("Vakfı") || line.includes("Topluluğu");
 
-            const match = line.match(dateRegex) || line.match(/\b(20\d{2}\s*[-–—]?\s*\d{0,4})\b/);
-            if (match) {
-                datesStr = match[0].trim();
-                orgLine = line.replace(datesStr, '').replace(/Ediyor\s*$/, '').replace(/[-–—]\s*$/, '').trim();
-                if (datesStr.includes("Devam") && !datesStr.includes("Devam Ediyor")) {
-                    datesStr = datesStr.replace("Devam", "Devam Ediyor");
+            if ((hasOrgKeyword || hasDate) && !isBulletPointLine(line) && line.length < 75) {
+                if (currentLead && (currentLead.organization || currentLead.role)) {
+                    newState.leaderships.push(currentLead);
                 }
-            }
 
-            let roleLine = "";
-            if (i + 1 < leadLines.length && !dateRegex.test(leadLines[i+1]) && !isBulletPointLine(leadLines[i+1])) {
-                roleLine = leadLines[i+1].trim();
-                i++;
-            }
+                let datesStr = "";
+                let orgLine = line;
+                const match = line.match(dateRegex) || line.match(/\b(20\d{2}\s*[-–—]?\s*\d{0,4})\b/);
+                if (match) {
+                    datesStr = match[0].trim();
+                    orgLine = line.replace(match[0], '').replace(/Ediyor\s*$/, '').replace(/[-–—]\s*$/, '').trim();
+                    if (datesStr.includes("Devam") && !datesStr.includes("Devam Ediyor")) {
+                        datesStr = datesStr.replace("Devam", "Devam Ediyor");
+                    }
+                }
 
-            const lead = {
-                organization: orgLine || "",
-                role: roleLine || "",
-                dates: datesStr || "",
-                bullets: []
-            };
-
-            i++;
-            while (i < leadLines.length) {
-                let bline = leadLines[i].trim();
-                if (!bline) { i++; continue; }
-                
-                // If line starts a new leadership organization header (e.g. Habitat Derneği & Netflix or has dates)
-                const hasOrgHeaderKeywords = bline.includes("Derneği") || bline.includes("Kulübü") || bline.includes("Akademisi") || bline.includes("Vakfı");
-                if ((dateRegex.test(bline) || hasOrgHeaderKeywords) && !bline.startsWith('•') && !bline.startsWith('-')) break;
-
-                if (bline.startsWith('•') || bline.startsWith('-') || bline.startsWith('*')) {
-                    lead.bullets.push(bline.replace(/^[•\-\*]\s*/, ''));
-                } else if (lead.bullets.length > 0) {
-                    lead.bullets[lead.bullets.length - 1] += ' ' + bline;
+                currentLead = {
+                    organization: orgLine,
+                    role: "",
+                    dates: datesStr,
+                    bullets: []
+                };
+            } else if (currentLead) {
+                if (!currentLead.role && !isBulletPointLine(line) && line.length < 60 && !line.startsWith('•') && !line.startsWith('-')) {
+                    currentLead.role = line;
                 } else {
-                    lead.bullets.push(bline);
+                    const firstChar = line.charAt(0);
+                    const isLowercase = (firstChar === firstChar.toLowerCase() && firstChar !== firstChar.toUpperCase());
+                    
+                    if (isLowercase && currentLead.bullets.length > 0) {
+                        currentLead.bullets[currentLead.bullets.length - 1] += ' ' + line;
+                    } else {
+                        currentLead.bullets.push(line.replace(/^[•\-\*]\s*/, ''));
+                    }
                 }
-                i++;
             }
-            newState.leaderships.push(lead);
+            i++;
+        }
+        if (currentLead && (currentLead.organization || currentLead.role)) {
+            newState.leaderships.push(currentLead);
         }
     }
 
@@ -4104,6 +4216,9 @@ function parseCVTextToState(rawText) {
         sections.SKILLS.forEach(line => {
             const cleanLine = line.replace(/^[•\-\*]\s*/, '').trim();
             if (!cleanLine) return;
+
+            const upper = cleanLine.toUpperCase();
+            if (upper.startsWith("YETENEKLER") || upper.startsWith("BECERİLER") || upper.startsWith("SKILLS") || upper.includes("SERTİFİKALAR VE") || upper.includes("İLGİ ALANLARI")) return;
 
             const lower = cleanLine.toLowerCase();
 
@@ -4137,24 +4252,64 @@ function parseCVTextToState(rawText) {
 
         if (certList.length > 0) {
             certList.forEach(c => {
-                const subCerts = c.split(/,(?![^(]*\))/);
-                subCerts.forEach(sc => {
-                    const parsedCert = parseCertItem(sc);
+                const rawCerts = c.split(/\),\s*/);
+                rawCerts.forEach(sc => {
+                    let item = sc.trim();
+                    if (!item.endsWith(')') && item.includes('(')) item += ')';
+                    const parsedCert = parseCertItem(item);
                     if (parsedCert) newState.certifications.push(parsedCert);
                 });
             });
         }
     }
 
-    // 5. Certifications Parsing
+    // 5. Standalone Certifications Section Parsing
     if (sections.CERTS.length > 0) {
         sections.CERTS.forEach(line => {
-            const cleanLine = line.replace(/^[•\-\*]\s*/, '').trim();
-            if (cleanLine.length > 3) {
-                const parsedCert = parseCertItem(cleanLine);
+            const rawCerts = line.split(/\),\s*/);
+            rawCerts.forEach(sc => {
+                let item = sc.trim();
+                if (!item.endsWith(')') && item.includes('(')) item += ')';
+                const parsedCert = parseCertItem(item);
                 if (parsedCert) newState.certifications.push(parsedCert);
+            });
+        });
+    }
+
+    // 6. References Parsing
+    if (sections.REFS.length > 0) {
+        const refLines = sections.REFS;
+        let currentRef = null;
+        
+        refLines.forEach(line => {
+            const clean = line.trim();
+            if (!clean) return;
+
+            if (clean.toLowerCase().includes("tel:") || clean.toLowerCase().includes("phone:") || /[\d\s\-+()]{9,}/.test(clean)) {
+                if (currentRef) {
+                    currentRef.phone = clean.replace(/^(Tel|Phone|Telefon):\s*/i, '').trim();
+                    newState.references.push(currentRef);
+                    currentRef = null;
+                }
+            } else if (clean.includes('@')) {
+                if (currentRef) {
+                    currentRef.email = clean.trim();
+                }
+            } else if (!currentRef) {
+                currentRef = { name: clean, title: "", company: "", phone: "", email: "" };
+            } else if (currentRef && !currentRef.title) {
+                if (clean.includes('–') || clean.includes('-')) {
+                    const parts = clean.split(/–|-/);
+                    currentRef.title = parts[0].trim();
+                    currentRef.company = parts.slice(1).join('-').trim();
+                } else {
+                    currentRef.title = clean;
+                }
             }
         });
+        if (currentRef && currentRef.name) {
+            newState.references.push(currentRef);
+        }
     }
 
     return newState;
