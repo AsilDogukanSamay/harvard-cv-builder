@@ -2180,14 +2180,14 @@ function askAIAssistant(promptType) {
 
 
 function injectPDFEmbeddedStateMeta() {
-    const previewContainer = document.getElementById('cv-preview');
+    const previewContainer = document.getElementById('cv-document');
     if (!previewContainer) return;
     
     let metaEl = document.getElementById('cvsom-pdf-meta');
     if (!metaEl) {
         metaEl = document.createElement('div');
         metaEl.id = 'cvsom-pdf-meta';
-        metaEl.style.cssText = 'font-size: 0.1px; line-height: 0.1px; color: #ffffff; height: 1px; width: 1px; overflow: hidden; opacity: 0.001; pointer-events: none; position: absolute; bottom: 0; right: 0; z-index: -9999;';
+        metaEl.style.cssText = 'font-size: 1px; line-height: 1px; color: #ffffff; white-space: nowrap; overflow: visible; opacity: 0.001; pointer-events: none; position: absolute; bottom: 0; right: 0; z-index: -9999;';
         previewContainer.appendChild(metaEl);
     }
     try {
