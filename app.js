@@ -115,208 +115,8 @@ function loadSampleCV(presetType) {
 }
 
 
-// Initial CV data state
-var cvState = {
-    "personal": {
-        "name": "Asil Doğukan Samay",
-        "title": "Yönetim Bilişim Sistemleri Uzmanı",
-        "email": "dogukan__sam_ay@hotmail.com",
-        "phone": "+90 544 331 76 20",
-        "location": "Çanakkale, Türkiye",
-        "github": "github.com/AsilDogukan-Samay",
-        "linkedin": "linkedin.com/in/asil-dogukan-samay",
-        "website": "asildogukansamay.github.io",
-        "summary": "Veri analitiği, süreç otomasyonu ve yazılım geliştirme konularına odaklanan, teknik mühendislik ekipleri ile kurumsal iş operasyonları arasındaki koordinasyonu sağlama konusunda deneyim sahibi Yönetim Bilişim Sistemleri (MIS) uzmanı. Ölçeklenebilir veri hatları kurgulama, karmaşık iş akışlarını otomatize etme ve REST API entegrasyonları tasarlama konularında yetkin. Uluslararası ve büyük kurumsal yapılarda teknoloji odaklı değer yaratmayı hedeflemektedir."
-    },
-    "experiences": [
-        {
-            "company": "MEDİBULUT",
-            "role": "Ürün Yönetimi ve CRM Stajyeri",
-            "location": "Çanakkale, Türkiye",
-            "dates": "Eylül 2025 - Haziran 2026",
-            "bullets": [
-                "Yazılım geliştirme, satış ve operasyon ekipleri arasındaki iletişimi koordine ederek iş akış süreçlerinin entegrasyonunu yönetti.",
-                "Saha satış ekiplerinin anlık konum ve performans takibi için Python ve SQL tabanlı entegre platform tasarlayıp geliştirdi; tüm veri mimarisi ve UI aşamalarını yönetti.",
-                "n8n entegrasyon aracı ile HubSpot ve Slack bağlantılarını kurguladı; lead takip ve müşteri geri bildirim süreçlerini tam otomatize hale getirerek yanıt sürelerini %35 iyileştirdi.",
-                "CRM sistemleri üzerinden geniş ölçekli müşteri verilerini analiz ederek satış trendleri ve kullanıcı davranışlarına yönelik stratejik raporlar hazırladı."
-            ]
-        },
-        {
-            "company": "SOFTTECH",
-            "role": "Stajyer İş Analisti",
-            "location": "İstanbul, Türkiye",
-            "dates": "Ağustos 2025 - Eylül 2025",
-            "bullets": [
-                "Sprint takibi, metrik analizi ve günlük veri raporlama süreçlerini yürüterek Agile/Scrum operasyonlarına ve disiplinlerarası ekip içi koordinasyona destek sağladı."
-            ]
-        },
-        {
-            "company": "KOÇTAŞ",
-            "role": "Stajyer (S.T.E.P. Programı)",
-            "location": "Çanakkale, Türkiye",
-            "dates": "Temmuz 2025 - Ağustos 2025",
-            "bullets": [
-                "Türkiye genelindeki katılımcılar arasında düzenlenen proje yarışmasında 'Koçtaş Kids' departman geliştirme projesiyle Birincilik Ödülü kazandı.",
-                "Ürün yerleşimi, stok takibi ve fiyat kontrolü süreçlerini yöneterek operasyonel verimlilik analizleri gerçekleştirdi; stok denetim sapmalarını %20 azalttı."
-            ]
-        },
-        {
-            "company": "LOCOMAR",
-            "role": "İş Geliştirme Asistanı",
-            "location": "İzmir, Türkiye",
-            "dates": "Nisan 2025 - Haziran 2025",
-            "bullets": [
-                "B2B pazarlama süreçlerini analiz ederek; pazar analizi ve rakip araştırmalarıyla yeni müşteri kazanım stratejilerinin geliştirilmesini sağladı."
-            ]
-        },
-        {
-            "company": "VITRIOL",
-            "role": "Siber Güvenlik Stajyeri",
-            "location": "İstanbul, Türkiye",
-            "dates": "Eylül 2023 - Haziran 2024",
-            "bullets": [
-                "BT altyapısı ve veri analizi süreçlerinde görev alarak siber güvenlik projelerine teknik destek sağladı; sistem analiz ve güvenlik prosedürlerini raporladı."
-            ]
-        },
-        {
-            "company": "DENİZBANK",
-            "role": "Stajyer",
-            "location": "İstanbul, Türkiye",
-            "dates": "Mart 2023 - Haziran 2023",
-            "bullets": [
-                "Staj programı kapsamında gösterdiği yüksek performansla 100'den fazla aday arasından Birincilik Ödülü kazandı.",
-                "Hazırladığı analitik finansal araştırma makalesini kurumsal içerik olarak yayımlayarak bankanın resmi dijital kanallarında yaygınlaştırdı.",
-                "Finansal süreçleri ve bankacılık iş akışlarını 4 farklı departmanda deneyimleyerek kurumsal operasyonel verimlilik raporları sundu."
-            ]
-        }
-    ],
-    "educations": [
-        {
-            "university": "İSTANBUL GEDİK ÜNİVERSİTESİ",
-            "degree": "Lisans, Yönetim Bilişim Sistemleri (MIS)",
-            "location": "İstanbul, Türkiye",
-            "dates": "Eylül 2022 - Mayıs 2026",
-            "gpa": "3.15 / 4.00",
-            "details": ""
-        }
-    ],
-    "leaderships": [
-        {
-            "organization": "YAPAY ZEKA VE TEKNOLOJİ AKADEMİSİ",
-            "role": "Veri Bilimi Programı Bursiyeri",
-            "dates": "Aralık 2025 - Devam Ediyor",
-            "bullets": [
-                "Türkiye genelinden gelen 31.700 başvuru arasından üstün başarı göstererek kabul alan 1.500 bursiyerden biri (%4,7'lik başarı dilimi) olarak seçildi.",
-                "Google Türkiye, GİRVAK ve T3 Girişim Merkezi ortaklığında düzenlenen 100 saatten fazla yoğun veri bilimi, veri işleme ve yapay zeka eğitim programını tamamladı."
-            ]
-        },
-        {
-            "organization": "İSTANBUL GEDİK ÜNİVERSİTESİ KULÜPLERİ",
-            "role": "Kulüp Başkanı | Yönetim Kurulu Üyesi",
-            "dates": "2022 - 2023",
-            "bullets": [
-                "Siber Güvenlik & MIS Kulübü Başkanı olarak 300'den fazla öğrenciye ulaştı; teknik workshoplar ve siber güvenlik farkındalık eğitimleri organize etti.",
-                "Kariyer Kulübü Yönetim Kurulu Üyesi olarak öğrenci kariyer gelişim etkinliklerini ve sektör panellerini koordine etti."
-            ]
-        },
-        {
-            "organization": "Habitat Derneği & Netflix",
-            "role": "Gönüllü Eğitmen",
-            "dates": "2022 - 2023",
-            "bullets": [
-                "Çocukların dijital dünyada güvenli adımlar atmasını sağlamak amacıyla 'Evvel Zaman İçinde Ekran Zamanında!' projesinde 500'den fazla çocuğa eğitim sundu.",
-                "Erken yaş grubuna yönelik dijital güvenlik, doğru bilgiye erişim ve siber zorbalık farkındalığı eğitim metodolojisi kurguladı."
-            ]
-        }
-    ],
-    "skills": {
-        "technical": "SQL, Python, JavaScript, React.js, Node.js, HTML/CSS, REST API, Streamlit, Tableau, Power BI, Excel, Veri Analizi ve Görselleştirme, Agile/Scrum",
-        "tools": "Git, GitHub, n8n Otomasyon, Jira, VS Code, Chrome DevTools, MSSQL Server, Active Directory, Figma, Vite, MS Office",
-        "langs": "Türkçe (Anadil), İngilizce (İleri Düzey / B2), Almanca (Başlangıç / A1)"
-    },
-    "certifications": [
-        {
-            "name": "Google Data Analytics Professional Certificate",
-            "issuer": "Google",
-            "year": "2026"
-        },
-        {
-            "name": "YGA Zirvesi Katılım Sertifikası",
-            "issuer": "YGA",
-            "year": "2022"
-        },
-        {
-            "name": "Temel Düzey Mikro ERP Eğitimi Başarı Belgesi",
-            "issuer": "İstanbul Gedik Üniversitesi & Mikro Yazılım",
-            "year": "2025"
-        },
-        {
-            "name": "24. Yönetim Bilimleri Kongresi",
-            "issuer": "İTÜ İşletme Mühendisliği Kulübü",
-            "year": "2023"
-        },
-        {
-            "name": "15, 16 ve 17. Bilişim Teknolojileri Zirvesi Katılım Sertifikaları",
-            "issuer": "İTÜ İşletme Mühendisliği Kulübü",
-            "year": "2022-2024"
-        }
-    ],
-    "references": [
-        {
-            "name": "Eren Demir",
-            "title": "Founder & CEO",
-            "company": "Medibulut",
-            "contact": "0532 242 30 82"
-        },
-        {
-            "name": "Serkan Şenyuva",
-            "title": "Business Partner & Senior Engagement Manager",
-            "company": "Medibulutt",
-            "contact": "0553 917 81 05"
-        },
-        {
-            "name": "Nazmi Erhan Tanrıkulu",
-            "title": "Business Analysis Manager",
-            "company": "Doğan Yatırım Bankası",
-            "contact": "0532 596 55 83"
-        },
-        {
-            "name": "Saim Atalay Keleştemur",
-            "title": "Founder & Senior Cybersecurity Specialist",
-            "company": "Vitriol Bilişim",
-            "contact": "0541 259 65 95"
-        },
-        {
-            "name": "Atacan Tükenmez",
-            "title": "IT Sales & CRM Technologies Agile Leader",
-            "company": "AgeSA Hayat ve Emeklilik",
-            "contact": "0531 775 15 54"
-        },
-        {
-            "name": "Barış Çakmak",
-            "title": "Regional Sales Manager",
-            "company": "Betek Boya ve Kimya Sanayi A.Ş.",
-            "contact": "0533 366 32 46"
-        }
-    ],
-    "settings": {
-        "font": "font-garamond",
-        "size": "size-medium",
-        "spacing": "spacing-normal",
-        "margin": "margin-normal",
-        "alignment": "align-justify",
-        "accent": "accent-black",
-        "headings": "headings-line",
-        "refMode": "details",
-        "showReferences": true,
-        "uiLang": "tr",
-        "docLang": "tr",
-        "visibility": {
-            "photo": false,
-            "references": true
-        }
-    }
-};
+// Initial CV data state (initialized from TR sample)
+var cvState;
 
 const EN_SAMPLE_STATE = {
     "personal": {
@@ -450,150 +250,98 @@ const EN_SAMPLE_STATE = {
 
 const TR_SAMPLE_STATE = {
     "personal": {
-        "name": "Asil Doğukan Samay",
-        "title": "Yönetim Bilişim Sistemleri Uzmanı",
-        "email": "dogukan__sam_ay@hotmail.com",
-        "phone": "+90 544 331 76 20",
-        "location": "Çanakkale, Türkiye",
-        "github": "github.com/AsilDogukan-Samay",
-        "linkedin": "linkedin.com/in/asil-dogukan-samay",
-        "website": "asildogukansamay.github.io",
-        "summary": "Veri analitiği, süreç otomasyonu ve yazılım geliştirme konularına odaklanan, teknik mühendislik ekipleri ile kurumsal iş operasyonları arasındaki koordinasyonu sağlama konusunda deneyim sahibi Yönetim Bilişim Sistemleri (MIS) uzmanı. Ölçeklenebilir veri hatları kurgulama, karmaşık iş akışlarını otomatize etme ve REST API entegrasyonları tasarlama konularında yetkin. Uluslararası ve büyük kurumsal yapılarda teknoloji odaklı değer yaratmayı hedeflemektedir."
+        "name": "Can Yılmaz",
+        "title": "Veri Analisti & Süreç Otomasyon Uzmanı",
+        "email": "can.yilmaz@ornek.com",
+        "phone": "+90 532 000 12 34",
+        "location": "İstanbul, Türkiye",
+        "github": "github.com/canyilmaz-dev",
+        "linkedin": "linkedin.com/in/canyilmaz-data",
+        "website": "canyilmaz.dev",
+        "summary": "Veri analitiği, iş zekası ve süreç otomasyonu konularında 4+ yıl deneyimli Yönetim Bilişim Sistemleri (MIS) uzmanı. SQL, Python ve Power BI kullanarak karmaşık veri kümelerinden stratejik karar destek raporları kurgulama ve n8n otomasyon araçlarıyla iş akışlarını dijitalleştirme konularında yetkin."
     },
     "experiences": [
         {
-            "company": "MEDİBULUT",
-            "role": "Ürün Yönetimi ve CRM Stajyeri",
-            "location": "Çanakkale, Türkiye",
-            "dates": "Eylül 2025 - Haziran 2026",
-            "bullets": [
-                "Yazılım geliştirme, satış ve operasyon ekipleri arasındaki iletişimi koordine ederek iş akış süreçlerinin entegrasyonunu yönetti.",
-                "Saha satış ekiplerinin anlık konum ve performans takibi için Python ve SQL tabanlı entegre platform tasarlayıp geliştirdi; tüm veri mimarisi ve UI aşamalarını yönetti.",
-                "n8n entegrasyon aracı ile HubSpot ve Slack bağlantılarını kurguladı; lead takip ve müşteri geri bildirim süreçlerini tam otomatize hale getirerek yanıt sürelerini %35 iyileştirdi.",
-                "CRM sistemleri üzerinden geniş ölçekli müşteri verilerini analiz ederek satış trendleri ve kullanıcı davranışlarına yönelik stratejik raporlar hazırladı."
-            ]
-        },
-        {
-            "company": "SOFTTECH",
-            "role": "Stajyer İş Analisti",
+            "company": "ALFA DİJİTAL TEKNOLOJİLER",
+            "role": "Kıdemli Veri Analisti",
             "location": "İstanbul, Türkiye",
-            "dates": "Ağustos 2025 - Eylül 2025",
+            "dates": "Ocak 2024 - Devam Ediyor",
             "bullets": [
-                "Sprint takibi, metrik analizi ve günlük veri raporlama süreçlerini yürüterek Agile/Scrum operasyonlarına ve disiplinlerarası ekip içi koordinasyona destek sağladı."
+                "Python ve PostgreSQL kullanarak 500.000+ günlük verinin işlendiği otomatik ETL veri hatlarını kurguladı; raporlama süresini %40 kısalttı.",
+                "n8n otomasyon mimarisi ile CRM ve Slack entegrasyonlarını tamamlayarak müşteri destek yanıt sürelerini 15 dakikanın altına indirdi.",
+                "Power BI üzerinde üst yönetim için etkileşimli satış ve finans performans panelleri tasarladı."
             ]
         },
         {
-            "company": "KOÇTAŞ",
-            "role": "Stajyer (S.T.E.P. Programı)",
-            "location": "Çanakkale, Türkiye",
-            "dates": "Temmuz 2025 - Ağustos 2025",
-            "bullets": [
-                "Türkiye genelindeki katılımcılar arasında düzenlenen proje yarışmasında 'Koçtaş Kids' departman geliştirme projesiyle Birincilik Ödülü kazandı.",
-                "Ürün yerleşimi, stok takibi ve fiyat kontrolü süreçlerini yöneterek operasyonel verimlilik analizleri gerçekleştirdi; stok denetim sapmalarını %20 azalttı."
-            ]
-        },
-        {
-            "company": "LOCOMAR",
-            "role": "İş Geliştirme Asistanı",
-            "location": "İzmir, Türkiye",
-            "dates": "Nisan 2025 - Haziran 2025",
-            "bullets": [
-                "B2B pazarlama süreçlerini analiz ederek; pazar analizi ve rakip araştırmalarıyla yeni müşteri kazanım stratejilerinin geliştirilmesini sağladı."
-            ]
-        },
-        {
-            "company": "VITRIOL",
-            "role": "Siber Güvenlik Stajyeri",
+            "company": "BETA BİLİŞİM ÇÖZÜMLERİ",
+            "role": "Süreç ve Veri Analisti Stajyeri",
             "location": "İstanbul, Türkiye",
-            "dates": "Eylül 2023 - Haziran 2024",
+            "dates": "Haziran 2023 - Aralık 2023",
             "bullets": [
-                "BT altyapısı ve veri analizi süreçlerinde görev alarak siber güvenlik projelerine teknik destek sağladı; sistem analiz ve güvenlik prosedürlerini raporladı."
-            ]
-        },
-        {
-            "company": "DENİZBANK",
-            "role": "Stajyer",
-            "location": "İstanbul, Türkiye",
-            "dates": "Mart 2023 - Haziran 2023",
-            "bullets": [
-                "Staj programı kapsamında gösterdiği yüksek performansla 100'den fazla aday arasından Birincilik Ödülü kazandı.",
-                "Hazırladığı analitik finansal araştırma makalesini kurumsal içerik olarak yayımlayarak bankanın resmi dijital kanallarında yaygınlaştırdı.",
-                "Finansal süreçleri ve bankacılık iş akışlarını 4 farklı departmanda deneyimleyerek kurumsal operasyonel verimlilik raporları sundu."
+                "Şirket içi Agile/Scrum operasyonlarının sprint metrik analizlerini yürüterek haftalık verimlilik raporlarını sundu.",
+                "Müşteri segmentasyonu için K-Means kümeleme algoritması uygulayarak pazarlama dönüşüm oranını %18 artırdı."
             ]
         }
     ],
     "educations": [
         {
-            "university": "İSTANBUL GEDİK ÜNİVERSİTESİ",
+            "university": "MARMARA ÜNİVERSİTESİ",
             "degree": "Lisans, Yönetim Bilişim Sistemleri (MIS)",
             "location": "İstanbul, Türkiye",
-            "dates": "Eylül 2022 - Mayıs 2026",
-            "gpa": "3.15 / 4.00",
-            "details": ""
+            "dates": "Eylül 2020 - Haziran 2024",
+            "gpa": "3.42 / 4.00"
         }
     ],
     "leaderships": [
         {
-            "organization": "YAPAY ZEKA VE TEKNOLOJİ AKADEMİSİ",
-            "role": "Veri Bilimi Programı Bursiyeri",
-            "dates": "Aralık 2025 - Devam Ediyor",
+            "organization": "GENÇ TEKNOLOJİ KULÜBÜ",
+            "role": "Kulüp Başkanı",
+            "dates": "2022 - 2024",
             "bullets": [
-                "Türkiye genelinden gelen 31.700 başvuru arasından üstün başarı göstererek kabul alan 1.500 bursiyerden biri (%4,7'lik başarı dilimi) olarak seçildi.",
-                "Google Türkiye, GİRVAK ve T3 Girişim Merkezi ortaklığında düzenlenen 100 saatten fazla yoğun veri bilimi, veri işleme ve yapay zeka eğitim programını tamamladı."
+                "400+ öğrencinin katıldığı veri analitiği ve Python workshop serilerini organize etti.",
+                "Sektör profesyonelleri ile öğrencileri buluşturan kariyer ve bilişim zirvelerini koordine etti."
             ]
         },
         {
-            "organization": "İSTANBUL GEDİK ÜNİVERSİTESİ KULÜPLERİ",
-            "role": "Kulüp Başkanı | Yönetim Kurulu Üyesi",
-            "dates": "2022 - 2023",
-            "bullets": [
-                "Siber Güvenlik & MIS Kulübü Başkanı olarak 300'den fazla öğrenciye ulaştı; teknik workshoplar ve siber güvenlik farkındalık eğitimleri organize etti.",
-                "Kariyer Kulübü Yönetim Kurulu Üyesi olarak öğrenci kariyer gelişim etkinliklerini ve sektör panellerini koordine etti."
-            ]
-        },
-        {
-            "organization": "Habitat Derneği & Netflix",
+            "organization": "DİJİTAL GELECEK DERNEĞİ",
             "role": "Gönüllü Eğitmen",
-            "dates": "2022 - 2023",
+            "dates": "2023 - 2024",
             "bullets": [
-                "Çocukların dijital dünyada güvenli adımlar atmasını sağlamak amacıyla 'Evvel Zaman İçinde Ekran Zamanında!' projesinde 500'den fazla çocuğa eğitim sundu.",
-                "Erken yaş grubuna yönelik dijital güvenlik, doğru bilgiye erişim ve siber zorbalık farkındalığı eğitim metodolojisi kurguladı."
+                "Lise öğrencilerine temel kodlama, veri okuryazarlığı ve siber güvenlik farkındalık eğitimleri sundu."
             ]
         }
     ],
     "skills": {
-        "technical": "SQL, Python, JavaScript, React.js, Node.js, HTML/CSS, REST API, Streamlit, Tableau, Power BI, Excel, Veri Analizi ve Görselleştirme, Agile/Scrum",
-        "tools": "Git, GitHub, n8n Otomasyon, Jira, VS Code, Chrome DevTools, MSSQL Server, Active Directory, Figma, Vite, MS Office",
-        "langs": "Türkçe (Anadil), İngilizce (İleri Düzey / B2), Almanca (Başlangıç / A1)"
+        "technical": "SQL, Python, JavaScript, Power BI, Tableau, HTML/CSS, REST API, n8n Otomasyon, ETL, Excel",
+        "tools": "Git, GitHub, PostgreSQL, VS Code, Jira, Figma, Docker",
+        "langs": "Türkçe (Anadil), İngilizce (İleri Düzey / B2)"
     },
     "certifications": [
         {
             "name": "Google Data Analytics Professional Certificate",
             "issuer": "Google",
-            "year": "2026"
+            "year": "2024"
         },
         {
-            "name": "YGA Zirvesi Katılım Sertifikası",
-            "issuer": "YGA",
-            "year": "2022"
-        },
-        {
-            "name": "Temel Düzey Mikro ERP Eğitimi Başarı Belgesi",
-            "issuer": "İstanbul Gedik Üniversitesi & Mikro Yazılım",
-            "year": "2025"
-        },
-        {
-            "name": "24. Yönetim Bilimleri Kongresi",
-            "issuer": "İTÜ İşletme Mühendisliği Kulübü",
+            "name": "Microsoft Certified: Power BI Data Analyst Associate",
+            "issuer": "Microsoft",
             "year": "2023"
-        },
-        {
-            "name": "15, 16 ve 17. Bilişim Teknolojileri Zirvesi Katılım Sertifikaları",
-            "issuer": "İTÜ İşletme Mühendisliği Kulübü",
-            "year": "2022-2024"
         }
     ],
-    "references": [],
+    "references": [
+        {
+            "name": "Ahmet Kaya",
+            "title": "Veri Analitiği Müdürü",
+            "company": "Alfa Dijital Teknolojiler",
+            "contact": "0533 000 11 22"
+        },
+        {
+            "name": "Selin Demir",
+            "title": "Yazılım Takım Lideri",
+            "company": "Beta Bilişim Çözümleri",
+            "contact": "0535 000 33 44"
+        }
+    ],
     "settings": {
         "font": "font-garamond",
         "size": "size-medium",
@@ -602,10 +350,18 @@ const TR_SAMPLE_STATE = {
         "alignment": "align-justify",
         "accent": "accent-black",
         "headings": "headings-line",
-        "refMode": "request",
-        "uiLang": "tr"
+        "refMode": "details",
+        "showReferences": true,
+        "uiLang": "tr",
+        "docLang": "tr",
+        "visibility": {
+            "photo": false,
+            "references": true
+        }
     }
 };
+
+cvState = JSON.parse(JSON.stringify(TR_SAMPLE_STATE));
 
 const SOFTWARE_SAMPLE_STATE_TR = {
     personal: {
@@ -997,7 +753,7 @@ const UI_TRANSLATIONS = {
         templates_title: "Örnek Şablonlar",
         load_preset: "Hazır Örnek Yükle",
         preset_placeholder: "Bir örnek seçin...",
-        preset_tr: "🇹🇷 Asil Doğukan Samay (İş Geliştirme & Veri Analisti)",
+        preset_tr: "🇹🇷 Can Yılmaz (Veri Analisti & Süreç Otomasyon Uzmanı)",
         preset_en: "🇬🇧 Alex Morgan (Senior Software Engineer)",
         
         data_title: "Veri Yönetimi",
@@ -1132,7 +888,7 @@ const UI_TRANSLATIONS = {
         templates_title: "Sample Templates",
         load_preset: "Load Sample Template",
         preset_placeholder: "Choose a sample...",
-        preset_tr: "🇹🇷 Asil Dogukan Samay (Business Dev & Data Analyst)",
+        preset_tr: "🇹🇷 Can Yilmaz (Data Analyst & Process Automation)",
         preset_en: "🇬🇧 Alex Morgan (Senior Software Engineer)",
         
         data_title: "Data Management",
