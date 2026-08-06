@@ -1898,7 +1898,7 @@ function loadStateIntoUI() {
     
     // Check visibility states for references
     if (cvState.settings.visibility.references === undefined) {
-        cvState.settings.visibility.references = false; // Hide by default to protect Ivy League text-only space
+        cvState.settings.visibility.references = true; // Show by default
     }
     
     // Pre-fill references default data if empty
@@ -2500,16 +2500,24 @@ function updateSkillField(field, val) {
 
 function changeRefMode(mode) {
     if (!cvState.settings) cvState.settings = {};
+    if (!cvState.settings.visibility) cvState.settings.visibility = {};
     cvState.settings.refMode = mode;
+    cvState.settings.visibility.references = true;
+    cvState.settings.showReferences = true;
+    const toggleEl = document.getElementById('toggle-references');
+    if (toggleEl) toggleEl.checked = true;
     renderCVReferences();
     saveToLocalStorage();
 }
 
 function toggleReferencesVisibility(checked) {
     if (!cvState.settings) cvState.settings = {};
+    if (!cvState.settings.visibility) cvState.settings.visibility = {};
+    cvState.settings.visibility.references = checked;
     cvState.settings.showReferences = checked;
-    const sec = document.getElementById('cv-section-references');
-    if (sec) sec.style.display = checked ? 'block' : 'none';
+    const toggleEl = document.getElementById('toggle-references');
+    if (toggleEl) toggleEl.checked = checked;
+    renderCVReferences();
     saveToLocalStorage();
 }
 
@@ -2686,7 +2694,7 @@ function renderCVReferences() {
     
     const showRef = (cvState.settings && cvState.settings.visibility && cvState.settings.visibility.references !== undefined)
         ? cvState.settings.visibility.references
-        : ((cvState.settings && cvState.settings.showReferences !== undefined) ? cvState.settings.showReferences : false);
+        : ((cvState.settings && cvState.settings.showReferences !== undefined) ? cvState.settings.showReferences : true);
     
     if (sec) sec.style.display = showRef ? 'block' : 'none';
     if (!showRef) return;
@@ -2707,8 +2715,10 @@ function renderCVReferences() {
         return;
     }
     
+    let renderedCount = 0;
     refs.forEach(r => {
         if (!r.name && !r.title && !r.company && !r.contact) return;
+        renderedCount++;
         const div = document.createElement('div');
         div.className = 'reference-item';
         
@@ -2738,6 +2748,12 @@ function renderCVReferences() {
         div.innerHTML = html;
         container.appendChild(div);
     });
+
+    if (renderedCount === 0 && mode !== 'request') {
+        container.innerHTML = `<div style="grid-column: 1 / -1; font-style: italic; font-size: 0.95em; color: #888;">
+            ${lang === 'en' ? 'Reference details will appear here as you type...' : 'Referans bilgileri yazıldıkça burada görünecektir...'}
+        </div>`;
+    }
 }
 
 
@@ -3142,6 +3158,13 @@ function renderEditorReferences() {
 function updateRefField(idx, field, value) {
     if (cvState.references && cvState.references[idx]) {
         cvState.references[idx][field] = value;
+        if (!cvState.settings) cvState.settings = {};
+        if (!cvState.settings.visibility) cvState.settings.visibility = {};
+        cvState.settings.visibility.references = true;
+        cvState.settings.showReferences = true;
+        const toggleEl = document.getElementById('toggle-references');
+        if (toggleEl) toggleEl.checked = true;
+        
         renderCVReferences();
         saveToLocalStorage();
     }
@@ -3159,6 +3182,13 @@ function deleteReference(idx) {
 function addReference() {
     if (!cvState.references) cvState.references = [];
     cvState.references.push({ name: "", title: "", company: "", contact: "" });
+    if (!cvState.settings) cvState.settings = {};
+    if (!cvState.settings.visibility) cvState.settings.visibility = {};
+    cvState.settings.visibility.references = true;
+    cvState.settings.showReferences = true;
+    const toggleEl = document.getElementById('toggle-references');
+    if (toggleEl) toggleEl.checked = true;
+    
     renderEditorReferences();
     renderCVReferences();
     saveToLocalStorage();
