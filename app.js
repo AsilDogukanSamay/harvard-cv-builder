@@ -1664,20 +1664,20 @@ async function autoTranslateCV(targetLang) {
         });
 
         if (!cvState.settings) cvState.settings = {};
-        cvState.settings.uiLang = targetLang;
+        cvState.settings.docLang = targetLang;
         
         if (progressBar) progressBar.style.width = '100%';
         
-        // Persist, reload UI and re-render
+        // Persist, update form inputs and re-render preview without changing UI language
         saveToLocalStorage();
-        applyLanguage();
         loadStateIntoUI();
         renderAll();
         
         setTimeout(() => {
             if (progressBox) progressBox.style.display = 'none';
             closeTranslateModal();
-            const msg = UI_TRANSLATIONS[targetLang].trans_success || "CV içeriği başarıyla çevrildi!";
+            const currentUiLang = cvState.settings?.uiLang || 'tr';
+            const msg = UI_TRANSLATIONS[currentUiLang].trans_success || "CV içeriği başarıyla çevrildi!";
             alert(msg);
         }, 400);
         
@@ -2418,6 +2418,7 @@ function renderAll() {
     renderCVLeadership();
     renderCVCertifications();
     renderCVReferences();
+    renderSectionTitles();
     
     renderEditorExperiences();
     renderEditorEducation();
@@ -2448,7 +2449,9 @@ function formatBulletPoint(bullet) {
 // -------------------------------------------------------------
 
 function renderSectionTitles() {
-    const lang = (cvState.settings && cvState.settings.uiLang) ? cvState.settings.uiLang : "tr";
+    const docLang = (cvState.settings && cvState.settings.docLang) 
+        ? cvState.settings.docLang 
+        : ((cvState.settings && cvState.settings.uiLang) ? cvState.settings.uiLang : "tr");
     const custom = (cvState.settings && cvState.settings.customTitles) ? cvState.settings.customTitles : {};
 
     const secMap = {
@@ -2466,10 +2469,22 @@ function renderSectionTitles() {
             const titleEl = secEl.querySelector('.section-title');
             if (titleEl) {
                 const customVal = custom[secKey] && custom[secKey].trim();
-                const defaultVal = (UI_TRANSLATIONS[lang] && UI_TRANSLATIONS[lang][cfg.defaultKey]) ? UI_TRANSLATIONS[lang][cfg.defaultKey] : "";
+                const defaultVal = (UI_TRANSLATIONS[docLang] && UI_TRANSLATIONS[docLang][cfg.defaultKey]) ? UI_TRANSLATIONS[docLang][cfg.defaultKey] : "";
                 titleEl.textContent = customVal || defaultVal || titleEl.textContent;
             }
         }
+    }
+
+    // Also update skill labels on the CV preview to match docLang
+    const skillLabels = ['tech_label', 'tools_label', 'certs_label', 'langs_label'];
+    const secSkills = document.getElementById('sec-skills');
+    if (secSkills) {
+        secSkills.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (skillLabels.includes(key) && UI_TRANSLATIONS[docLang] && UI_TRANSLATIONS[docLang][key]) {
+                el.textContent = UI_TRANSLATIONS[docLang][key];
+            }
+        });
     }
 }
 
@@ -3018,10 +3033,6 @@ function renderEditorEducation() {
                 <div class="input-group">
                     <label>${UI_TRANSLATIONS[lang].dates}</label>
                     <input type="text" value="${edu.dates}" oninput="updateEduField(${idx}, 'dates', this.value)">
-                </div>
-                <div class="input-group">
-                    <label>${UI_TRANSLATIONS[lang].details}</label>
-                    <input type="text" value="${edu.details || ''}" placeholder="Örn: Kulüp faaliyetleri, burslar vb." oninput="updateEduField(${idx}, 'details', this.value)">
                 </div>
             </div>
         `;
