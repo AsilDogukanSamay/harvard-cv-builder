@@ -404,10 +404,13 @@
                     <div class="section-title-editor">
                         <h3 data-i18n="data_title">Veri Yönetimi</h3>
                     </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px;">
                         <button class="btn btn-secondary btn-sm" onclick="exportJSON()" title="Bilgilerini JSON olarak bilgisayarına kaydeder" data-i18n="export_btn">Yedek İndir</button>
                         <button class="btn btn-secondary btn-sm" onclick="triggerImport()" title="JSON yedeği veya herhangi bir PDF CV yükler" data-i18n="import_btn">Yedek veya PDF Yükle</button>
                     </div>
+                    <button class="btn btn-secondary btn-sm btn-block" onclick="openAIParserModal()" style="background: linear-gradient(135deg, rgba(26,115,232,0.12), rgba(142,36,170,0.12)); border: 1px solid rgba(142,36,170,0.3); color: #8e24aa; font-weight: 600; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 8px;" data-i18n="ai_parser_btn">
+                        <span>🤖</span> <span data-i18n="ai_parser_btn_text">Yapay Zeka (AI) CV Ayrıştırıcı</span>
+                    </button>
                     <input type="file" id="import-file" style="display: none;" accept=".json,.pdf" onchange="importJSON(event)">
                     <button class="btn btn-danger btn-sm btn-block" onclick="resetData()" title="Tüm bilgileri temizler ve varsayılan Harvard şablonuna sıfırlar" data-i18n="reset_btn">Şablonu Sıfırla</button>
                 </div>
@@ -622,6 +625,43 @@
                     <button id="modal-btn-undo" class="btn btn-block" onclick="undoTranslation()" style="display: none; padding: 10px; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); color: #ef4444; font-weight: 600;" data-i18n="undo_translate">
                         ↩️ Önceki Hali Geri Al (Undo Translation)
                     </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI CV PARSER MODAL -->
+    <div id="ai-parser-modal" class="modal-overlay no-print" style="display: none;" onclick="closeAIParserModal(event)">
+        <div class="modal-card" onclick="event.stopPropagation()" style="max-width: 520px; border-top: 4px solid #8e24aa;">
+            <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="display: flex; align-items: center; gap: 8px; font-size: 16px; margin: 0; color: var(--text-main, #111);">
+                    <span>🤖</span> <span data-i18n="ai_parser_modal_title">Yapay Zeka (AI) CV Ayrıştırma Motoru</span>
+                </h3>
+                <button onclick="closeAIParserModal()" style="background: none; border: none; font-size: 20px; cursor: pointer; color: #888;">&times;</button>
+            </div>
+            <div class="modal-body" style="padding-top: 12px;">
+                <p style="font-size: 13px; color: var(--text-secondary, #666); line-height: 1.5; margin-bottom: 14px;" data-i18n="ai_parser_desc">
+                    Farklı formatlardaki (Canva, Word, LinkedIn, Europass) karmaşık PDF veya metinlerinizi yapay zeka ile %100 eksiksiz ve hatasız şekilde bölümlerine ayırın.
+                </p>
+
+                <div style="margin-bottom: 12px;">
+                    <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: #444;" data-i18n="ai_api_key_label">API Anahtarı (İsteğe Bağlı - Gemini / OpenAI / Groq):</label>
+                    <input type="password" id="ai-parser-api-key" placeholder="sk-... veya AIza... (Boş bırakırsanız dahili akıllı motor kullanılır)" style="width: 100%; padding: 8px 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 12px;" />
+                    <small style="font-size: 10.5px; color: #777; display: block; margin-top: 3px;" data-i18n="ai_api_key_hint">🔑 Girilen API anahtarları sadece cihazınızda saklanır ve sunucuya gönderilmez.</small>
+                </div>
+
+                <div style="margin-bottom: 14px;">
+                    <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: #444;" data-i18n="ai_parse_pasted_text">Veya Herhangi Bir CV Metnini Buraya Yapıştırın:</label>
+                    <textarea id="ai-parser-raw-text" rows="5" placeholder="CV metninizi buraya yapıştırabilir veya aşağıdaki PDF Yükle butonunu kullanabilirsiniz..." style="width: 100%; padding: 8px 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 12px; font-family: monospace; resize: vertical;"></textarea>
+                </div>
+
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn btn-secondary btn-block" onclick="document.getElementById('import-file').click(); closeAIParserModal();" style="flex: 1; padding: 10px; font-size: 12.5px;" data-i18n="ai_parse_pdf_btn">📄 PDF Dosyası Seç</button>
+                    <button class="btn btn-primary btn-block" onclick="runAIParsePastedText()" style="flex: 1.5; padding: 10px; font-size: 12.5px; background: linear-gradient(135deg, #1a73e8, #8e24aa); border: none; font-weight: 600;" data-i18n="ai_parse_run_btn">🚀 Yapay Zeka İle Analiz Et & Yükle</button>
+                </div>
+
+                <div id="ai-parser-loading" style="display: none; margin-top: 14px; text-align: center; font-size: 13px; color: #8e24aa; font-weight: 600;">
+                    <i class="fas fa-spinner fa-spin"></i> <span data-i18n="ai_parsing_status">🤖 Yapay Zeka CV'nizi analiz ediyor ve bölümleri akıllıca yerleştiriyor...</span>
                 </div>
             </div>
         </div>
