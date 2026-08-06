@@ -3847,25 +3847,25 @@ function parseCVTextToState(rawText) {
     }
 
     const SECTION_KEYS_NORM = {
-        SUMMARY: ["PROFESYONELOZET", "HAKKIMDA", "OZET", "SUMMARY", "ABOUTME", "OBJECTIVE", "PROFILE"],
-        EXPERIENCE: ["ISDENEYIMI", "ISDENEYIMLERI", "DENEYIM", "DENEYIMLER", "EXPERIENCE", "WORKEXPERIENCE", "EMPLOYMENT", "CAREER"],
-        EDUCATION: ["EGITIM", "EGITIMBILGILERI", "EDUCATION", "ACADEMIC", "QUALIFICATIONS"],
-        LEADERSHIP: ["LIDERLIK", "LIDERLIKVEGONULLULUK", "GONULLULUK", "LEADERSHIP", "VOLUNTEERING", "ACTIVITIES"],
-        SKILLS: ["TEKNIKBECERILER", "BECERILER", "YETENEKLER", "YETENEKLERVESSERTIFIKALAR", "YETENEKLERSERTIFIKALAR", "SKILLS", "TECHNICALSKILLS", "DILLER", "LANGUAGES", "YETENEKLERSERTIFIKALARVEILGIALANLARI"],
-        CERTS: ["SERTIFIKALAR", "SERTIFIKAVEEGITIMLER", "CERTIFICATIONS", "CERTIFICATES"],
-        REFS: ["REFERANSLAR", "REFERENCES"]
+        SUMMARY: ["PROFESYONELOZET", "HAKKIMDA", "OZET", "SUMMARY", "ABOUTME", "OBJECTIVE", "PROFILE", "BIOGRAPHY", "BIOGRAFI", "KISASELISE", "INTRO"],
+        EXPERIENCE: ["ISDENEYIMI", "ISDENEYIMLERI", "DENEYIM", "DENEYIMLER", "EXPERIENCE", "WORKEXPERIENCE", "EMPLOYMENT", "EMPLOYMENTHISTORY", "CAREER", "PROFESSIONALEXPERIENCE", "STAJVEISDENEYIMI", "DENEYIMLERIM", "ISGECMISI", "PROJECTS", "PROJELER"],
+        EDUCATION: ["EGITIM", "EGITIMBILGILERI", "EDUCATION", "ACADEMIC", "QUALIFICATIONS", "OGRENIMDURUMU", "EGITIMGECMISI", "ACADEMICBACKGROUND", "EGITIMVEKURS", "AKADEMİK"],
+        LEADERSHIP: ["LIDERLIK", "LIDERLIKVEGONULLULUK", "GONULLULUK", "LEADERSHIP", "VOLUNTEERING", "ACTIVITIES", "SOSYALSORUMLULUK", "KULUBVEDERNEKLER", "TOPLULUKLAR", "ORGANIZASYONLAR", "EXTRACURRICULAR"],
+        SKILLS: ["TEKNIKBECERILER", "BECERILER", "YETENEKLER", "YETENEKLERVESSERTIFIKALAR", "YETENEKLERSERTIFIKALAR", "SKILLS", "TECHNICALSKILLS", "DILLER", "LANGUAGES", "YETENEKLERSERTIFIKALARVEILGIALANLARI", "BECERIVEUZMANLIKLAR", "COMPETENCIES", "UZMANLIKALANLARI"],
+        CERTS: ["SERTIFIKALAR", "SERTIFIKAVEEGITIMLER", "CERTIFICATIONS", "CERTIFICATES", "LICENSES", "LICENSESCERTIFICATIONS", "KURSLARVESERTIFIKALAR", "BASARIVESERTIFIKALAR"],
+        REFS: ["REFERANSLAR", "REFERENCES", "REFERANS", "TAVSIYELER", "RECOMMENDATIONS"]
     };
 
     // Pre-process lines to isolate fused Section Headers (e.g. "EĞİTİM İSTANBUL..." -> "EĞİTİM", "İSTANBUL...")
     const processedLines = [];
     const allHeaderKeywords = [
-        "PROFESYONEL ÖZET", "ÖZET", "SUMMARY", "ABOUT ME",
-        "DENEYİM", "İŞ DENEYİMİ", "İŞ DENEYİMLERİ", "EXPERIENCE", "WORK EXPERIENCE",
-        "EĞİTİM", "EĞİTİM BİLGİLERİ", "EDUCATION",
-        "LİDERLİK VE GÖNÜLLÜLÜK", "LİDERLİK", "GÖNÜLLÜLÜK", "LEADERSHIP", "VOLUNTEERING",
-        "YETENEKLER, SERTİFİKALAR VE İLGİ ALANLARI", "YETENEKLER VE SERTİFİKALAR", "YETENEKLER", "BECERİLER", "SKILLS", "TECHNICAL SKILLS",
-        "SERTİFİKALAR", "CERTIFICATIONS",
-        "REFERANSLAR", "REFERENCES"
+        "PROFESYONEL ÖZET", "ÖZET", "SUMMARY", "ABOUT ME", "HAKKIMDA",
+        "İŞ DENEYİMİ", "İŞ DENEYİMLERİ", "DENEYİM", "DENEYİMLER", "EXPERIENCE", "WORK EXPERIENCE", "EMPLOYMENT HISTORY", "PROFESSIONAL EXPERIENCE", "DENEYİMLERİM", "İŞ GEÇMİŞİ", "CAREER", "PROJELER", "PROJECTS",
+        "EĞİTİM BİLGİLERİ", "EĞİTİM GEÇMİŞİ", "ÖĞRENİM DURUMU", "EĞİTİM", "EDUCATION", "ACADEMIC BACKGROUND", "QUALIFICATIONS",
+        "LİDERLİK VE GÖNÜLLÜLÜK", "LİDERLİK", "GÖNÜLLÜLÜK", "LEADERSHIP", "VOLUNTEERING", "ACTIVITIES", "SOSYAL SORUMLULUK", "EXTRACURRICULAR",
+        "YETENEKLER, SERTİFİKALAR VE İLGİ ALANLARI", "YETENEKLER VE SERTİFİKALAR", "BECERİ VE UZMANLIKLAR", "TEKNİK BECERİLER", "YETENEKLER", "BECERİLER", "SKILLS", "TECHNICAL SKILLS", "COMPETENCIES", "DİLLER", "LANGUAGES",
+        "SERTİFİKALAR VE EĞİTİMLER", "KURSLAR VE SERTİFİKALAR", "SERTİFİKALAR", "CERTIFICATIONS", "CERTIFICATES", "LICENSES & CERTIFICATIONS",
+        "REFERANSLAR", "REFERENCES", "REFERANS"
     ];
 
     lines.forEach(l => {
@@ -4354,6 +4354,7 @@ async function processPDFImport(file) {
         
         const arrayBuffer = await file.arrayBuffer();
         const extractedText = await extractTextFromPDF(arrayBuffer);
+        if (typeof window !== 'undefined') window.lastExtractedPDFText = extractedText;
         if (progressBox) progressBox.style.display = 'none';
         
         if (!extractedText || extractedText.trim().length < 20) {
@@ -4453,8 +4454,13 @@ function openAIParserModal() {
     if (modal) {
         modal.style.display = 'flex';
         const savedKey = (typeof localStorage !== 'undefined') ? (localStorage.getItem('cvsom_ai_api_key') || "") : "";
-        const input = document.getElementById('ai-parser-api-key');
-        if (input && savedKey) input.value = savedKey;
+        const inputKey = document.getElementById('ai-parser-api-key');
+        if (inputKey && savedKey) inputKey.value = savedKey;
+
+        const rawTextArea = document.getElementById('ai-parser-raw-text');
+        if (rawTextArea && (!rawTextArea.value.trim()) && typeof window !== 'undefined' && window.lastExtractedPDFText) {
+            rawTextArea.value = window.lastExtractedPDFText;
+        }
     }
 }
 
