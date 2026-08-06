@@ -3545,6 +3545,58 @@ function _legacy_processPDFImport_disabled(file, lang, event) {
     reader.readAsArrayBuffer(file);
 }
 
+function isBulletPointLine(line) {
+    if (!line) return false;
+    const str = line.trim();
+    if (str.startsWith('•') || str.startsWith('-') || str.startsWith('*')) return true;
+    if (str.length > 70) return true;
+    
+    const verbs = [
+        "yönetti", "geliştirdi", "kurguladı", "hazırladı", "sağladı", "raporladı", "sundu", "kazandı", "azalttı",
+        "iyileştirdi", "analiz etti", "yürüterek", "yöneterek", "gerçekleştirdi", "tamamladı", "koordine etti",
+        "organize etti", "ulaştı", "tasarlayıp", "ederek", "sağlayarak", "tasarlayarak", "aldı", "seçildi",
+        "spearheaded", "developed", "architected", "managed", "implemented", "engineered", "led", "increased", "reduced"
+    ];
+    const lower = str.toLowerCase();
+    return verbs.some(v => lower.includes(v));
+}
+
+function parseCertItem(certStr) {
+    if (!certStr || !certStr.trim()) return null;
+    let str = certStr.trim();
+    if (str.startsWith('(') && str.endsWith(')')) {
+        str = str.substring(1, str.length - 1).trim();
+    }
+    
+    let year = "";
+    const yearMatch = str.match(/\b(20\d{2}|19\d{2})\b/);
+    if (yearMatch) {
+        year = yearMatch[0];
+        str = str.replace(yearMatch[0], "").replace(/,\s*$/, "").replace(/\(\s*\)/, "").trim();
+    }
+    
+    let issuer = "";
+    const parenMatch = str.match(/\((.*?)\)/);
+    if (parenMatch && parenMatch[1].trim()) {
+        issuer = parenMatch[1].trim();
+        str = str.replace(parenMatch[0], "").trim();
+    } else if (str.includes('&') || str.includes('Üniversitesi') || str.includes('Kulübü') || str.includes('Google') || str.includes('Microsoft')) {
+        const parts = str.split(/[-–:]/);
+        if (parts.length >= 2) {
+            str = parts[0].trim();
+            issuer = parts[1].trim();
+        }
+    }
+    
+    const cleanName = str.replace(/^[-–—,\s()]+|[-–—,\s()]+$/g, '').trim();
+    if (!cleanName) return null;
+    return {
+        name: cleanName,
+        issuer: issuer,
+        year: year
+    };
+}
+
 function cleanPDFText(rawText) {
     if (!rawText) return "";
     let text = rawText;
@@ -3558,14 +3610,33 @@ function cleanPDFText(rawText) {
         "İ STANBUL": "İSTANBUL", "GEDİ K": "GEDİK", "DENİ ZBANK": "DENİZBANK",
         "MEDİ BULUT": "MEDİBULUT", "Derneğ i": "Derneği", "Do ğ ukan": "Doğukan",
         "Geliş tirme": "Geliştirme", "Biliş im": "Bilişim", "Görselleş tirme": "Görselleştirme",
-        "Ba ş kanı": "Başkanı", "İ ş": "İş", "ş tirmesini": "ştirmesini", "İ zmir": "İzmir"
+        "Ba ş kanı": "Başkanı", "İ ş": "İş", "ş tirmesini": "ştirmesini", "İ zmir": "İzmir",
+        "SamayİşGeliştirme": "Samay İş Geliştirme",
+        "StajyerİşAnalisti": "Stajyer İş Analisti",
+        "LOCOMARİzmir": "LOCOMAR İzmir",
+        "TEKNOLOJİAKADEMİSİ": "TEKNOLOJİ AKADEMİSİ",
+        "ÜNİVERSİTESİKULÜPLERİ": "ÜNİVERSİTESİ KULÜPLERİ",
+        "İşoperasyonları": "İş operasyonları",
+        "işakış": "iş akış",
+        "satıştrendleri": "satış trendleri",
+        "yaşgrubuna": "yaş grubuna",
+        "İTÜİşletme": "İTÜ İşletme",
+        "genişölçekli": "geniş ölçekli",
+        "satışve": "satış ve",
+        "İşGeliştirme": "İş Geliştirme",
+        "Evvel Zamanİçinde": "Evvel Zaman İçinde",
+        "Ekran Zamanında!projesinde": "Ekran Zamanında! projesinde"
     };
     
     for (const [bad, good] of Object.entries(REPAIRS)) {
         text = text.replaceAll(bad, good);
     }
     
-    // Fix isolated single diacritic letters surrounded by spaces (e.g. Derneğ i -> Derneği)
+    // Fix smashed camelCase/Unicode boundaries with 'gu' flag
+    text = text.replace(/([a-zçğıöşü])([A-ZÇĞİÖŞÜ])/gu, '$1 $2');
+    text = text.replace(/([A-ZÇĞİÖŞÜ]{2,})([A-ZÇĞİÖŞÜ][a-zçğıöşü])/gu, '$1 $2');
+    
+    // Fix isolated single diacritic letters surrounded by spaces
     text = text.replace(/(\b[a-zA-ZÇĞİÖŞÜçğıöşü]{2,}[a-zA-Zçğıöşü])\s+([ğşğıiöüçİĞŞÖÜÇ])(\s+|$)/g, '$1$2$3');
     text = text.replace(/(\b[A-ZÇĞİÖŞÜa-zçğıöşü]+)\s*İ\s*([A-ZÇĞİÖŞÜa-zçğıöşü]+)/g, '$1İ$2');
     text = text.replace(/(\b[A-ZÇĞİÖŞÜa-zçğıöşü]+)\s*ş\s*([A-ZÇĞİÖŞÜa-zçğıöşü]+)/g, '$1ş$2');
@@ -3601,16 +3672,40 @@ async function extractTextFromPDF(arrayBuffer) {
         const textContent = await page.getTextContent();
         
         let lastY = null;
+        let lastX = null;
+        let lastWidth = null;
         let pageLines = [];
         let currentLine = "";
         
         textContent.items.forEach(item => {
-            if (lastY !== null && Math.abs(item.transform[5] - lastY) > 5) {
+            const str = item.str;
+            if (!str) return;
+
+            const y = item.transform ? item.transform[5] : null;
+            const x = item.transform ? item.transform[4] : null;
+
+            if (lastY !== null && y !== null && Math.abs(y - lastY) > 4) {
                 if (currentLine.trim()) pageLines.push(currentLine.trim());
                 currentLine = "";
+                lastX = null;
             }
-            currentLine += (currentLine ? " " : "") + item.str;
-            lastY = item.transform[5];
+
+            let needSpace = false;
+            if (lastX !== null && x !== null && lastWidth !== null) {
+                const expectedNextX = lastX + lastWidth;
+                if (x - expectedNextX > 2.5) {
+                    needSpace = true;
+                }
+            }
+
+            if (currentLine && !currentLine.endsWith(' ') && !str.startsWith(' ') && (needSpace || /^[a-zA-ZÇĞİÖŞÜçğıöşü0-9]/.test(str))) {
+                currentLine += " ";
+            }
+            
+            currentLine += str;
+            lastY = y;
+            lastX = x;
+            lastWidth = item.width || 0;
         });
         if (currentLine.trim()) pageLines.push(currentLine.trim());
         
@@ -3680,11 +3775,35 @@ function parseCVTextToState(rawText) {
     const lines = cleanedText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
     if (lines.length === 0) return newState;
 
-    let nameCandidate = lines[0];
-    if (nameCandidate.toLowerCase().includes("curriculum") || nameCandidate.toLowerCase().includes("resume") || nameCandidate.toLowerCase().includes("cv")) {
-        if (lines[1]) nameCandidate = lines[1];
+    let headerLine = lines[0];
+    if (headerLine.toLowerCase().includes("curriculum") || headerLine.toLowerCase().includes("resume") || headerLine.toLowerCase().includes("cv")) {
+        if (lines[1]) headerLine = lines[1];
     }
-    newState.personal.name = nameCandidate;
+    
+    // Dissect Name vs Title if merged on first line
+    const titleKeywords = ["Uzmanı", "Analisti", "Mühendisi", "Stajyeri", "Yöneticisi", "Lideri", "Geliştirici", "Asistanı", "Specialist", "Engineer", "Manager", "Analyst", "Lead", "Developer", "Architect", "Consultant", "Director"];
+    let detectedTitle = "";
+    let detectedName = headerLine;
+
+    for (const tkw of titleKeywords) {
+        const idx = headerLine.indexOf(tkw);
+        if (idx > 0) {
+            const words = headerLine.substring(0, idx).trim().split(/\s+/);
+            if (words.length >= 2) {
+                let nameWordCount = 2;
+                if (words.length >= 3 && /^[A-ZÇĞİÖŞÜ]/.test(words[2])) {
+                    if (!["İş", "Veri", "Yazılım", "Süreç", "Ürün", "Kıdemli", "Senior", "Junior", "Lead", "Full-Stack", "Product", "Data", "Business"].includes(words[2])) {
+                        nameWordCount = 3;
+                    }
+                }
+                detectedName = words.slice(0, nameWordCount).join(' ');
+                detectedTitle = headerLine.substring(detectedName.length).replace(/^[\s|–—-]+/, '').trim();
+                break;
+            }
+        }
+    }
+    newState.personal.name = detectedName;
+    if (detectedTitle) newState.personal.title = detectedTitle;
 
     const SECTION_KEYS_NORM = {
         SUMMARY: ["PROFESYONELOZET", "HAKKIMDA", "OZET", "SUMMARY", "ABOUTME", "OBJECTIVE", "PROFILE"],
@@ -3732,13 +3851,20 @@ function parseCVTextToState(rawText) {
     const dateRegex = new RegExp(`(?:(?:${monthPattern}[\\/\\s]+\\d{4}|\\b\\d{4})\\s*[-–—to\\s]+\\s*(?:${monthPattern}[\\/\\s]+\\d{4}|\\b\\d{4}|Devam|Present|Hala|Current))|(?:\\b\\d{4}\\s*[-–—]\\s*\\d{4}\\b)`, "i");
     const cities = ["Çanakkale", "İstanbul", "İzmir", "Ankara", "Sancaktepe", "Turkey", "Türkiye"];
 
-    // 1. Perfect 6-Experience Parsing (2-line header combination)
+    // 1. High-precision Experience Parsing
     if (sections.EXPERIENCE.length > 0) {
         const expLines = sections.EXPERIENCE;
         let i = 0;
         while (i < expLines.length) {
             let line = expLines[i].trim();
             if (!line) { i++; continue; }
+
+            // Guard: If line is a bullet point, append to current experience or skip
+            if (isBulletPointLine(line) && newState.experiences.length > 0) {
+                newState.experiences[newState.experiences.length - 1].bullets.push(line.replace(/^[•\-\*]\s*/, ''));
+                i++;
+                continue;
+            }
 
             let hasDate = dateRegex.test(line);
             let nextLine = (i + 1 < expLines.length) ? expLines[i + 1].trim() : "";
@@ -3749,7 +3875,7 @@ function parseCVTextToState(rawText) {
             let location = "İstanbul, Türkiye";
             let dates = "";
 
-            if (!hasDate && nextHasDate) {
+            if (!hasDate && nextHasDate && !isBulletPointLine(nextLine)) {
                 let compLine = line;
                 let roleLine = nextLine;
                 i += 2;
@@ -3787,6 +3913,9 @@ function parseCVTextToState(rawText) {
                 role = line;
                 i += 1;
             } else {
+                if (newState.experiences.length > 0) {
+                    newState.experiences[newState.experiences.length - 1].bullets.push(line.replace(/^[•\-\*]\s*/, ''));
+                }
                 i += 1;
                 continue;
             }
@@ -3802,13 +3931,12 @@ function parseCVTextToState(rawText) {
             while (i < expLines.length) {
                 let bline = expLines[i].trim();
                 if (!bline) { i++; continue; }
-                let bHasDate = dateRegex.test(bline);
-                let bNextHasDate = (i + 1 < expLines.length) && dateRegex.test(expLines[i + 1].trim());
-
-                if (bHasDate || bNextHasDate) break;
-
-                exp.bullets.push(bline.replace(/^[•\-\*]\s*/, ''));
-                i++;
+                if (isBulletPointLine(bline) || (!dateRegex.test(bline) && !cities.some(c => bline.includes(c)))) {
+                    exp.bullets.push(bline.replace(/^[•\-\*]\s*/, ''));
+                    i++;
+                } else {
+                    break;
+                }
             }
             newState.experiences.push(exp);
         }
@@ -3820,7 +3948,7 @@ function parseCVTextToState(rawText) {
         const eduKeywords = ["üniversite", "university", "lisans", "lise", "okulu", "fakülte", "bachelor", "master", "high school", "degree", "anadolu lisesi"];
         sections.EDUCATION.forEach(line => {
             const hasDate = dateRegex.test(line) || /\b(20\d{2}|19\d{2})\b/.test(line);
-            const isEduHeader = eduKeywords.some(k => line.toLowerCase().includes(k)) || (hasDate && !currentEdu);
+            const isEduHeader = (eduKeywords.some(k => line.toLowerCase().includes(k)) && (!currentEdu || currentEdu.dates !== "Tarih")) || (hasDate && !currentEdu);
 
             if (isEduHeader) {
                 if (currentEdu && currentEdu.university) {
@@ -3872,7 +4000,7 @@ function parseCVTextToState(rawText) {
                     degreeLine = degreeLine.replace(gpaMatch[0], "").replace(/[-–—]\s*$/, "").replace(/(?:GANO|GPA)\s*:/i, "").trim();
                 }
                 degreeLine = degreeLine.replace(/[-–—]\s*$/, "").trim();
-                if (degreeLine && (!currentEdu.degree || currentEdu.degree === "Lisans / Bölüm")) {
+                if (degreeLine && (!currentEdu.degree || currentEdu.degree === "Lisans / Bölüm" || currentEdu.degree.startsWith("Lisans"))) {
                     currentEdu.degree = degreeLine;
                 } else if (degreeLine) {
                     currentEdu.details += (currentEdu.details ? ' ' : '') + degreeLine;
@@ -3898,11 +4026,14 @@ function parseCVTextToState(rawText) {
             const match = line.match(dateRegex) || line.match(/\b(20\d{2}\s*[-–—]?\s*\d{0,4})\b/);
             if (match) {
                 datesStr = match[0].trim();
-                orgLine = line.replace(datesStr, '').replace(/[-–—]\s*$/, '').trim();
+                orgLine = line.replace(datesStr, '').replace(/Ediyor\s*$/, '').replace(/[-–—]\s*$/, '').trim();
+                if (datesStr.includes("Devam") && !datesStr.includes("Devam Ediyor")) {
+                    datesStr = datesStr.replace("Devam", "Devam Ediyor");
+                }
             }
 
             let roleLine = "";
-            if (i + 1 < leadLines.length && !dateRegex.test(leadLines[i+1]) && !leadLines[i+1].startsWith('•') && !leadLines[i+1].startsWith('-')) {
+            if (i + 1 < leadLines.length && !dateRegex.test(leadLines[i+1]) && !isBulletPointLine(leadLines[i+1])) {
                 roleLine = leadLines[i+1].trim();
                 i++;
             }
@@ -3917,8 +4048,11 @@ function parseCVTextToState(rawText) {
             i++;
             while (i < leadLines.length) {
                 let bline = leadLines[i].trim();
-                let bHasDate = dateRegex.test(bline);
-                if (bHasDate) break;
+                if (!bline) { i++; continue; }
+                
+                // If line starts a new leadership organization header (e.g. Habitat Derneği & Netflix or has dates)
+                const hasOrgHeaderKeywords = bline.includes("Derneği") || bline.includes("Kulübü") || bline.includes("Akademisi") || bline.includes("Vakfı");
+                if ((dateRegex.test(bline) || hasOrgHeaderKeywords) && !bline.startsWith('•') && !bline.startsWith('-')) break;
 
                 if (bline.startsWith('•') || bline.startsWith('-') || bline.startsWith('*')) {
                     lead.bullets.push(bline.replace(/^[•\-\*]\s*/, ''));
@@ -3933,7 +4067,7 @@ function parseCVTextToState(rawText) {
         }
     }
 
-    // 4. Skills & Tools Parsing
+    // 4. Skills, Tools, Languages & Certifications Parsing
     if (sections.SKILLS.length > 0) {
         let techList = [];
         let toolsList = [];
@@ -3961,9 +4095,8 @@ function parseCVTextToState(rawText) {
             certList.forEach(c => {
                 const subCerts = c.split(/,(?![^(]*\))/);
                 subCerts.forEach(sc => {
-                    if (sc.trim()) {
-                        newState.certifications.push({ name: sc.trim(), issuer: "", year: "" });
-                    }
+                    const parsedCert = parseCertItem(sc);
+                    if (parsedCert) newState.certifications.push(parsedCert);
                 });
             });
         }
@@ -3974,16 +4107,8 @@ function parseCVTextToState(rawText) {
         sections.CERTS.forEach(line => {
             const cleanLine = line.replace(/^[•\-\*]\s*/, '').trim();
             if (cleanLine.length > 3) {
-                const parts = cleanLine.split(/[-–:]/);
-                if (parts.length >= 2) {
-                    newState.certifications.push({
-                        name: parts[0].trim(),
-                        issuer: parts[1].trim(),
-                        year: parts[2] ? parts[2].trim() : ""
-                    });
-                } else {
-                    newState.certifications.push({ name: cleanLine, issuer: "", year: "" });
-                }
+                const parsedCert = parseCertItem(cleanLine);
+                if (parsedCert) newState.certifications.push(parsedCert);
             }
         });
     }
