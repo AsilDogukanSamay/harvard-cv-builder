@@ -2562,11 +2562,11 @@ function renderCVExperiences() {
         expDiv.innerHTML = `
             <div class="entry-header">
                 <span class="company-name">${exp.company}</span>
-                <span class="entry-location">${exp.location}</span>
+                <span class="entry-location"> ${exp.location}</span>
             </div>
             <div class="entry-subheader">
                 <span class="entry-role">${exp.role}</span>
-                <span class="entry-date">${exp.dates}</span>
+                <span class="entry-date"> ${exp.dates}</span>
             </div>
             ${bulletsHtml}
         `;
@@ -3672,6 +3672,9 @@ function cleanPDFText(rawText) {
     // Fix smashed camelCase/Unicode boundaries
     text = text.replace(/([a-zçğıöşü])([A-ZÇĞİÖŞÜ])/g, '$1 $2');
     text = text.replace(/([A-ZÇĞİÖŞÜ]{2,})([A-ZÇĞİÖŞÜ][a-zçğıöşü])/g, '$1 $2');
+    
+    // Fix glued city / title boundaries (e.g. "Uzmanıİstanbul" -> "Uzmanı İstanbul")
+    text = text.replace(/([a-zçğıöşüA-ZÇĞİÖŞÜ]+)(İstanbul|Ankara|İzmir|Türkiye|Turkey|Sancaktepe|Çanakkale)/g, '$1 $2');
     
     // Fix isolated single diacritic letters surrounded by spaces
     text = text.replace(/(\b[a-zA-ZÇĞİÖŞÜçğıöşü]{2,}[a-zA-Zçğıöşü])\s+([ğşğıiöüçİĞŞÖÜÇ])(\s+|$)/g, '$1$2$3');
