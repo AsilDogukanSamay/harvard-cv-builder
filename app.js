@@ -2187,7 +2187,7 @@ function injectPDFEmbeddedStateMeta() {
     if (!metaEl) {
         metaEl = document.createElement('div');
         metaEl.id = 'cvsom-pdf-meta';
-        metaEl.style.cssText = 'font-size: 1px; line-height: 1px; color: #ffffff; white-space: nowrap; overflow: visible; opacity: 0.001; pointer-events: none; position: absolute; bottom: 0; right: 0; z-index: -9999;';
+        metaEl.style.cssText = 'position: static; display: block; width: 100%; max-width: 100%; font-size: 1px; line-height: 1px; color: #ffffff; pointer-events: none; word-break: break-all; overflow-wrap: anywhere; white-space: normal;';
         previewContainer.appendChild(metaEl);
     }
     try {
