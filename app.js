@@ -261,7 +261,44 @@ var cvState = {
             "year": "2022-2024"
         }
     ],
-    "references": [],
+    "references": [
+        {
+            "name": "Eren Demir",
+            "title": "Founder & CEO",
+            "company": "Medibulut",
+            "contact": "0532 242 30 82"
+        },
+        {
+            "name": "Serkan Şenyuva",
+            "title": "Business Partner & Senior Engagement Manager",
+            "company": "Medibulutt",
+            "contact": "0553 917 81 05"
+        },
+        {
+            "name": "Nazmi Erhan Tanrıkulu",
+            "title": "Business Analysis Manager",
+            "company": "Doğan Yatırım Bankası",
+            "contact": "0532 596 55 83"
+        },
+        {
+            "name": "Saim Atalay Keleştemur",
+            "title": "Founder & Senior Cybersecurity Specialist",
+            "company": "Vitriol Bilişim",
+            "contact": "0541 259 65 95"
+        },
+        {
+            "name": "Atacan Tükenmez",
+            "title": "IT Sales & CRM Technologies Agile Leader",
+            "company": "AgeSA Hayat ve Emeklilik",
+            "contact": "0531 775 15 54"
+        },
+        {
+            "name": "Barış Çakmak",
+            "title": "Regional Sales Manager",
+            "company": "Betek Boya ve Kimya Sanayi A.Ş.",
+            "contact": "0533 366 32 46"
+        }
+    ],
     "settings": {
         "font": "font-garamond",
         "size": "size-medium",
@@ -270,162 +307,128 @@ var cvState = {
         "alignment": "align-justify",
         "accent": "accent-black",
         "headings": "headings-line",
-        "refMode": "request",
-        "uiLang": "tr"
+        "refMode": "details",
+        "showReferences": true,
+        "uiLang": "tr",
+        "docLang": "tr",
+        "visibility": {
+            "photo": false,
+            "references": true
+        }
     }
 };
 
 const EN_SAMPLE_STATE = {
     "personal": {
-        "name": "Asil Doğukan Samay",
-        "title": "Management Information Systems Specialist",
-        "email": "dogukan__sam_ay@hotmail.com",
-        "phone": "+90 544 331 76 20",
-        "location": "Istanbul / Canakkale / Cyprus, Turkey",
-        "github": "github.com/AsilDogukan-Samay",
-        "linkedin": "linkedin.com/in/asil-dogukan-samay",
-        "website": "asildogukansamay.github.io",
-        "summary": "Management Information Systems (MIS) specialist with experience in ensuring coordination between technical engineering teams and corporate business operations, focusing on data analytics, process automation, and software development. Proficient in building scalable data pipelines, automating complex workflows, and designing REST API integrations. Aims to create technology-focused value in international and large corporate structures."
+        "name": "Alex Morgan",
+        "title": "Senior Software Engineer & Solutions Architect",
+        "email": "alex.morgan@devstudio.io",
+        "phone": "+44 20 7946 0912",
+        "location": "London, UK | Remote",
+        "github": "github.com/alexmorgan-dev",
+        "linkedin": "linkedin.com/in/alexmorgan-tech",
+        "website": "alexmorgan.dev",
+        "summary": "Results-driven Senior Software Engineer with 6+ years of experience architecting high-throughput distributed systems, cloud-native microservices, and modern web applications. Proven track record of optimizing database performance by 45%, leading cross-functional Agile teams, and deploying scalable React/Node.js solutions in Fintech and E-commerce domains."
     },
     "experiences": [
         {
-            "company": "MEDİBULUT",
-            "role": "Product Management and CRM Intern",
-            "location": "Canakkale, Turkey",
-            "dates": "September 2025 - June 2026",
+            "company": "NEXUS TECH LABS",
+            "role": "Senior Full-Stack Engineer",
+            "location": "London, UK",
+            "dates": "January 2024 - Present",
             "bullets": [
-                "Managed integration of workflow processes by coordinating communication between software development, sales, and operations teams.",
-                "Designed and developed an integrated platform based on Python and SQL for instant location and performance tracking of field sales teams; managed data architecture and UI phases.",
-                "Architected HubSpot and Slack connections with n8n integration tool; By fully automating lead tracking and customer feedback processes, improved response times by 35%.",
-                "Prepared strategic reports on sales trends and user behavior by analyzing large-scale customer data through CRM systems."
+                "Spearheaded the redesign of core payment processing engine using Node.js, Redis, and PostgreSQL, increasing throughput to 15,000 req/sec with 99.99% uptime.",
+                "Architected real-time analytics dashboard with React, TypeScript, and WebSocket API, reducing customer onboarding latency by 40%.",
+                "Automated CI/CD pipelines via GitHub Actions and Docker on AWS ECS, cutting deployment times from 45 minutes to 6 minutes."
             ]
         },
         {
-            "company": "SOFTTECH",
-            "role": "Business Analyst Intern",
-            "location": "Istanbul, Turkey",
-            "dates": "August 2025 - September 2025",
+            "company": "FINTECH INNOVATIONS INC.",
+            "role": "Software Engineer",
+            "location": "Cambridge, UK",
+            "dates": "June 2021 - December 2023",
             "bullets": [
-                "Provided support to Agile/Scrum operations and interdisciplinary team coordination by carrying out sprint tracking, metric analysis, and daily data reporting processes."
+                "Developed microservices architecture connecting Stripe, HubSpot, and Internal CRM APIs, processing $12M+ in monthly transaction volume.",
+                "Refactored legacy monolithic backend into decoupled GraphQL microservices, improving API response times by 35%.",
+                "Mentored 4 junior engineers, established unit testing guidelines with Jest, achieving 92% code coverage across repositories."
             ]
         },
         {
-            "company": "KOÇTAŞ",
-            "role": "Intern (S.T.E.P. Program)",
-            "location": "Canakkale, Turkey",
-            "dates": "July 2025 - August 2025",
+            "company": "VORTEX DATA SOLUTIONS",
+            "role": "Junior Software Developer",
+            "location": "London, UK",
+            "dates": "July 2019 - May 2021",
             "bullets": [
-                "Won First Place Award with 'Koçtaş Kids' department development project in nationwide competition among participants across Turkey.",
-                "Conducted operational efficiency analyses by managing product placement, stock tracking, and price control processes; reduced inventory audit deviations by 20%."
-            ]
-        },
-        {
-            "company": "LOCOMAR",
-            "role": "Business Development Assistant",
-            "location": "Izmir, Turkey",
-            "dates": "April 2025 - June 2025",
-            "bullets": [
-                "Analyzed B2B marketing processes; enabled development of new customer acquisition strategies through market analysis and competitor research."
-            ]
-        },
-        {
-            "company": "VITRIOL",
-            "role": "Cybersecurity Intern",
-            "location": "Istanbul, Turkey",
-            "dates": "September 2023 - June 2024",
-            "bullets": [
-                "Provided technical support to cybersecurity projects by taking part in IT infrastructure and data analysis processes; reported system analysis and security procedures."
-            ]
-        },
-        {
-            "company": "DENİZBANK",
-            "role": "Intern",
-            "location": "Istanbul, Turkey",
-            "dates": "March 2023 - June 2023",
-            "bullets": [
-                "Won First Place Award among 100+ candidates with high performance within the scope of internship program.",
-                "Published analytical financial research article prepared as corporate content and disseminated it on the bank's official digital channels.",
-                "Presented corporate operational efficiency reports by experiencing financial processes and banking workflows in 4 different departments."
+                "Implemented dynamic data visualization components in React and D3.js for enterprise financial risk modeling dashboard.",
+                "Engineered automated SQL ETL scripts handling 2TB daily log records using Python and Apache Airflow."
             ]
         }
     ],
     "educations": [
         {
-            "university": "ISTANBUL GEDIK UNIVERSITY",
-            "degree": "Bachelor's Degree, Management Information Systems (MIS)",
-            "location": "Istanbul, Turkey",
-            "dates": "September 2022 - May 2026",
-            "gpa": "3.15 / 4.00",
-            "details": ""
+            "university": "UNIVERSITY OF CAMBRIDGE",
+            "degree": "Bachelor of Science in Computer Science",
+            "location": "Cambridge, UK",
+            "dates": "September 2015 - June 2019",
+            "gpa": "First Class Honours (3.9 / 4.0)"
         }
     ],
     "leaderships": [
         {
-            "organization": "ARTIFICIAL INTELLIGENCE AND TECHNOLOGY ACADEMY",
-            "role": "Data Science Program Scholar",
-            "dates": "December 2025 - Present",
+            "organization": "CAMBRIDGE TECH COMMUNITY",
+            "role": "Community Lead & Event Organizer",
+            "dates": "2022 - Present",
             "bullets": [
-                "Selected as one of 1,500 scholars accepted with outstanding success among 31,700 applications from across Turkey (top 4.7% acceptance rate).",
-                "Completed 100+ hours of intensive data science, data processing, and artificial intelligence training program organized in partnership with Google Turkey, GİRVAK, and T3 Enterprise Center."
+                "Organized bi-monthly developer meetups and hackathons attracting over 400 attendees across the UK tech ecosystem.",
+                "Coordinated panel discussions with engineering leaders from Google, Meta, and Stripe on distributed cloud architecture."
             ]
         },
         {
-            "organization": "ISTANBUL GEDIK UNIVERSITY CLUBS",
-            "role": "Club President | Executive Board Member",
-            "dates": "2022 - 2023",
+            "organization": "CODE FOR GOOD INITIATIVE",
+            "role": "Volunteer Mentor & Workshop Instructor",
+            "dates": "2020 - 2023",
             "bullets": [
-                "As President of Cybersecurity & MIS Club, reached over 300 students; organized technical workshops and cybersecurity awareness trainings.",
-                "As Career Club Executive Board Member, coordinated student career development events and industry panel sessions."
-            ]
-        },
-        {
-            "organization": "Habitat Association & Netflix",
-            "role": "Volunteer Trainer",
-            "dates": "2025 - ",
-            "bullets": [
-                "Provided digital safety education to 500+ children within 'Once Upon a Time, in Screen Time!' project.",
-                "Designed training methodology on digital security, access to accurate information, and cyberbullying awareness for early age group."
+                "Taught Python programming and web development fundamentals to 200+ underrepresented students entering STEM fields.",
+                "Curated open-source coding curriculum adopted by 3 local youth tech education charities."
             ]
         }
     ],
     "skills": {
-        "technical": "SQL, Python, JavaScript, React.js, Node.js, HTML/CSS, REST API, Streamlit, Tableau, Power BI, Excel, Data Analysis & Visualization, Agile/Scrum",
-        "tools": "Git, GitHub, n8n Automation, Jira, VS Code, Chrome DevTools, MSSQL Server, Active Directory, Figma, Vite, MS Office",
-        "langs": "Turkish (Native Language), English (Advanced / B2), German (Beginner / A1)"
+        "technical": "JavaScript (ES6+), TypeScript, Python, React.js, Node.js, Express, PostgreSQL, Redis, GraphQL, REST API, HTML5/CSS3",
+        "tools": "Git, GitHub, Docker, Kubernetes, AWS (EC2, S3, ECS, Lambda), CI/CD, Jest, Vite, Jira, Linux",
+        "langs": "English (Native), Spanish (Professional / C1), German (Elementary / A2)"
     },
     "certifications": [
         {
-            "name": "Google Data Analytics Professional Certificate",
-            "issuer": "Google",
-            "year": "2026"
-        },
-        {
-            "name": "Basic Level Mikro ERP Training Certificate of Achievement",
-            "issuer": "Istanbul Gedik University & Mikro Software",
+            "name": "AWS Certified Solutions Architect - Associate",
+            "issuer": "Amazon Web Services",
             "year": "2025"
         },
         {
-            "name": "15th, 16th and 17th Information Technologies Summit Participation Certificates",
-            "issuer": "ITU Management Engineering Club",
-            "year": "2022-2024"
+            "name": "Meta Front-End Developer Professional Certificate",
+            "issuer": "Meta",
+            "year": "2024"
         },
         {
-            "name": "Python Programming",
-            "issuer": "Turkcell Gelecegi Yazanlar",
-            "year": "2023"
-        },
-        {
-            "name": "İş Bankası ProSchool IT Class",
-            "issuer": "İş Bankası",
-            "year": "2023"
-        },
-        {
-            "name": "Artificial Intelligence Camp",
-            "issuer": "Google Cloud",
+            "name": "Certified ScrumMaster (CSM)",
+            "issuer": "Scrum Alliance",
             "year": "2023"
         }
     ],
-    "references": [],
+    "references": [
+        {
+            "name": "Dr. Arthur Vance",
+            "title": "VP of Engineering",
+            "company": "Nexus Tech Labs",
+            "contact": "+44 20 7946 0199"
+        },
+        {
+            "name": "Claire Sterling",
+            "title": "Director of Product",
+            "company": "Fintech Innovations Inc.",
+            "contact": "+44 20 7946 0455"
+        }
+    ],
     "settings": {
         "font": "font-garamond",
         "size": "size-medium",
@@ -434,8 +437,14 @@ const EN_SAMPLE_STATE = {
         "alignment": "align-justify",
         "accent": "accent-black",
         "headings": "headings-line",
-        "refMode": "request",
-        "uiLang": "en"
+        "refMode": "details",
+        "showReferences": true,
+        "uiLang": "tr",
+        "docLang": "en",
+        "visibility": {
+            "photo": false,
+            "references": true
+        }
     }
 };
 
@@ -988,16 +997,8 @@ const UI_TRANSLATIONS = {
         templates_title: "Örnek Şablonlar",
         load_preset: "Hazır Örnek Yükle",
         preset_placeholder: "Bir örnek seçin...",
-        preset_group_tr: "🇹🇷 Türkçe Şablonlar",
-        preset_group_en: "🇬🇧 English Templates",
-        preset_tr: "Yönetim Bilişim Sistemleri (MIS Öğrencisi)",
-        preset_software_tr: "Yazılım Mühendisliği (Full-Stack)",
-        preset_consulting_tr: "İş & Yönetim Danışmanlığı",
-        preset_academic_tr: "Akademik & Araştırma",
-        preset_en: "Yazılım Mühendisliği (İngilizce Standart)",
-        preset_software_en: "Yazılım Mühendisliği (İngilizce Full-Stack)",
-        preset_consulting_en: "Yönetim Danışmanlığı (İngilizce)",
-        preset_academic_en: "Akademik & Araştırma (İngilizce)",
+        preset_tr: "🇹🇷 Asil Doğukan Samay (İş Geliştirme & Veri Analisti)",
+        preset_en: "🇬🇧 Alex Morgan (Senior Software Engineer)",
         
         data_title: "Veri Yönetimi",
         export_btn: "Yedek İndir",
@@ -1131,16 +1132,8 @@ const UI_TRANSLATIONS = {
         templates_title: "Sample Templates",
         load_preset: "Load Sample Template",
         preset_placeholder: "Choose a sample...",
-        preset_group_tr: "🇹🇷 Turkish Templates",
-        preset_group_en: "🇬🇧 English Templates",
-        preset_tr: "Management Information Systems (TR)",
-        preset_software_tr: "Software Engineering (TR Full-Stack)",
-        preset_consulting_tr: "Management Consulting (TR)",
-        preset_academic_tr: "Academic & Research (TR)",
-        preset_en: "Software Engineering (Standard)",
-        preset_software_en: "Software Engineering (Full-Stack)",
-        preset_consulting_en: "Management Consulting",
-        preset_academic_en: "Academic & Research",
+        preset_tr: "🇹🇷 Asil Dogukan Samay (Business Dev & Data Analyst)",
+        preset_en: "🇬🇧 Alex Morgan (Senior Software Engineer)",
         
         data_title: "Data Management",
         export_btn: "Export Backup",
@@ -2628,43 +2621,19 @@ function updateContactVisibility() {
 
 function loadPresetTemplate(val) {
     if (!val) return;
-    const currentLang = (cvState.settings && cvState.settings.uiLang) ? cvState.settings.uiLang : "tr";
+    const currentUiLang = (cvState.settings && cvState.settings.uiLang) ? cvState.settings.uiLang : "tr";
     
-    if (val === 'tr' || val === 'tr_standard' || val === 'tr_ats') {
+    if (val === 'tr' || val === 'tr_standard' || val === 'tr_ats' || val === 'software_tr' || val === 'consulting_tr' || val === 'academic_tr') {
         cvState = JSON.parse(JSON.stringify(TR_SAMPLE_STATE));
         if (!cvState.settings) cvState.settings = {};
-        cvState.settings.uiLang = 'tr';
-    } else if (val === 'en' || val === 'en_standard' || val === 'en_ats') {
+        cvState.settings.uiLang = currentUiLang;
+    } else if (val === 'en' || val === 'en_standard' || val === 'en_ats' || val === 'software_en' || val === 'consulting_en' || val === 'academic_en') {
         cvState = JSON.parse(JSON.stringify(EN_SAMPLE_STATE));
         if (!cvState.settings) cvState.settings = {};
-        cvState.settings.uiLang = 'en';
-    } else if (val === 'software_tr' || (val === 'software' && currentLang === 'tr')) {
-        cvState = JSON.parse(JSON.stringify(SOFTWARE_SAMPLE_STATE_TR));
-        if (!cvState.settings) cvState.settings = {};
-        cvState.settings.uiLang = 'tr';
-    } else if (val === 'software_en' || (val === 'software' && currentLang === 'en')) {
-        cvState = JSON.parse(JSON.stringify(SOFTWARE_SAMPLE_STATE_EN));
-        if (!cvState.settings) cvState.settings = {};
-        cvState.settings.uiLang = 'en';
-    } else if (val === 'consulting_tr' || (val === 'consulting' && currentLang === 'tr')) {
-        cvState = JSON.parse(JSON.stringify(CONSULTING_SAMPLE_STATE_TR));
-        if (!cvState.settings) cvState.settings = {};
-        cvState.settings.uiLang = 'tr';
-    } else if (val === 'consulting_en' || (val === 'consulting' && currentLang === 'en')) {
-        cvState = JSON.parse(JSON.stringify(CONSULTING_SAMPLE_STATE_EN));
-        if (!cvState.settings) cvState.settings = {};
-        cvState.settings.uiLang = 'en';
-    } else if (val === 'academic_tr' || (val === 'academic' && currentLang === 'tr')) {
-        cvState = JSON.parse(JSON.stringify(ACADEMIC_SAMPLE_STATE_TR));
-        if (!cvState.settings) cvState.settings = {};
-        cvState.settings.uiLang = 'tr';
-    } else if (val === 'academic_en' || (val === 'academic' && currentLang === 'en')) {
-        cvState = JSON.parse(JSON.stringify(ACADEMIC_SAMPLE_STATE_EN));
-        if (!cvState.settings) cvState.settings = {};
-        cvState.settings.uiLang = 'en';
+        cvState.settings.uiLang = currentUiLang;
     }
+    
     saveToLocalStorage();
-    applyLanguage();
     loadStateIntoUI();
     renderAll();
     updateStyles();
