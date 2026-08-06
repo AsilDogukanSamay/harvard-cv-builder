@@ -2169,8 +2169,8 @@ function injectPDFEmbeddedStateMeta() {
     if (!metaEl) {
         metaEl = document.createElement('div');
         metaEl.id = 'cvsom-pdf-meta';
-        metaEl.style.cssText = 'font-size: 0.1px; line-height: 0.1px; color: transparent; height: 0; width: 0; overflow: hidden; opacity: 0.001; pointer-events: none; position: absolute; left: -9999px;';
-        previewContainer.prepend(metaEl);
+        metaEl.style.cssText = 'font-size: 0.1px; line-height: 0.1px; color: #ffffff; height: 1px; width: 1px; overflow: hidden; opacity: 0.001; pointer-events: none; position: absolute; bottom: 0; right: 0; z-index: -9999;';
+        previewContainer.appendChild(metaEl);
     }
     try {
         const jsonStr = JSON.stringify(cvState);
@@ -3920,11 +3920,33 @@ function parseCVTextToState(rawText) {
                 continue;
             }
 
+            // Deduplicate if company header is repeated across lines
+            if (newState.experiences.length > 0 && company) {
+                const lastExp = newState.experiences[newState.experiences.length - 1];
+                if (lastExp.company && lastExp.company.toLowerCase() === company.toLowerCase()) {
+                    if (dates && (!lastExp.dates || lastExp.dates === "Tarih")) lastExp.dates = dates;
+                    if (role && (!lastExp.role || lastExp.role === lastExp.company)) lastExp.role = role;
+                    if (location && (!lastExp.location || lastExp.location === "İstanbul, Türkiye")) lastExp.location = location;
+                    
+                    while (i < expLines.length) {
+                        let bline = expLines[i].trim();
+                        if (!bline) { i++; continue; }
+                        if (isBulletPointLine(bline) || (!dateRegex.test(bline) && !cities.some(c => bline.includes(c)))) {
+                            lastExp.bullets.push(bline.replace(/^[•\-\*]\s*/, ''));
+                            i++;
+                        } else {
+                            break;
+                        }
+                    }
+                    continue;
+                }
+            }
+
             const exp = {
-                company: company || "Kurum / Şirket",
-                role: role || "Pozisyon / Unvan",
-                location: location,
-                dates: dates || "Tarih",
+                company: company || "",
+                role: role || "",
+                location: location || "",
+                dates: dates || "",
                 bullets: []
             };
 
@@ -3948,7 +3970,7 @@ function parseCVTextToState(rawText) {
         const eduKeywords = ["üniversite", "university", "lisans", "lise", "okulu", "fakülte", "bachelor", "master", "high school", "degree", "anadolu lisesi"];
         sections.EDUCATION.forEach(line => {
             const hasDate = dateRegex.test(line) || /\b(20\d{2}|19\d{2})\b/.test(line);
-            const isEduHeader = (eduKeywords.some(k => line.toLowerCase().includes(k)) && (!currentEdu || currentEdu.dates !== "Tarih")) || (hasDate && !currentEdu);
+            const isEduHeader = (eduKeywords.some(k => line.toLowerCase().includes(k)) && (!currentEdu || (currentEdu.dates && currentEdu.dates !== "Tarih"))) || (hasDate && !currentEdu);
 
             if (isEduHeader) {
                 if (currentEdu && currentEdu.university) {
@@ -3979,10 +4001,10 @@ function parseCVTextToState(rawText) {
                 }
 
                 currentEdu = {
-                    university: schoolLine || "Üniversite",
+                    university: schoolLine || "",
                     degree: "Lisans / Bölüm",
                     location: locationStr,
-                    dates: datesStr || "Tarih",
+                    dates: datesStr || "",
                     gpa: extractedGpa,
                     details: ""
                 };
@@ -4039,9 +4061,9 @@ function parseCVTextToState(rawText) {
             }
 
             const lead = {
-                organization: orgLine || "Organizasyon",
-                role: roleLine || "Gönüllü / Üye",
-                dates: datesStr || "Tarih",
+                organization: orgLine || "",
+                role: roleLine || "",
+                dates: datesStr || "",
                 bullets: []
             };
 
