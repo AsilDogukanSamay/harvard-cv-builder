@@ -3824,7 +3824,11 @@ function parseCVTextToState(rawText) {
         let matchedSec = null;
 
         for (const [secCode, keywords] of Object.entries(SECTION_KEYS_NORM)) {
-            if (keywords.some(kw => normLine === kw || normLine.startsWith(kw))) {
+            if (keywords.some(kw => {
+                if (normLine === kw) return true;
+                // Only match prefix if line is short (header, not a sentence) and not starting with a bullet
+                return line.length <= 40 && !line.trim().startsWith('•') && !line.trim().startsWith('-') && normLine.startsWith(kw) && (normLine.length - kw.length) <= 10;
+            })) {
                 matchedSec = secCode;
                 break;
             }
@@ -4095,23 +4099,41 @@ function parseCVTextToState(rawText) {
         let toolsList = [];
         let langList = [];
         let certList = [];
+        let currentMode = "tech";
 
         sections.SKILLS.forEach(line => {
             const cleanLine = line.replace(/^[•\-\*]\s*/, '').trim();
-            if (cleanLine.toLowerCase().startsWith("araçlar ve platformlar:") || cleanLine.toLowerCase().startsWith("tools & platforms:")) {
-                toolsList.push(cleanLine.replace(/^(araçlar ve platformlar|tools & platforms):\s*/i, ''));
-            } else if (cleanLine.toLowerCase().startsWith("diller:") || cleanLine.toLowerCase().startsWith("languages:")) {
-                langList.push(cleanLine.replace(/^(diller|languages):\s*/i, ''));
-            } else if (cleanLine.toLowerCase().startsWith("sertifikalar:") || cleanLine.toLowerCase().startsWith("certifications:")) {
-                certList.push(cleanLine.replace(/^(sertifikalar|certifications):\s*/i, ''));
+            if (!cleanLine) return;
+
+            const lower = cleanLine.toLowerCase();
+
+            if (lower.startsWith("araçlar") || lower.startsWith("tools")) {
+                currentMode = "tools";
+                const val = cleanLine.replace(/^(araçlar ve platformlar|araçlar|tools & platforms|tools):\s*/i, '').trim();
+                if (val) toolsList.push(val);
+            } else if (lower.startsWith("diller") || lower.startsWith("languages")) {
+                currentMode = "langs";
+                const val = cleanLine.replace(/^(diller|yabancı diller|languages):\s*/i, '').trim();
+                if (val) langList.push(val);
+            } else if (lower.startsWith("sertifikalar") || lower.startsWith("certifications")) {
+                currentMode = "certs";
+                const val = cleanLine.replace(/^(sertifikalar|certifications):\s*/i, '').trim();
+                if (val) certList.push(val);
+            } else if (lower.startsWith("teknik") || lower.startsWith("technical") || lower.startsWith("programlama") || lower.startsWith("beceriler")) {
+                currentMode = "tech";
+                const val = cleanLine.replace(/^(teknik|programlama dilleri|technical|programming languages|beceriler):\s*/i, '').trim();
+                if (val) techList.push(val);
             } else {
-                techList.push(cleanLine.replace(/^(teknik|programlama dilleri|technical|programming languages):\s*/i, ''));
+                if (currentMode === "tools") toolsList.push(cleanLine);
+                else if (currentMode === "langs") langList.push(cleanLine);
+                else if (currentMode === "certs") certList.push(cleanLine);
+                else techList.push(cleanLine);
             }
         });
 
-        newState.skills.technical = techList.join(", ");
-        newState.skills.tools = toolsList.join(", ");
-        newState.skills.langs = langList.join(", ");
+        newState.skills.technical = techList.filter(Boolean).join(", ");
+        newState.skills.tools = toolsList.filter(Boolean).join(", ");
+        newState.skills.langs = langList.filter(Boolean).join(", ");
 
         if (certList.length > 0) {
             certList.forEach(c => {
