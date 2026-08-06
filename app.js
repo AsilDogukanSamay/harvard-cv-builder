@@ -2161,6 +2161,26 @@ function askAIAssistant(promptType) {
 }
 
 
+function injectPDFEmbeddedStateMeta() {
+    const previewContainer = document.getElementById('cv-preview');
+    if (!previewContainer) return;
+    
+    let metaEl = document.getElementById('cvsom-pdf-meta');
+    if (!metaEl) {
+        metaEl = document.createElement('div');
+        metaEl.id = 'cvsom-pdf-meta';
+        metaEl.style.cssText = 'font-size: 0.1px; line-height: 0.1px; color: transparent; height: 0; width: 0; overflow: hidden; opacity: 0.001; pointer-events: none; position: absolute; left: -9999px;';
+        previewContainer.prepend(metaEl);
+    }
+    try {
+        const jsonStr = JSON.stringify(cvState);
+        const encoded = btoa(encodeURIComponent(jsonStr));
+        metaEl.textContent = `CVSOM_STATE_META_BEGIN:${encoded}:CVSOM_STATE_META_END`;
+    } catch (e) {
+        console.warn("Failed to encode PDF meta state", e);
+    }
+}
+
 function renderAll() {
     renderCVExperiences();
     renderCVEducation();
@@ -2174,6 +2194,8 @@ function renderAll() {
     renderEditorLeadership();
     renderEditorCertifications();
     renderEditorReferences();
+
+    injectPDFEmbeddedStateMeta();
 
     if (typeof calculateATSScore === 'function') {
         calculateATSScore();
@@ -3992,11 +4014,33 @@ async function processPDFImport(file) {
         const extractedText = await extractTextFromPDF(arrayBuffer);
         if (progressBox) progressBox.style.display = 'none';
         
-        if (!extractedText || extractedText.trim().length < 30) {
+        if (!extractedText || extractedText.trim().length < 20) {
             alert("Hata: PDF dosyasından metin okunamadı. (Resim/görsel formatındaki taranmış PDF'ler desteklenmez).");
             return;
         }
         
+        // 1. Instant 100% Zero-Shift restoration for CVSOM generated PDFs
+        const metaMatch = extractedText.match(/CVSOM_STATE_META_BEGIN:(.*?):CVSOM_STATE_META_END/);
+        if (metaMatch && metaMatch[1]) {
+            try {
+                const jsonStr = decodeURIComponent(atob(metaMatch[1].trim()));
+                const parsedData = JSON.parse(jsonStr);
+                if (parsedData && (parsedData.personal || parsedData.experiences)) {
+                    cvState = parsedData;
+                    saveToLocalStorage();
+                    applyLanguage();
+                    loadStateIntoUI();
+                    renderAll();
+                    updateStyles();
+                    alert("🎉 PDF dosyanızdaki CVSOM yapısı başarıyla algılandı ve CV'niz %100 sıfır kayma ile yüklendi!");
+                    return;
+                }
+            } catch (metaErr) {
+                console.warn("PDF embedded meta parse fallback to standard parser", metaErr);
+            }
+        }
+
+        // 2. High-precision heuristic parser for external/third-party PDFs
         const parsedState = parseCVTextToState(extractedText);
         cvState = parsedState;
         saveToLocalStorage();
